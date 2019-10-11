@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
 import login from "./views/login.vue";
-import signup from "./views/signup.vue";
+
 import challenge from "./views/challenge.vue";
 import scoreboard from "./views/scoreboard.vue";
 import usrinfo from "./views/usrinfo.vue";
@@ -12,22 +12,20 @@ import admin from "./views/admin.vue";
 
 
 
+
 Vue.use(Router)
 
 window.$router=new Router({
     mode:'history',
     routes:[
+
         {
             path:"/login",
             component: login
         },
         {
-            path:"/signup",
-            component: signup
-        },
-        {
             path:"/scoreboard",
-            component: login
+            component: scoreboard
         },
         {
             path:"/challenge",
