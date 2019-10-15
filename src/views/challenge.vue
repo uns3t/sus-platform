@@ -9,9 +9,8 @@
                 <span style="float: left"><i class="el-icon-circle-check"></i></span>
                 <br/>
                 <div style="font-size: 30px;display: inline-block">level</div>
-                <br/>
-                <br/>
-                <div style="font-size: 13px;">1000分 25解出/31提交</div>
+
+                <div style="font-size: 13px;margin-bottom: 0px">1000分 25解出/31提交</div>
             </div>
 
 

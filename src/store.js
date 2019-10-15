@@ -12,21 +12,22 @@ window.$store = new Vuex.Store({
     plugins:[vuexLocal.plugin],
     state: {
         isLogin:false,
-        userInfo:{},
-        accessToken:'',
-        currentRouteName:''
+        // userInfo:{},
+        // accessToken:'',
+        // currentRouteName:''
 
     },
     mutations: {
-        login(state, accessToken){
+        // , accessToken
+        login(state){
             state.isLogin = true
-            Vue.prototype.$axios.defaults.headers.common['Access-Token'] = accessToken
-            state.accessToken = accessToken
+            // Vue.prototype.$axios.defaults.headers.common['Access-Token'] = accessToken
+            // state.accessToken = accessToken
         },
         logout(state){
             state.isLogin = false,
-                Vue.prototype.$axios.defaults.headers.common['Access-Token'] = ''
-            state.accessToken = ''
+                // Vue.prototype.$axios.defaults.headers.common['Access-Token'] = ''
+            // state.accessToken = ''
             window.$router.replace({name:'login'})
         },
         userInfo(state, userInfo){
@@ -34,8 +35,8 @@ window.$store = new Vuex.Store({
         },
         resetPassword(state){
             state.isLogin = false,
-                Vue.prototype.$axios.defaults.headers.common['Access-Token'] = ''
-            state.accessToken = ''
+                // Vue.prototype.$axios.defaults.headers.common['Access-Token'] = ''
+            // state.accessToken = ''
             window.$router.replace({name:'forget-password'})
         },
         setCurrentRouteName(state, routeName){

@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-      <header>
+      <header v-if="isLogin">
               <el-menu :default-active="activeIndex" class="el-menu-demo" router mode="horizontal">
                   <el-menu-item>
                       <img src="./assets/image/logo.png" style="max-width: 50px;">
@@ -32,6 +32,11 @@ export default {
     },
   methods:{
 
+  },
+  computed:{
+    isLogin(){
+        return this.$store.state.isLogin
+    }
   }
 }
 </script>

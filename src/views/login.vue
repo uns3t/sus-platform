@@ -9,13 +9,14 @@
         </div>
         <el-divider>know it and hack it</el-divider>
         <div class="loginmode">
-            <div style="font-size: 20px;font-weight: bold;text-align: center;">
-                平台身份认证
+            <div style="font-size: 20px;font-weight: bold;text-align: left;">
+                <img src="../assets/image/logo.png" style="max-width: 50px;margin-bottom: -15px">
+                身份认证
             </div>
             <br/>
             <br/>
             <br/>
-            <el-form label-position="right" label-width="80px" :model="loginform" size="small">
+            <el-form label-position="left" label-width="80px" :model="loginform" size="small">
                 <el-form-item label="用户名">
                     <el-input placeholder="请输入用户名" v-model="loginform.usrname"></el-input>
                 </el-form-item>
@@ -23,7 +24,7 @@
                     <el-input placeholder="请输入密码" v-model="loginform.pwd" show-password></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-button>登 陆</el-button>
+                    <el-button @click="postLoginForm">登 陆</el-button>
                 </el-form-item>
             </el-form>
         </div>
@@ -50,6 +51,7 @@
                 <el-button @click="dialogVisible = false" size="small">注 册</el-button>
             </span>
         </el-dialog>
+        <div style="position: fixed;bottom: 20px;left: calc(50% - 170px);font-size: 13px;color: #8c939d">@2005-2019 Security Union of SEU  • All rights reserved</div>
     </div>
 </template>
 
@@ -69,7 +71,16 @@
                     pwdconfirm:''
                 }
             }
-        }
+        },
+        methods: {
+            async postLoginForm(){
+                let res=await $axios.post("/login",this.loginform)
+                console.log(res)
+                // this.$store.commit('login')
+                // this.$router.replace('/challenge')
+            }
+        },
+
     }
 </script>
 
@@ -95,12 +106,12 @@
     }
     .loginmode{
         width: 300px;
-        padding: 20px;
+        padding: 40px;
         position: absolute;
-
-        height: 400px;
+        box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+        height: 300px;
         top:calc(50% - 180px);
-        left:calc(50% - 180px);
+        left:calc(70% - 180px);
     }
 
 
