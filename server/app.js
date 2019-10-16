@@ -42,7 +42,7 @@ app.use(async (ctx, next) => {
 
 //连接数据库
 
-mongoose.connect(dbs.dbpath,{useMongoClient: true})
+mongoose.connect(dbs.dbpath)
 
 // routes
 
