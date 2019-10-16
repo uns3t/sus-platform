@@ -7,6 +7,7 @@ const logger = require('koa-logger')
 const cors = require('koa2-cors')
 const mongoose=require('mongoose')
 const dbs=require('./db/config')
+const router=require('./router')
 
 
 
@@ -38,14 +39,14 @@ app.use(async (ctx, next) => {
   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
 })
 
-// routes
-
-
 
 //连接数据库
 
 mongoose.connect(dbs.dbpath,{useMongoClient: true})
 
+// routes
+
+app.use(router.routes()).use(router.allowedMethods());
 
 
 // error-handling
