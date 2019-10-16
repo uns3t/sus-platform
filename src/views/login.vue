@@ -74,9 +74,9 @@
         },
         methods: {
             async postLoginForm(){
-                let res=await $axios.post("/login",this.loginform)
-                console.log(res)
-                // this.$store.commit('login')
+                // let res=await $axios.post("/login",this.loginform)
+                // console.log(res)
+                this.$store.commit('logout')
                 // this.$router.replace('/challenge')
             }
         },
@@ -112,6 +112,7 @@
         height: 300px;
         top:calc(50% - 180px);
         left:calc(70% - 180px);
+        background: rgba(255,255,255,1);
     }
 
 

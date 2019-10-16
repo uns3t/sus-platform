@@ -2,7 +2,7 @@
 
 #### 技术栈
 
-vue+eggjs+mongodb
+vue+koa2+mongodb
 
 
 
