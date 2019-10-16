@@ -21,10 +21,12 @@ yarn serve
 
 Server文件夹中:
 cnpm i
-yarn start
+yarn start      
+//start 调用了nodemon 实现后端热更新
 
 关于数据库：
 则需要单独安装mongodb
+具体数据库名见server/db/config.js
 ```
 
 
@@ -70,7 +72,20 @@ yarn start
 
 3. 必须进行token验证
 
-   
+后端项目架构:
+./apis    //具体功能实现
+./router.js   //后端路由
+./db     //数据库配置与model定义
+
+./app.js   //整体逻辑
+
+
+
+接口数据格式
+``` 
+   //待更新
+    
+```
 
 数据库model:
 
