@@ -1,42 +1,58 @@
 <template>
     <div>
+
         <div class="header">
-            <img src="../assets/image/logo.png" style="max-width: 50px;margin-bottom: -15px">
-            <div class="logo1">SUS Platform 2019</div>
-            <div class="logo2">
-                <el-link @click="dialogVisible=true">前往注册</el-link>
+            <div style="margin: 0px 5% 5px 5%;padding: 10px">
+                <img src="../assets/image/logo1.png" style="max-width: 50px;margin-bottom: -15px">
+                <div class="logo1">SUS Platform 2019</div>
+            </div>
+            <div style="position: absolute;top: calc(15%);left: calc(50% - 150px);width: 300px;">
+                <div style="text-align: center;font-size: 45px;color: #f0f0f0;margin-bottom: 10px">know it and hack it</div>
+                <div style="text-align: center;font-size: 18px;color: #f0f0f0;margin-bottom: 30px">
+                    东南大学SUSCTF竞赛平台
+                </div>
+                <div style="text-align: center">
+                    <a class="pure-button" href="#" style="background-color:transparent;border: 1.5px #8c939d solid;color: #f0f0f0;margin: 10px">登 陆</a>
+                    <a class="pure-button" href="#" style="background-color:transparent;border: 1.5px #8c939d solid;color: #f0f0f0;margin: 10px">注 册</a>
+                </div>
+
             </div>
         </div>
-        <el-divider>know it and hack it</el-divider>
-        <div class="loginmode">
-            <div style="font-size: 20px;font-weight: bold;text-align: left;">
-                <img src="../assets/image/logo.png" style="max-width: 50px;margin-bottom: -15px">
-                身份认证
-            </div>
-            <br/>
-            <br/>
-            <br/>
-            <el-form label-position="left" label-width="80px" :model="loginform" size="small">
+        <div class="logincontent" v-html="notice">
+
+        </div>
+
+        <el-dialog
+                title="平台身份认证"
+                :visible.sync="showlogin"
+                width="400px"
+        >
+            <span>
+                <el-form label-position="left" label-width="80px" :model="loginform" size="small">
                 <el-form-item label="用户名">
-                    <el-input placeholder="请输入用户名" v-model="loginform.usrname"></el-input>
+                    <el-input placeholder="请输入用户名" v-model="loginform.username"></el-input>
                 </el-form-item>
                 <el-form-item label="密码">
                     <el-input placeholder="请输入密码" v-model="loginform.pwd" show-password></el-input>
                 </el-form-item>
-                <el-form-item>
-                    <el-button @click="postLoginForm">登 陆</el-button>
-                </el-form-item>
             </el-form>
-        </div>
+            </span>
+
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="postLoginForm" size="small">登 陆</el-button>
+            </span>
+        </el-dialog>
+
+
         <el-dialog
                 title="平台身份注册"
-                :visible.sync="dialogVisible"
+                :visible.sync="showsignup"
                 width="400px"
                 >
             <span>
                 <el-form label-position="right" label-width="80px" :model="signupform" size="small" style="margin: 20px">
                     <el-form-item label="用户名">
-                        <el-input placeholder="请输入用户名" v-model="signupform.usrname"></el-input>
+                        <el-input placeholder="请输入用户名" v-model="signupform.username"></el-input>
                     </el-form-item>
                     <el-form-item label="密码">
                         <el-input placeholder="请输入密码" v-model="signupform.pwd" show-password></el-input>
@@ -51,24 +67,35 @@
                 <el-button @click="dialogVisible = false" size="small">注 册</el-button>
             </span>
         </el-dialog>
-        <div style="position: fixed;bottom: 20px;left: calc(50% - 170px);font-size: 13px;color: #8c939d">@2005-2019 Security Union of SEU  • All rights reserved</div>
+<!--        <div style="position: fixed;bottom: 20px;left: calc(50% - 170px);font-size: 13px;color: #8c939d">©2005-2019 Security Union of SEU  • All rights reserved</div>-->
     </div>
 </template>
 
 <script>
+    import "../assets/image/bg3.jpg"
     export default {
         name: "login",
         data(){
             return{
+
+                showlogin:false,
+                showsignup:false,
+                notice:'',
+
+
                 loginform:{
-                    usrname:'',
+                    username:'',
                     pwd:''
                 },
-                dialogVisible:false,
+
                 signupform:{
-                    usrname:'',
+                    username:'',
                     pwd:'',
-                    pwdconfirm:''
+                    studentid:'',
+                    phone:'',
+                    name:'',
+                    qq:'',
+                    email:''
                 }
             }
         },
@@ -80,22 +107,32 @@
                 // this.$router.replace('/challenge')
             }
         },
+        async created() {
+            let res=await $axios.get("/getnotice")
+            this.notice=res.data
+        }
 
     }
 </script>
 
 <style scoped>
     .header{
-        margin: 5px 10% 0 10%;
+        height: 60vh;
+        background-image: url(../assets/image/bg4.jpg);
+        background-repeat: repeat;
+        background-size: cover;
+        background-position: center;
+        margin: 0;
+
     }
     .logo1{
         display: inline-block;
         font-size: 20px;
-        color: #303133;
+        color: #f0f0f0;
         font-weight: bold;
     }
     .logo1:hover {
-        color: darkred;
+        color: darkcyan;
     }
     .logo2{
         float: right;
@@ -113,6 +150,16 @@
         top:calc(50% - 180px);
         left:calc(70% - 180px);
         background: rgba(255,255,255,1);
+    }
+    .logincontent{
+        margin: 0 30px 0 30px;
+        box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.4);
+        border-radius: 15px;
+        padding: 30px;
+        position: relative;
+        top: -8vh;
+        z-index: 10px;
+        background: #ffffff;
     }
 
 

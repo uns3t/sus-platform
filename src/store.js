@@ -2,14 +2,14 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import VuexPersistence from 'vuex-persist'
 
-const vuexLocal = new VuexPersistence({
-    storage: window.localStorage
-})
+// const vuexLocal = new VuexPersistence({
+//     storage: window.localStorage
+// })
 
 Vue.use(Vuex)   //显式引入vuex
 
 window.$store = new Vuex.Store({
-    plugins:[vuexLocal.plugin],
+    // plugins:[vuexLocal.plugin],
     state: {
         isLogin:false,
         // userInfo:{},
