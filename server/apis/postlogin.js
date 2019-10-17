@@ -5,7 +5,9 @@ const login=async(ctx)=>{
     try{
         let tempuser=await tempuser.findone({usrname:body.username,pwd:body.pwd})
         if(tempuser){
-            ctx.body={success:true}
+
+            //设置token，后面加
+            ctx.body={code:0}
         }
     }catch (e) {
         console.log(e)
