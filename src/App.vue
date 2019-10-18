@@ -1,17 +1,22 @@
 <template>
   <div id="app">
       <header v-if="isLogin">
-              <el-menu :default-active="activeIndex" class="el-menu-demo" router mode="horizontal">
-                  <el-menu-item>
-                      <img src="./assets/image/logo.png" style="max-width: 50px;">
+          <div class="pure-menu pure-menu-horizontal pure-menu-scrollable">
+              <ul class="pure-menu-list" style="margin-top: -10px;margin-left: 5%;">
+                  <li class="pure-menu-item"><a class="pure-menu-link" style="margin-bottom: 13px">
+                      <img src="./assets/image/logo1.png" style="max-width: 40px;margin-bottom: -10px;">
                       <div class="logo1">SUS Platform 2019</div>
-                  </el-menu-item>
+                  </a></li>
+                  <li class="pure-menu-item" @click="torouter('/challenge')"><a class="pure-menu-link">挑戦</a></li>
+                  <li class="pure-menu-item" @click="torouter('/scoreboard')"><a class="pure-menu-link">排行</a></li>
+                  <li class="pure-menu-item" @click="torouter('/notice')"><a class="pure-menu-link">公告</a></li>
+                  <li class="pure-menu-item" @click="torouter('/usrscore')"><a class="pure-menu-link">得分详情</a></li>
+                  <li class="pure-menu-item" @click="torouter('/usrinfo')"><a class="pure-menu-link">用户信息</a></li>
+              </ul>
+          </div>
+          <div>
 
-                  <el-menu-item index="/challenge">题库</el-menu-item>
-                  <el-menu-item index="/scoreboard">排行榜</el-menu-item>
-                  <el-menu-item index="/notice">公告</el-menu-item>
-                  <el-menu-item index="/usrinfo" style="float: right">个人信息</el-menu-item>
-              </el-menu>
+          </div>
       </header>
       <router-view></router-view>
 
@@ -31,40 +36,54 @@ export default {
       }
     },
   methods:{
-
+    torouter(path){
+        this.$router.push(path)
+    }
   },
   computed:{
     isLogin(){
-        return this.$store.state.isLogin
+        // return this.$store.state.isLogin
+        return true
     }
   }
 }
 </script>
 
 <style>
-    body{
-        /*background-image: url(./assets/image/bg.png);*/
-        /*background-repeat: repeat;*/
-        /*background-size: cover;*/
-        /*margin: 0;*/
-    }
+
     #app{
-        font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+        font-family: "Avenir", Helvetica, Arial, sans-serif;
 
     }
     header{
-
+        height: 50vh;
+        background-image: url(./assets/image/bg4.jpg);
+        background-repeat: repeat;
+        background-size: cover;
+        background-position: center;
     }
     .logo1{
         display: inline-block;
-        font-size: 20px;
-        color: #303133;
+        color: #bdc3c7;
         font-weight: bold;
     }
     .logo1:hover {
-        color: darkred;
-    }
+        color: darkcyan;
 
+    }
+    header a{
+        cursor: pointer;
+    }
+    .userinfo{
+        margin: 0 5% 0 5%;
+        box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.4);
+        border-radius: 15px;
+        padding: 20px;
+        position: relative;
+        top: -20vh;
+        z-index: 10px;
+        background: #ffffff;
+    }
 
 
 </style>

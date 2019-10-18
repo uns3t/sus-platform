@@ -6,14 +6,14 @@
                 <img src="../assets/image/logo1.png" style="max-width: 50px;margin-bottom: -15px">
                 <div class="logo1">SUS Platform 2019</div>
             </div>
-            <div style="position: absolute;top: calc(15%);left: calc(50% - 150px);width: 300px;">
+            <div style="margin:0 auto;margin-top: 50px;width: 300px;">
                 <div style="text-align: center;font-size: 45px;color: #f0f0f0;margin-bottom: 10px">know it and hack it</div>
                 <div style="text-align: center;font-size: 18px;color: #f0f0f0;margin-bottom: 30px">
                     东南大学SUSCTF竞赛平台
                 </div>
                 <div style="text-align: center">
-                    <a class="pure-button" href="#" style="background-color:transparent;border: 1.5px #8c939d solid;color: #f0f0f0;margin: 10px">登 陆</a>
-                    <a class="pure-button" href="#" style="background-color:transparent;border: 1.5px #8c939d solid;color: #f0f0f0;margin: 10px">注 册</a>
+                    <a class="pure-button" @click="showlogin=true" style="background-color:transparent;border: 1.5px #8c939d solid;color: #f0f0f0;margin: 10px">登 陆</a>
+                    <a class="pure-button" @click="showsignup=true" style="background-color:transparent;border: 1.5px #8c939d solid;color: #f0f0f0;margin: 10px">注 册</a>
                 </div>
 
             </div>
@@ -60,14 +60,30 @@
                     <el-form-item label="确认密码">
                         <el-input placeholder="请确认密码" v-model="signupform.pwdconfirm" show-password></el-input>
                     </el-form-item>
+                    <el-form-item label="邮箱">
+                        <el-input placeholder="请输入邮箱" v-model="signupform.email" ></el-input>
+                    </el-form-item>
+                    <el-form-item label="学号">
+                        <el-input placeholder="请输入学号" v-model="signupform.studentid" ></el-input>
+                    </el-form-item>
+                    <el-form-item label="姓名">
+                        <el-input placeholder="请输入您的姓名" v-model="signupform.name" ></el-input>
+                    </el-form-item>
+                    <el-form-item label="QQ">
+                        <el-input placeholder="请输入您的QQ" v-model="signupform.qq" ></el-input>
+                    </el-form-item>
+                    <el-form-item label="电话">
+                        <el-input placeholder="请输入您的电话" v-model="signupform.phone" ></el-input>
+                    </el-form-item>
                 </el-form>
             </span>
 
             <span slot="footer" class="dialog-footer">
-                <el-button @click="dialogVisible = false" size="small">注 册</el-button>
+                <el-button @click="postsignup" size="small">注 册</el-button>
             </span>
         </el-dialog>
-<!--        <div style="position: fixed;bottom: 20px;left: calc(50% - 170px);font-size: 13px;color: #8c939d">©2005-2019 Security Union of SEU  • All rights reserved</div>-->
+
+        <div style="text-align: center;height: 30px;margin-top: -30px;font-size: 13px;color: #8c939d">©2005-2019 Security Union of SEU  • All rights reserved</div>
     </div>
 </template>
 
@@ -95,16 +111,29 @@
                     phone:'',
                     name:'',
                     qq:'',
-                    email:''
+                    email:'',
+                    pwdconfirm:''
                 }
             }
         },
         methods: {
             async postLoginForm(){
-                // let res=await $axios.post("/login",this.loginform)
-                // console.log(res)
-                this.$store.commit('logout')
-                // this.$router.replace('/challenge')
+                let res=await $axios.post("/postlogin",this.loginform)
+                console.log(res)
+                if(res.data.code==0){
+                    alert("登陆成功")
+                    this.showlogin=false
+                }
+                this.$store.commit('login',this.loginform)
+                this.$router.replace('/challenge')
+            },
+            async postsignup(){
+                let res=await $axios.post("/postsignup",this.signupform)
+                console.log(res)
+                if(res.data.code==0){
+                    alert("注册成功")
+                    this.showsignup=false
+                }
             }
         },
         async created() {

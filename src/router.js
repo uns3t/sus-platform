@@ -20,7 +20,7 @@ window.$router=new Router({
     routes:[
 
         {
-            path:"/login",
+            path:"/",
             component: login
         },
         {

@@ -12,7 +12,7 @@ window.$store = new Vuex.Store({
     // plugins:[vuexLocal.plugin],
     state: {
         isLogin:false,
-        // userInfo:{},
+        userInfo:{username:'aaa'},
         // accessToken:'',
         // currentRouteName:''
 
