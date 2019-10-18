@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-      <header v-if="isLogin">
+      <header v-show="isLogin">
           <div class="pure-menu pure-menu-horizontal pure-menu-scrollable">
               <ul class="pure-menu-list" style="margin-top: -10px;margin-left: 5%;">
                   <li class="pure-menu-item"><a class="pure-menu-link" style="margin-bottom: 13px">
@@ -74,13 +74,13 @@ export default {
     header a{
         cursor: pointer;
     }
-    .userinfo{
+    .commoninfo{
         margin: 0 5% 0 5%;
         box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.4);
         border-radius: 15px;
         padding: 20px;
         position: relative;
-        top: -20vh;
+        top: -10vh;
         z-index: 10px;
         background: #ffffff;
     }

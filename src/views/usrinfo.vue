@@ -1,9 +1,9 @@
 <template>
     <div>
-        <div style="font-size: 40px;color: #f0f0f0;position: absolute;width: 400px;left: calc(50% - 200px);text-align: center;top:15vh">
+        <div style="font-size: 40px;color: #f0f0f0;position: absolute;width: 400px;left: calc(50% - 200px);text-align: center;top:20vh">
             修改信息
         </div>
-        <div class="userinfo">
+        <div class="commoninfo">
             <div style="padding: 10px;width: 400px;margin: 0 auto">
                 <el-form label-position="left" label-width="80px" :model="userform" size="medium" style="margin: 20px">
                     <el-form-item label="用户名">
@@ -58,14 +58,5 @@
 </script>
 
 <style scoped>
-    .userinfo{
-        margin: 0 5% 0 5%;
-        box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.4);
-        border-radius: 15px;
-        padding: 20px;
-        position: relative;
-        top: -20vh;
-        z-index: 10px;
-        background: #ffffff;
-    }
+
 </style>

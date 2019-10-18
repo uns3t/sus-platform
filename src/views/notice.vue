@@ -1,9 +1,9 @@
 <template>
     <div>
-        <div style="font-size: 40px;color: #f0f0f0;position: absolute;width: 400px;left: calc(50% - 200px);text-align: center;top:15vh">
+        <div style="font-size: 40px;color: #f0f0f0;position: absolute;width: 400px;left: calc(50% - 200px);text-align: center;top:20vh">
             公告
         </div>
-        <div class="userinfo" v-html="notice">
+        <div class="commoninfo" v-html="notice">
 
         </div>
     </div>
