@@ -13,15 +13,15 @@ const postchallenge=async(ctx)=>{
     }
 
     for(let val1 of challenges){
-        let sovled=false
+        let solved=false
         for(let val2 of usercha){
             if(val1.challengename==val2.challengename){
-                sovled=true
+                solved=true
             }
         }
         ret[val1.type].push({
             value:val1,
-            sovled:sovled
+            solved:solved
         })
     }
 

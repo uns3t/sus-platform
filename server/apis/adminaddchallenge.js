@@ -7,6 +7,7 @@ const addchallenge=async(ctx)=>{
         flag: body.flag,
         score: body.score,
         type: body.type,
+        description: body.description,
     })
     try{
         await tempchallenge.save()

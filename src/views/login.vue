@@ -125,6 +125,7 @@
                     this.showlogin=false
                 }
                 this.$store.commit('login',this.loginform)
+                this.$store.commit('userInfo',this.loginform)
                 this.$router.replace('/challenge')
             },
             async postsignup(){

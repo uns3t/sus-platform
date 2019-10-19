@@ -4,18 +4,34 @@
             题库
         </div>
         <div class="commoninfo">
-            <div class="block-challenge">
-                <el-divider content-position="left">pwn</el-divider>
-                <div class="detail-challenge">
-                    <span style="float: left"><i class="el-icon-circle-check"></i></span>
+            <div v-for="(value,key) in challenges" class="block-challenge">
+                <el-divider content-position="left">{{key}}</el-divider>
+                <div v-for="cha in value" class="detail-challenge" @click="openchallenge(cha)">
+                    <span v-show="cha.solved" style="float: left"><i class="el-icon-circle-check"></i></span>
                     <br/>
-                    <div style="font-size: 30px;display: inline-block">level</div>
-                    <div style="font-size: 13px;margin-bottom: 0px">1000分 25解出/31提交</div>
+                    <div style="font-size: 25px;display: inline-block">{{cha.value.challengename}}</div>
+                    <div style="font-size: 13px;margin-bottom: 0px">{{cha.value.score+' 分  '+cha.value.solved+'解出/'+cha.value.submit+'提交'}}</div>
                 </div>
-                <button @click="postflag">提交</button>
             </div>
         </div>
+        <el-dialog
+                :title="submitcha.value.challengename"
+                :visible.sync="showsubmitdialog"
+                width="80%">
+            <span >
+                <div style="box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.3);font-size: 15px;padding: 20px;margin-left: 10px;margin-right: 10px">
+                    <div style="font-size: 25px;">题目描述:</div>
+                    <div style="margin-top: 20px" v-html="submitcha.value.description">
 
+                    </div>
+                    <div style="margin-top: 50px">
+                        <el-input placeholder="请输入flag">
+                            <el-button slot="append" @click="postflag">提交</el-button>
+                        </el-input>
+                    </div>
+                </div>
+            </span>
+        </el-dialog>
     </div>
 </template>
 
@@ -24,15 +40,26 @@
         name: "challenge",
         data(){
             return{
-                challenges:[]
+                challenges:[],
+                submitcha:{
+                    value:{
+                        challengename:"初始值",
+                        description:"初始值"
+                    }
+                },
+                showsubmitdialog:false
             }
         },
         async beforeCreate() {
-            console.log(this.$store.state.userInfo)
-            let res=await $axios.post("/postchallenge",this.$store.state.userInfo)
+            let temp={
+                challengename:"test",
+                flag:"flag{test}",
+                username:"test"
+            }
+            let res=await $axios.post("/postchallenge",temp)
             this.challenges=res.data
 
-            console.log(this.challenges)
+            console.log(this.submitcha)
         },
         methods:{
           async postflag(){
@@ -43,6 +70,11 @@
               }
               let res=await $axios.post("/postflag",temp)
               console.log(res.data)
+          },
+          openchallenge(cha){
+              this.submitcha=cha
+              this.showsubmitdialog=true
+
           }
         }
     }
@@ -52,7 +84,7 @@
     .block-challenge{
         /*margin: 10px 8% 10px 8%;*/
         display: flex;
-        justify-content: center;
+        justify-content: start;
         flex-wrap: wrap;
     }
     .detail-challenge{
