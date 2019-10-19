@@ -12,7 +12,7 @@
                     <div style="font-size: 30px;display: inline-block">level</div>
                     <div style="font-size: 13px;margin-bottom: 0px">1000分 25解出/31提交</div>
                 </div>
-
+                <button @click="postflag">提交</button>
             </div>
         </div>
 
@@ -28,10 +28,22 @@
             }
         },
         async beforeCreate() {
-            let res=await $axios.get("/getchallenge")
+            console.log(this.$store.state.userInfo)
+            let res=await $axios.post("/postchallenge",this.$store.state.userInfo)
             this.challenges=res.data
 
             console.log(this.challenges)
+        },
+        methods:{
+          async postflag(){
+              let temp={
+                  challengename:"test",
+                  flag:"flag{test}",
+                  username:"test"
+              }
+              let res=await $axios.post("/postflag",temp)
+              console.log(res.data)
+          }
         }
     }
 </script>
