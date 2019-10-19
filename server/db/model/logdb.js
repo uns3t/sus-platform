@@ -6,7 +6,7 @@ let logSchema=new mongoose.Schema({
     submittime: {type:Date},
     type: {type:String},
     solvedscore: {type:Number,require:true},
-    issovled: {type:Boolean},
+    issolved: {type:Boolean},
     flag: {type:String},
 })
 

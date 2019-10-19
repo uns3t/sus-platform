@@ -9,6 +9,9 @@ const addchallenge=async(ctx)=>{
         type: body.type,
         description: body.description,
     })
+    ctx.body={
+        code:0
+    }
     try{
         await tempchallenge.save()
     }catch (e) {

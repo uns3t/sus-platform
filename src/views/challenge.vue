@@ -17,7 +17,7 @@
         <el-dialog
                 :title="submitcha.value.challengename"
                 :visible.sync="showsubmitdialog"
-                width="80%">
+                width="60%">
             <span >
                 <div style="box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.3);font-size: 15px;padding: 20px;margin-left: 10px;margin-right: 10px">
                     <div style="font-size: 25px;">题目描述:</div>

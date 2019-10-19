@@ -14,7 +14,7 @@ const submitflag=async(ctx)=>{
             submittime: new Date(),
             type: cha.type,
             solvedscore: cha.score,
-            issovled:true,
+            issolved:true,
             flag:body.flag
         })
         await templog.save()
@@ -33,7 +33,7 @@ const submitflag=async(ctx)=>{
             submittime: new Date(),
             type: cha.type,
             solvedscore: cha.score,
-            issovled:false,
+            issolved:false,
             flag:body.flag
         })
         await templog.save()
