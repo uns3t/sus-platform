@@ -11,6 +11,7 @@ const postedituser=require('./apis/postedituser')
 const postlogin=require('./apis/postlogin')
 const postsignup=require('./apis/postsignup')
 const getlogout=require('./apis/getlogout')
+const postuserscore=require('./apis/postuserscore')
 const postchallenge=require('./apis/postchallenge')
 
 
@@ -26,6 +27,7 @@ router.post("/postlogin",postlogin)
 router.post("/postsignup",postsignup)
 router.post("/postchallenge",postchallenge)
 router.post("/editchallenge",editchallenge)
+router.post("/postuserscore",postuserscore)
 
 
 router.get("/getalluser",getalluser)

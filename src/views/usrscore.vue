@@ -4,18 +4,143 @@
             得分记录
         </div>
         <div class="commoninfo">
+                <div style="width: 400px;height: 500px;padding: 30px;display: inline-block">
+                    <div style="font-size: 25px;">{{userName}}</div>
+                    <div style="font-size: 13px;color: #8c939d">{{"在排行榜中位于第 "+userRank+" 名"}}</div>
+                </div>
+                <div id="echartsUse" style="width: 600px;height: 600px;margin: 0;display: inline-block;position: absolute;right: 5vh;top: 50px"></div>
 
+                <div>
+                    <el-table
+                            :data="challengelog"
+                            style="width: 100%"
+                            :row-class-name="tableRowClassName">
+                        <el-table-column
+                                prop="challengename"
+                                label="题目"
+                                width="180">
+                        </el-table-column>
+                        <el-table-column
+                                prop="type"
+                                label="分类"
+                                width="180">
+                        </el-table-column>
+                        <el-table-column
+                                prop="solvedscore"
+                                label="分数"
+                                width="180">
+                        </el-table-column>
+                        <el-table-column
+                                prop="issolved"
+                                label="是否解决"
+                                width="180">
+                        </el-table-column>
+                        <el-table-column
+                                prop="submittime"
+                                label="提交时间">
+                        </el-table-column>
+                    </el-table>
+                </div>
         </div>
     </div>
 
 </template>
 
 <script>
+    import echarts from "echarts"
+
     export default {
-        name: "usrscore"
+        name: "usrscore",
+        data(){
+            return{
+                userRank:1,
+                challengelog:[],
+                echartsdata:{}
+            }
+        },
+        computed:{
+            userName(){
+                return this.$store.state.userInfo.username
+            },
+            tableRowClassName({row, rowIndex}) {
+                if (rowIndex%2 === 1) {
+                    return 'row1';
+                } else {
+                    return 'row0';
+                }
+
+            }
+        },
+        async created(){
+
+
+        },
+        async mounted(){
+            let userinfo={username:this.$store.state.userInfo.username}
+            let res=await $axios.post("/postuserscore",userinfo)
+            console.log(res)
+            this.userRank=res.data.rank
+            this.challengelog=res.data.challengelog
+            this.echartsdata=res.data.echartdata
+            var myChart = echarts.init(document.getElementById('echartsUse'));
+            console.log(this.echartsdata)
+
+            myChart.setOption({
+                title: {
+                    text: '题目完成情况'
+                },
+                tooltip: {},
+                legend: {
+                    data: ['提交过的题目数','已解决的题目数']
+                },
+                radar: {
+                    // shape: 'circle',
+                    name: {
+                        textStyle: {
+                            color: '#fff',
+                            backgroundColor: '#999',
+                            borderRadius: 3,
+                            padding: [3, 5]
+                        }
+                    },
+                    indicator: [
+                        { name: 'pwn', max: this.echartsdata.pwn[2]},
+                        { name: 're', max: this.echartsdata.re[2]},
+                        { name: 'web', max: this.echartsdata.web[2]},
+                        { name: 'misc', max: this.echartsdata.misc[2]},
+                        { name: 'crypto', max: this.echartsdata.crypto[2]},
+
+                    ]
+                },
+                series: [{
+                    name: '题目完成情况',
+                    type: 'radar',
+                    // areaStyle: {normal: {}},
+                    data : [
+                        {
+                            value : [this.echartsdata.pwn[1], this.echartsdata.re[1], this.echartsdata.web[1], this.echartsdata.misc[1], this.echartsdata.crypto[1]],
+                            name : '已解决的题目数'
+                        },
+                        {
+                            value : [this.echartsdata.pwn[0], this.echartsdata.pwn[0], this.echartsdata.web[0], this.echartsdata.misc[0], this.echartsdata.crypto[0]],
+                            name : '提交过的题目数'
+                        },
+                    ]
+                }]
+            })
+        },
     }
 </script>
 
 <style scoped>
 
+</style>
+<style>
+    .el-table .row0 {
+        background: oldlace;
+    }
+
+    .el-table .row1 {
+        background: #f0f0f0;
+    }
 </style>

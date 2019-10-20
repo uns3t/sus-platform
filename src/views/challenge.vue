@@ -84,7 +84,7 @@
     .block-challenge{
         /*margin: 10px 8% 10px 8%;*/
         display: flex;
-        justify-content: start;
+        justify-content: flex-start;
         flex-wrap: wrap;
     }
     .detail-challenge{
