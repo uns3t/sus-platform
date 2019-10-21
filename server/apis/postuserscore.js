@@ -7,7 +7,7 @@ const userscore=async(ctx)=>{
         ctx.response.status=401
         return
     }
-    let body=ctx.request.body
+    let body=ctx.state.userinfo
     console.log(body)
     let forechart={
         pwn:[0,0],

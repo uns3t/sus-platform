@@ -25,7 +25,7 @@
 
                     </div>
                     <div style="margin-top: 50px">
-                        <el-input placeholder="请输入flag">
+                        <el-input placeholder="请输入flag" v-model="flag">
                             <el-button slot="append" @click="postflag">提交</el-button>
                         </el-input>
                     </div>
@@ -47,16 +47,13 @@
                         description:"初始值"
                     }
                 },
-                showsubmitdialog:false
+                showsubmitdialog:false,
+                flag:""
             }
         },
         async beforeCreate() {
-            let temp={
-                challengename:"test",
-                flag:"flag{test}",
-                username:"test"
-            }
-            let res=await $axios.post("/postchallenge",temp)
+
+            let res=await $axios.post("/postchallenge")
             this.challenges=res.data
 
             console.log(this.challenges)
@@ -64,9 +61,8 @@
         methods:{
           async postflag(){
               let temp={
-                  challengename:"test",
-                  flag:"flag{test}",
-                  username:"test"
+                  challengename:this.submitcha.challengename,
+                  flag:flag,
               }
               let res=await $axios.post("/postflag",temp)
               console.log(res.data)

@@ -21,6 +21,7 @@ window.$store = new Vuex.Store({
         //
         login(state, accessToken){
             state.isLogin = true
+            console.log(Vue.prototype)
             window.$axios.defaults.headers.common['Access-Token'] = accessToken
             state.accessToken = accessToken
         },

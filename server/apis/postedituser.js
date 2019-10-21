@@ -6,9 +6,10 @@ const edituser=async(ctx)=>{
         return
     }
     let body=ctx.request.body
+    //注意验证信息
 
     try{
-        await user.where({username:body.username}).update({pwd:body.pwd,email:body.email,qq:body.qq,phone:body.phone})
+        await user.where({username:ctx.state.userinfo.username}).update({pwd:body.pwd,email:body.email,qq:body.qq,phone:body.phone})
         ctx.body={
             code:0
         }

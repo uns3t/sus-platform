@@ -15,7 +15,7 @@ marked.setOptions({
 
 
 const notice=async(ctx)=>{
-    console.log(ctx.state.tokencode)
+    // console.log(ctx.state.tokencode)
     let mdExist = fs.existsSync(path.join(__dirname, '../index.md'))
     if (mdExist) {
         let data = fs.readFileSync(path.join(__dirname, '../index.md'), 'utf8')

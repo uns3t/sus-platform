@@ -44,16 +44,18 @@ app.use(async (ctx, next) => {
 app.use(async (ctx,next)=>{
 
   let usertoken=ctx.request.body.token||ctx.request.headers['access-token']
-  console.log(usertoken)
+
   let tokencode=-1
   if(usertoken){
     try {
       let tokentemp=jwtTool.jwtdecode(usertoken)
+      console.log(tokentemp)
       if(tokentemp.isadmin===1){
         tokencode=1
       }else {
         tokencode=0
       }
+      ctx.state.userinfo=tokentemp
     }catch (e) {
       ctx.response.status=401
     }
@@ -62,6 +64,7 @@ app.use(async (ctx,next)=>{
     //未登录的状态
   }
   ctx.state.tokencode=tokencode
+
   await next()
 })
 //连接数据库

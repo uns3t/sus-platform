@@ -5,7 +5,7 @@ const userlog=async(ctx)=>{
         ctx.response.status=401
         return
     }
-    let body=ctx.request.body
+
     let templog=await log.find()
     let ret=[]
     if(ctx.state.tokencode==0){

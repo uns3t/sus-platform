@@ -32,7 +32,7 @@ const submitflag=async(ctx)=>{
     };
     if(cha.flag==body.flag){
         let templog=new log({
-            username:body.username,
+            username:ctx.state.userinfo.username,
             challengename:body.challengename,
             submittime: new Date().Format("yyyy/MM/dd HH:mm:ss"),
             type: cha.type,
@@ -41,7 +41,7 @@ const submitflag=async(ctx)=>{
             flag:body.flag
         })
         await templog.save()
-        let tempuser=await user.findOne({username: body.username})
+        let tempuser=await user.findOne({username: ctx.state.userinfo.username})
         tempuser.userscore+=cha.score
         console.log(cha.solved)
         await user.where({username:body.username}).update({userscore:tempuser.userscore})
@@ -51,7 +51,7 @@ const submitflag=async(ctx)=>{
         }
     }else {
         let templog=new log({
-            username:body.username,
+            username:ctx.state.userinfo.username,
             challengename:body.challengename,
             submittime: new Date().Format("yyyy/MM/dd HH:mm:ss"),
             type: cha.type,

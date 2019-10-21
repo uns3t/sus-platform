@@ -73,7 +73,10 @@ export default {
         return this.$store.state.isLogin
     }
   },
+    created() {
+        window.$axios.defaults.headers.common['Access-Token'] = this.$store.state.accessToken
 
+    }
 }
 </script>
 

@@ -131,8 +131,10 @@
                     this.openmsg("通知","登陆成功")
                     this.showlogin=false
                 }
+                console.log("token"+res.data.token)
                 this.$store.commit('login',res.data.token)
                 this.$store.commit('userInfo',this.loginform)
+                console.log("vue token"+this.$store.state.accessToken)
                 this.$router.replace('/challenge')
             },
             async postsignup(){

@@ -14,7 +14,7 @@ const postchallenge=async(ctx)=>{
         v.flag=undefined
         return v
     })
-    let usercha=await log.find({username:ctx.request.body.username})
+    let usercha=await log.find({username:ctx.state.userinfo.username})
     let ret={}
     for(let val1 of retcha){
         ret[val1.type]=[]

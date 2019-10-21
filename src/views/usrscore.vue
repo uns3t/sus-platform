@@ -76,8 +76,7 @@
 
         },
         async mounted(){
-            let userinfo={username:this.$store.state.userInfo.username}
-            let res=await $axios.post("/postuserscore",userinfo)
+            let res=await $axios.post("/postuserscore")
             console.log(res)
             this.userRank=res.data.rank
             this.challengelog=res.data.challengelog
