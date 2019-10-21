@@ -175,6 +175,14 @@
             this.flaglogs=res.data
         },
         methods:{
+            openmsg(tl,msg) {
+                const h = this.$createElement;
+
+                this.$notify({
+                    title: tl,
+                    message: h('i', { style: 'color: teal'}, msg)
+                });
+            },
             openaddcha(){
                 this.showaddcha=true
             },
@@ -186,23 +194,31 @@
             },
             async postaddcha(){
                 let res=await $axios.post("/addchallenge",this.addchaform)
-                if(res.data.code===1){
+                if(res.data.code===0){
                     this.showaddcha=false
-                    alert("添加成功")
+                    this.openmsg("通知","添加成功请进行检查")
+                }else {
+                    this.openmsg("通知",res.data.msg)
                 }
             },
             async postdeletecha(){
                 let res=await $axios.post("/deletechallenge",this.deletechaform)
-                if(res.data.code===1){
+                if(res.data.code===0){
                     this.showdeletecha=false
-                    alert("删除成功")
+                    this.openmsg("通知","删除成功请进行检查")
+                }else {
+                    this.openmsg("通知",res.data.msg)
+
                 }
             },
             async posteditcha(){
                 let res=await $axios.post("/editchallenge",this.editchaform)
-                if(res.data.code===1){
+                if(res.data.code===0){
                     this.showeditcha=false
-                    alert("修改成功")
+                    openmsg("通知","修改成功请进行检查")
+                }else {
+                    openmsg("通知",res.data.msg)
+
                 }
             }
         }

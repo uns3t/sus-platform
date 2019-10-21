@@ -25,7 +25,9 @@ const login=async(ctx)=>{
                 let token=jwttools.jwtencode(info)
                 ctx.body={code:0,token:token}
             }else {
-                ctx.body={code:-1}
+                ctx.body={
+                    msg:"用户名或密码错误"
+                }
             }
         }
 

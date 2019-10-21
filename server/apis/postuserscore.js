@@ -4,6 +4,7 @@ const challenge=require("../db/model/challengedb")
 
 const userscore=async(ctx)=>{
     if(ctx.state.tokencode==-1){
+
         ctx.response.status=401
         return
     }
@@ -36,9 +37,7 @@ const userscore=async(ctx)=>{
             break
         }
     }
-    console.log(body)
     let templog=await log.find({username:body.username})
-    console.log(body)
 
     for(let temp of templog){
         if(!forechart[temp.type]){
@@ -53,16 +52,24 @@ const userscore=async(ctx)=>{
     for(let temp of chas){
         forechart[temp.type][1]++
     }
-    let retlog=templog.map((v,i,e)=>{
-        v.flag=undefined
-        return v
+
+    let newrelog=[]
+    templog.map((v,i,e)=>{
+        if(v.issolved){
+            newrelog.push({username:v.username,challengename:v.challengename,submittime:v.submittime,
+                solvedscore:v.solvedscore,type:v.type,issolved:"yes"})
+        }
+        else {
+            newrelog.push({username:v.username,challengename:v.challengename,submittime:v.submittime,
+                solvedscore:v.solvedscore,type:v.type,issolved:"no"})
+        }
     })
-    console.log("retlog"+retlog)
+
 
     let ret={
         rank:index,
         echartdata:forechart,
-        challengelog:retlog
+        challengelog:newrelog
     }
 
     console.log(ret)

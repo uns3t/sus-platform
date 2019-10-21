@@ -2,6 +2,7 @@ const user=require("../db/model/userdb")
 
 const edituser=async(ctx)=>{
     if(ctx.state.tokencode==-1){
+
         ctx.response.status=401
         return
     }

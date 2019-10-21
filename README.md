@@ -39,15 +39,6 @@ yarn start
 
 6. 完善admin认证
 
-
-
-
-
-
-
-
-
-
 前端：
 
 1. 用户模块
@@ -99,7 +90,113 @@ yarn start
 接口数据格式
 
 ```
-   //待更新
+   全局前缀:api/
+   
+   postflag:{
+      req:{
+           challengename:string,
+
+           flag:string,          
+      },
+      res:{
+          code:number
+      }        
+   }
+   addchallenge{
+       req:{
+           challengename:string,
+           type:string,
+           description:string(html)
+           flag:string,
+           score:number
+       }
+       res:{
+           code:number
+       }
+   }
+   deletechallenge{
+        req:{
+            challengename:string
+        },
+        res:{
+             code:number
+        }               
+   }
+   postedituser{
+       req:{
+           pwd:string,
+           email:string,
+           qq: string,
+           phone:string,
+       },
+       res:{
+           code:number
+       }
+   }
+   postlogin{
+        req:{
+            username:string,
+            pwd:string
+        } 
+        res:{
+            code:number
+        }      
+   }
+   postsignup{
+       req:{
+       		username：string,
+            pwd:string,
+            name:string,
+            email:string,
+            qq: string,
+            phone:string,
+            studentid:string
+        },
+     res:{
+            code:number,
+     }
+   }
+   postchallenge{
+   		req:{
+   			null
+   		}
+   		res:{
+   			challenges:[
+   				cha:{
+   					issolved:bool,
+   					challenge:Object
+   				}
+   			]
+   		}
+       
+   }
+   editchallenge{
+       req:{
+           challengename:string,
+           type:string,
+           description:string(html)
+           flag:string,
+           score:number
+       }
+       res:{
+           code:number
+       }
+   }
+   postuserscore{
+       //详见代码
+   }
+   getalluser{
+       //详见代码
+   }
+   getnotice{
+       index.md- 转换 >html
+   }
+   getscoreboard{
+       users:排序过后
+   }
+   getuserlog{
+       //根据用户权限有区分
+   }
 ```
 
 数据库model:

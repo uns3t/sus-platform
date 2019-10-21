@@ -8,12 +8,15 @@ const deletechallenge=async(ctx)=>{
 
     try{
         await challenge.where({challengename:ctx.request.body.challengename}).remove()
+        ctx.body={
+            code:0
+        }
     }catch (e) {
+        ctx.body={
+            msg:e
+        }
+    }
 
-    }
-    ctx.body={
-        code:0
-    }
 }
 
 module.exports=deletechallenge

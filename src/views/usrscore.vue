@@ -63,7 +63,7 @@
                 return this.$store.state.userInfo.username
             },
             tableRowClassName({row, rowIndex}) {
-                if (rowIndex%2 === 1) {
+                if (rowIndex%2 == 1) {
                     return 'row1';
                 } else {
                     return 'row0';

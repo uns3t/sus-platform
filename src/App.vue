@@ -38,6 +38,7 @@ export default {
       }
     },
   methods:{
+
         torouter(path){
             this.$router.push(path)
         },

@@ -130,19 +130,26 @@
                 if(res.data.code==0){
                     this.openmsg("通知","登陆成功")
                     this.showlogin=false
+                    console.log("token"+res.data.token)
+                    this.$store.commit('login',res.data.token)
+                    this.$store.commit('userInfo',this.loginform)
+                    console.log("vue token"+this.$store.state.accessToken)
+                    this.$router.replace('/challenge')
+                }else {
+                    this.openmsg("错误",res.data.msg)
                 }
-                console.log("token"+res.data.token)
-                this.$store.commit('login',res.data.token)
-                this.$store.commit('userInfo',this.loginform)
-                console.log("vue token"+this.$store.state.accessToken)
-                this.$router.replace('/challenge')
+
             },
+
+
             async postsignup(){
                 let res=await $axios.post("/postsignup",this.signupform)
                 console.log(res)
                 if(res.data.code==0){
                     this.openmsg("通知","注册成功")
                     this.showsignup=false
+                }else {
+                    this.openmsg("错误",res.data.msg)
                 }
             }
         },

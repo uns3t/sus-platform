@@ -8,6 +8,7 @@ import usrinfo from "./views/usrinfo.vue";
 import usrscore from "./views/usrscore.vue";
 import notice from "./views/notice.vue";
 import admin from "./views/admin.vue";
+import page404 from "./views/page404.vue";
 
 
 
@@ -18,7 +19,6 @@ Vue.use(Router)
 window.$router=new Router({
     mode:'history',
     routes:[
-
         {
             path:"/",
             component: login
@@ -47,6 +47,10 @@ window.$router=new Router({
             path:"/notice",
             component: notice
         },
+        {
+            path:'*',
+            component:page404
+        }
     ]
 })
 

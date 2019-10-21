@@ -4,6 +4,7 @@ const log=require("../db/model/logdb")
 
 const postchallenge=async(ctx)=>{
     if(ctx.state.tokencode==-1){
+
         ctx.response.status=401
         return
     }

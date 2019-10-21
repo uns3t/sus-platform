@@ -59,13 +59,29 @@
             console.log(this.challenges)
         },
         methods:{
+            openmsg(tl,msg) {
+                const h = this.$createElement;
+
+                this.$notify({
+                    title: tl,
+                    message: h('i', { style: 'color: teal'}, msg)
+                });
+            },
           async postflag(){
+
               let temp={
-                  challengename:this.submitcha.challengename,
-                  flag:flag,
+                  challengename:this.submitcha.value.challengename,
+                  flag:this.flag,
               }
+              console.log(temp)
               let res=await $axios.post("/postflag",temp)
               console.log(res.data)
+              if(res.data.code===0){
+                  this.openmsg("通知","解答成功")
+                  this.showsubmitdialog=false
+              }else {
+                  this.openmsg("通知",res.data.msg)
+              }
           },
           openchallenge(cha){
               this.submitcha=cha
