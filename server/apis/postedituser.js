@@ -1,6 +1,9 @@
 const user=require("../db/model/userdb")
 
 const edituser=async(ctx)=>{
+    if(ctx.state.tokencode==-1){
+        return
+    }
     let body=ctx.request.body
 
     try{

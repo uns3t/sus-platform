@@ -91,7 +91,7 @@
                 },
                 tooltip: {},
                 legend: {
-                    data: ['提交过的题目数','已解决的题目数']
+                    data: ['完成进度']
                 },
                 radar: {
                     // shape: 'circle',
@@ -104,11 +104,11 @@
                         }
                     },
                     indicator: [
-                        { name: 'pwn', max: this.echartsdata.pwn[2]},
-                        { name: 're', max: this.echartsdata.re[2]},
-                        { name: 'web', max: this.echartsdata.web[2]},
-                        { name: 'misc', max: this.echartsdata.misc[2]},
-                        { name: 'crypto', max: this.echartsdata.crypto[2]},
+                        { name: 'pwn', max: this.echartsdata.pwn[1]},
+                        { name: 're', max: this.echartsdata.re[1]},
+                        { name: 'web', max: this.echartsdata.web[1]},
+                        { name: 'misc', max: this.echartsdata.misc[1]},
+                        { name: 'crypto', max: this.echartsdata.crypto[1]},
 
                     ]
                 },
@@ -117,13 +117,10 @@
                     type: 'radar',
                     // areaStyle: {normal: {}},
                     data : [
+
                         {
-                            value : [this.echartsdata.pwn[1], this.echartsdata.re[1], this.echartsdata.web[1], this.echartsdata.misc[1], this.echartsdata.crypto[1]],
-                            name : '已解决的题目数'
-                        },
-                        {
-                            value : [this.echartsdata.pwn[0], this.echartsdata.pwn[0], this.echartsdata.web[0], this.echartsdata.misc[0], this.echartsdata.crypto[0]],
-                            name : '提交过的题目数'
+                            value : [this.echartsdata.pwn[0], this.echartsdata.re[0], this.echartsdata.web[0], this.echartsdata.misc[0], this.echartsdata.crypto[0]],
+                            name : '完成进度'
                         },
                     ]
                 }]

@@ -3,14 +3,17 @@ const user=require("../db/model/userdb")
 const challenge=require("../db/model/challengedb")
 
 const userscore=async(ctx)=>{
+    if(ctx.state.tokencode==-1){
+        return
+    }
     let body=ctx.request.body
     console.log(body)
     let forechart={
-        pwn:[0,0,0],
-        re:[0,0,0],
-        web:[0,0,0],
-        misc:[0,0,0],
-        crypto:[0,0,0],
+        pwn:[0,0],
+        re:[0,0],
+        web:[0,0],
+        misc:[0,0],
+        crypto:[0,0],
     }
     let socre=await user.find()
     let compare=(obj1,obj2)=>{
@@ -41,17 +44,15 @@ const userscore=async(ctx)=>{
             forechart[temp.type]=[0,0]
         }
         if(temp.issolved){
-            forechart[temp.type][1]+=1
-        }else {
             forechart[temp.type][0]+=1
         }
     }
 
     let chas=await challenge.find()
     for(let temp of chas){
-        forechart[temp.type][2]++
+        forechart[temp.type][1]++
     }
-
+    let retlog
     let ret={
         rank:index,
         echartdata:forechart,

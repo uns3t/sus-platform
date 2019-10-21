@@ -13,30 +13,30 @@ window.$store = new Vuex.Store({
     state: {
         isLogin:false,
         userInfo:{username:''},
-        // accessToken:'',
+        accessToken:'',
         // currentRouteName:''
 
     },
     mutations: {
-        // , accessToken
-        login(state){
+        //
+        login(state, accessToken){
             state.isLogin = true
-            // Vue.prototype.$axios.defaults.headers.common['Access-Token'] = accessToken
-            // state.accessToken = accessToken
+            window.$axios.defaults.headers.common['Access-Token'] = accessToken
+            state.accessToken = accessToken
         },
         logout(state){
             state.isLogin = false
-                // Vue.prototype.$axios.defaults.headers.common['Access-Token'] = ''
-            // state.accessToken = ''
+            window.$axios.defaults.headers.common['Access-Token'] = ''
+            state.accessToken = ''
         },
         userInfo(state, userInfo){
             state.userInfo = userInfo
         },
         resetPassword(state){
-            state.isLogin = false,
-                // Vue.prototype.$axios.defaults.headers.common['Access-Token'] = ''
+            state.isLogin = false
+            window.$axios.defaults.headers.common['Access-Token'] = ''
             // state.accessToken = ''
-            window.$router.replace({name:'forget-password'})
+            // window.$router.replace({name:'forget-password'})
         },
         setCurrentRouteName(state, routeName){
             let { to } = routeName

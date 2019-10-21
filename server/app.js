@@ -8,6 +8,7 @@ const cors = require('koa2-cors')
 const mongoose=require('mongoose')
 const dbs=require('./db/config')
 const router=require('./router')
+const jwtTool=require("./tools/token")
 
 
 
@@ -21,7 +22,7 @@ app.use(cors({
   maxAge: 100,
   credentials: true,
   allowMethods: ['GET', 'POST', 'OPTIONS'],
-  allowHeaders: ['Content-Type', 'Authorization', 'Accept', 'X-Custom-Header', 'anonymous'],
+  allowHeaders: ['Content-Type', 'Authorization', 'Accept', 'X-Custom-Header', 'anonymous','Access-Token'],
 }));
 
 // middlewares
@@ -39,7 +40,30 @@ app.use(async (ctx, next) => {
   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
 })
 
+//
+app.use(async (ctx,next)=>{
 
+  let usertoken=ctx.request.body.token||ctx.request.headers['access-token']
+  console.log(usertoken)
+  let tokencode=-1
+  if(usertoken){
+    try {
+      let tokentemp=jwtTool.jwtdecode(usertoken)
+      if(tokentemp.isadmin===1){
+        tokencode=1
+      }else {
+        tokencode=0
+      }
+    }catch (e) {
+      ctx.throw("token解析错误")
+    }
+  }else{
+    tokencode=-1
+    //未登录的状态
+  }
+  ctx.state.tokencode=tokencode
+  await next()
+})
 //连接数据库
 
 mongoose.connect(dbs.dbpath)

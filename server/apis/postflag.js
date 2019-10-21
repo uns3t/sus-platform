@@ -4,6 +4,9 @@ const log=require("../db/model/logdb")
 
 
 const submitflag=async(ctx)=>{
+    if(ctx.state.tokencode==-1){
+        return
+    }
     let body=ctx.request.body
     let cha=await challenge.findOne({challengename:body.challengename})
     console.log(cha)

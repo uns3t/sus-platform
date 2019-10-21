@@ -1,6 +1,9 @@
 const user=require("../db/model/userdb")
 
 const scoreboard=async(ctx)=>{
+    if(ctx.state.tokencode==-1){
+        return
+    }
     let users=await user.find()
     let compare=(obj1,obj2)=>{
         var val1 = obj1.userscore;

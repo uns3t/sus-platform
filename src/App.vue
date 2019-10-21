@@ -38,27 +38,32 @@ export default {
       }
     },
   methods:{
-    torouter(path){
-        this.$router.push(path)
-    },
-      logout(){
-          this.$confirm('是否退出登陆?', '提示', {
-              confirmButtonText: '确定',
-              cancelButtonText: '取消',
-              type: 'warning'
-          }).then(() => {
-              this.$message({
-                  type: 'success',
-                  message: '已退出登陆'
-              });
+        torouter(path){
+            this.$router.push(path)
+        },
+          logout(){
               this.$store.commit("logout")
+              // console.log("test:"+this.$store.state.isLogin)
               this.$router.push("/")
-          }).catch(() => {
-              this.$message({
-                  type: 'info',
-                  message: '已取消'
-              });
-          });
+
+              // this.$confirm('是否退出登陆?', '提示', {
+              //     confirmButtonText: '确定',
+              //     cancelButtonText: '取消',
+              //     type: 'warning'
+              // }).then(() => {
+              //     this.$message({
+              //         type: 'success',
+              //         message: '已退出登陆'
+              //     });
+              //
+              //
+              //
+              // }).catch(() => {
+              //     this.$message({
+              //         type: 'info',
+              //         message: '已取消'
+              //     });
+              // });
 
 
       }

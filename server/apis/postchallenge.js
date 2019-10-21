@@ -3,6 +3,9 @@ const log=require("../db/model/logdb")
 
 
 const postchallenge=async(ctx)=>{
+    if(ctx.state.tokencode==-1){
+        return
+    }
     console.log("--------------------------")
     console.log(ctx.request.body)
     let challenges=await challenge.find()

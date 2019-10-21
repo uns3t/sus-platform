@@ -1,6 +1,7 @@
 const user=require("../db/model/userdb")
 
 const signup=async(ctx)=>{
+
     let body=ctx.request.body
     console.log(body)
     let tempuser=new user({

@@ -131,7 +131,7 @@
                     this.openmsg("通知","登陆成功")
                     this.showlogin=false
                 }
-                this.$store.commit('login',this.loginform)
+                this.$store.commit('login',res.data.token)
                 this.$store.commit('userInfo',this.loginform)
                 this.$router.replace('/challenge')
             },
@@ -147,6 +147,7 @@
 
         async created() {
             if(this.$store.state.isLogin){
+                console.log(this.$store.state)
                 this.$router.replace("/notice")
             }
             let res=await $axios.get("/getnotice")

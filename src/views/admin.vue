@@ -70,7 +70,7 @@
             <span><div style="box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.3);padding: 20px;margin-left: 10px;margin-right: 10px">
                 <el-form ref="form" :model="addchaform" label-width="80px">
                   <el-form-item label="题目名">
-                    <el-input v-model="addchaform.name"></el-input>
+                    <el-input v-model="addchaform.challengename"></el-input>
                   </el-form-item>
                   <el-form-item label="题目类型">
                     <el-select v-model="addchaform.type" placeholder="选择题目类型">
@@ -106,7 +106,7 @@
             <span><div style="box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.3);padding: 20px;margin-left: 10px;margin-right: 10px">
                 <el-form ref="form" :model="deletechaform" label-width="80px">
                   <el-form-item label="题目名">
-                    <el-input v-model="deletechaform.name"></el-input>
+                    <el-input v-model="deletechaform.challengename"></el-input>
                   </el-form-item>
                 </el-form>
             </div></span>
@@ -123,7 +123,7 @@
             <span><div style="box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.3);padding: 20px;margin-left: 10px;margin-right: 10px">
                 <el-form ref="form" :model="editchaform" label-width="80px">
                   <el-form-item label="题目名">
-                    <el-input v-model="editchaform.name"></el-input>
+                    <el-input v-model="editchaform.challengename"></el-input>
                   </el-form-item>
                   <el-form-item label="题目类型">
                     <el-select v-model="editchaform.type" placeholder="选择题目类型">
