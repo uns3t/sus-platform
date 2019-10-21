@@ -59,7 +59,7 @@
             let res=await $axios.post("/postchallenge",temp)
             this.challenges=res.data
 
-            console.log(this.submitcha)
+            console.log(this.challenges)
         },
         methods:{
           async postflag(){

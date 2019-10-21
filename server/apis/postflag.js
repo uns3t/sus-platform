@@ -5,6 +5,7 @@ const log=require("../db/model/logdb")
 
 const submitflag=async(ctx)=>{
     if(ctx.state.tokencode==-1){
+        ctx.response.status=401
         return
     }
     let body=ctx.request.body

@@ -4,6 +4,7 @@ const challenge=require("../db/model/challengedb")
 
 const userscore=async(ctx)=>{
     if(ctx.state.tokencode==-1){
+        ctx.response.status=401
         return
     }
     let body=ctx.request.body
@@ -52,11 +53,16 @@ const userscore=async(ctx)=>{
     for(let temp of chas){
         forechart[temp.type][1]++
     }
-    let retlog
+    let retlog=templog.map((v,i,e)=>{
+        v.flag=undefined
+        return v
+    })
+    console.log("retlog"+retlog)
+
     let ret={
         rank:index,
         echartdata:forechart,
-        challengelog:templog
+        challengelog:retlog
     }
 
     console.log(ret)

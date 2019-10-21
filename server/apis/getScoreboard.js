@@ -2,6 +2,7 @@ const user=require("../db/model/userdb")
 
 const scoreboard=async(ctx)=>{
     if(ctx.state.tokencode==-1){
+        ctx.response.status=401
         return
     }
     let users=await user.find()
@@ -17,8 +18,16 @@ const scoreboard=async(ctx)=>{
         }
     }
     users.sort(compare)
+    let ret=users.map((v)=>{
+        v.pwd=undefined
+        v.studentid=undefined
+        v.qq=undefined
+        v.phone=undefined
+        v.name=undefined
+        return v
+    })
 
-    ctx.body=users
+    ctx.body=ret
 }
 
 module.exports=scoreboard

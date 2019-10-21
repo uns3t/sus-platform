@@ -55,7 +55,7 @@ app.use(async (ctx,next)=>{
         tokencode=0
       }
     }catch (e) {
-      ctx.throw("token解析错误")
+      ctx.response.status=401
     }
   }else{
     tokencode=-1

@@ -4,18 +4,23 @@ const log=require("../db/model/logdb")
 
 const postchallenge=async(ctx)=>{
     if(ctx.state.tokencode==-1){
+        ctx.response.status=401
         return
     }
     console.log("--------------------------")
     console.log(ctx.request.body)
     let challenges=await challenge.find()
+    let retcha=challenges.map((v)=>{
+        v.flag=undefined
+        return v
+    })
     let usercha=await log.find({username:ctx.request.body.username})
     let ret={}
-    for(let val1 of challenges){
+    for(let val1 of retcha){
         ret[val1.type]=[]
     }
 
-    for(let val1 of challenges){
+    for(let val1 of retcha){
         let solved=false
         for(let val2 of usercha){
             if(val1.challengename==val2.challengename){
