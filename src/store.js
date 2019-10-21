@@ -12,7 +12,7 @@ window.$store = new Vuex.Store({
     plugins:[vuexLocal.plugin],
     state: {
         isLogin:false,
-        userInfo:{username:'aaa'},
+        userInfo:{username:''},
         // accessToken:'',
         // currentRouteName:''
 
@@ -25,10 +25,9 @@ window.$store = new Vuex.Store({
             // state.accessToken = accessToken
         },
         logout(state){
-            state.isLogin = false,
+            state.isLogin = false
                 // Vue.prototype.$axios.defaults.headers.common['Access-Token'] = ''
             // state.accessToken = ''
-            window.$router.replace({name:'login'})
         },
         userInfo(state, userInfo){
             state.userInfo = userInfo

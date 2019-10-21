@@ -4,56 +4,64 @@
             管理
         </div>
         <div class="commoninfo">
-            <div style="height: 200px;text-align: center">
-                <div style="font-size: 20px">
-                    题目管理
-                </div>
-                <div style="font-size: 40px;color: darkmagenta;margin-top: 20px">
-                    <i class="el-icon-circle-plus" @click="openaddcha"></i>
-                    <i class="el-icon-remove" @click="opendeletecha"></i>
-                    <i class="el-icon-edit" @click="openeditcha"></i>
-                </div>
-            </div>
+            <el-tabs v-model="activeName">
+                <el-tab-pane label="题目管理" name="first">
+                    <div style="height: 200px;text-align: center">
+                        <div style="font-size: 40px;color: darkmagenta;margin-top: 20px">
+                            <i class="el-icon-circle-plus" @click="openaddcha"></i>
+                            <i class="el-icon-remove" @click="opendeletecha"></i>
+                            <i class="el-icon-edit" @click="openeditcha"></i>
+                        </div>
+                    </div>
+                </el-tab-pane>
+                <el-tab-pane label="flag提交日志" name="second">
+                    <el-table
+                            :data="flaglogs"
+                            style="width: 100%">
+                        <el-table-column
+                                type="index"
+                                width="50">
+                        </el-table-column>
+                        <el-table-column
+                                prop="username"
+                                label="队名"
+                                width="180">
+                        </el-table-column>
+                        <el-table-column
+                                prop="challengename"
+                                label="题目"
+                                width="180">
+                        </el-table-column>
+                        <el-table-column
+                                prop="type"
+                                label="类型"
+                                width="180">
+                        </el-table-column>
+                        <el-table-column
+                                prop="submittime"
+                                label="提交时间"
+                                width="250">
+                        </el-table-column>
+                        <el-table-column
+                                prop="issolved"
+                                label="是否正确"
+                                width="100">
+                        </el-table-column>
+                        <el-table-column
+                                prop="flag"
+                                label="flag"
+                        >
+                        </el-table-column>
+                    </el-table>
+                </el-tab-pane>
+                <el-tab-pane label="用户管理" name="third">角色管理</el-tab-pane>
 
-            <div style="text-align: center;font-size: 20px">flag提交日志</div>
-            <el-table
-                    :data="flaglogs"
-                    style="width: 100%">
-                <el-table-column
-                        type="index"
-                        width="50">
-                </el-table-column>
-                <el-table-column
-                        prop="username"
-                        label="队名"
-                        width="180">
-                </el-table-column>
-                <el-table-column
-                        prop="challengename"
-                        label="题目"
-                        width="180">
-                </el-table-column>
-                <el-table-column
-                        prop="submittime"
-                        label="提交时间"
-                        width="250">
-                </el-table-column>
-                <el-table-column
-                        prop="issolved"
-                        label="是否正确"
-                        width="100">
-                </el-table-column>
-                <el-table-column
-                        prop="flag"
-                        label="flag"
-                >
-                </el-table-column>
-            </el-table>
+            </el-tabs>
+
+
+
 <!--            分页功能还未完成-->
-            <el-pagination
-                    layout="prev, pager, next"
-                    :total="50">
-            </el-pagination>
+
         </div>
         <el-dialog
                 title="添加题目"
@@ -150,6 +158,7 @@
         name: "admin",
         data(){
             return{
+                activeName:"first",
                 flaglogs:[],
                 showaddcha:false,
                 showdeletecha:false,

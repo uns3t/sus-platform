@@ -83,7 +83,6 @@
             </span>
         </el-dialog>
 
-        <div style="text-align: center;height: 30px;margin-top: -30px;font-size: 13px;color: #8c939d">©2005-2019 Security Union of SEU  • All rights reserved</div>
     </div>
 </template>
 
@@ -117,11 +116,19 @@
             }
         },
         methods: {
+            openmsg(tl,msg) {
+                const h = this.$createElement;
+
+                this.$notify({
+                    title: tl,
+                    message: h('i', { style: 'color: teal'}, msg)
+                });
+            },
             async postLoginForm(){
                 let res=await $axios.post("/postlogin",this.loginform)
                 console.log(res)
                 if(res.data.code==0){
-                    alert("登陆成功")
+                    this.openmsg("通知","登陆成功")
                     this.showlogin=false
                 }
                 this.$store.commit('login',this.loginform)
@@ -132,12 +139,16 @@
                 let res=await $axios.post("/postsignup",this.signupform)
                 console.log(res)
                 if(res.data.code==0){
-                    alert("注册成功")
+                    this.openmsg("通知","注册成功")
                     this.showsignup=false
                 }
             }
         },
+
         async created() {
+            if(this.$store.state.isLogin){
+                this.$router.replace("/notice")
+            }
             let res=await $axios.get("/getnotice")
             this.notice=res.data
         }

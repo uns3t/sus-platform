@@ -20,8 +20,8 @@
                 width="60%">
             <span >
                 <div style="box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.3);font-size: 15px;padding: 20px;margin-left: 10px;margin-right: 10px">
-                    <div style="font-size: 25px;">题目描述:</div>
-                    <div style="margin-top: 20px" v-html="submitcha.value.description">
+                    <div style="font-size: 20px;">题目描述:</div>
+                    <div style="margin-top: 20px;font-size: 15px" v-html="submitcha.value.description">
 
                     </div>
                     <div style="margin-top: 50px">
@@ -82,7 +82,6 @@
 
 <style scoped>
     .block-challenge{
-        /*margin: 10px 8% 10px 8%;*/
         display: flex;
         justify-content: flex-start;
         flex-wrap: wrap;

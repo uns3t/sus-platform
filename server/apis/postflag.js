@@ -7,11 +7,30 @@ const submitflag=async(ctx)=>{
     let body=ctx.request.body
     let cha=await challenge.findOne({challengename:body.challengename})
     console.log(cha)
+    Date.prototype.Format = function(fmt){
+        var o = {
+            "M+": this.getMonth()+1,
+            "d+": this.getDate(),
+            "H+": this.getHours(),
+            "m+": this.getMinutes(),
+            "s+": this.getSeconds(),
+            "S+": this.getMilliseconds()
+        };
+        if(/(y+)/.test(fmt)){
+            fmt=fmt.replace(RegExp.$1,(this.getFullYear()+"").substr(4-RegExp.$1.length));
+        }
+        for(var k in o){
+            if (new RegExp("(" + k +")").test(fmt)){
+                fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(String(o[k]).length)));
+            }
+        }
+        return fmt;
+    };
     if(cha.flag==body.flag){
         let templog=new log({
             username:body.username,
             challengename:body.challengename,
-            submittime: new Date(),
+            submittime: new Date().Format("yyyy/MM/dd HH:mm:ss"),
             type: cha.type,
             solvedscore: cha.score,
             issolved:true,
@@ -30,7 +49,7 @@ const submitflag=async(ctx)=>{
         let templog=new log({
             username:body.username,
             challengename:body.challengename,
-            submittime: new Date(),
+            submittime: new Date().Format("yyyy/MM/dd HH:mm:ss"),
             type: cha.type,
             solvedscore: cha.score,
             issolved:false,

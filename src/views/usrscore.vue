@@ -4,11 +4,11 @@
             得分记录
         </div>
         <div class="commoninfo">
-                <div style="width: 400px;height: 500px;padding: 30px;display: inline-block">
+                <div style="width: 300px;height: 400px;padding: 30px;display: inline-block;float: left;margin-right: 50vh">
                     <div style="font-size: 25px;">{{userName}}</div>
                     <div style="font-size: 13px;color: #8c939d">{{"在排行榜中位于第 "+userRank+" 名"}}</div>
                 </div>
-                <div id="echartsUse" style="width: 600px;height: 600px;margin: 0;display: inline-block;position: absolute;right: 5vh;top: 50px"></div>
+                <div id="echartsUse" style="width: 500px;height: 500px;display: inline-block;float: left;margin-top: 40px"></div>
 
                 <div>
                     <el-table
