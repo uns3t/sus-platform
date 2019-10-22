@@ -1,5 +1,16 @@
 const challenge=require("../db/model/challengedb")
 
+const format=require("../tools/format")
+
+const reqformat={
+    challengename:String,
+    description:String,
+    type:String,
+    flag:String,
+    score:Number
+
+}
+
 const addchallenge=async(ctx)=>{
 
     if(ctx.state.tokencode!=1){
@@ -16,6 +27,21 @@ const addchallenge=async(ctx)=>{
     }
 
     let body=ctx.request.body
+
+    if(!format(reqformat,body)){
+        ctx.body={
+            msg:"数据验证未通过"
+        }
+        return
+    }
+    for(let v in body){
+        if(body[v]==''){
+            ctx.body={
+                msg:"数据不能为空"
+            }
+            return
+        }
+    }
     let check=await challenge.find({challengename:body.challengename})
     if(check.length>0){
         ctx.body={

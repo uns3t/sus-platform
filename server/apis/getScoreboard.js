@@ -1,5 +1,7 @@
 const user=require("../db/model/userdb")
 
+//不需要数据验证
+
 const scoreboard=async(ctx)=>{
     if(ctx.state.tokencode==-1){
         ctx.body={

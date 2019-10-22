@@ -1,27 +1,46 @@
 const user=require("../db/model/userdb")
-// const format=require("../tools/format")
+const format=require("../tools/format")
 
-// const reqformat={
-//     username:String,
-//     pwd:String,
-//     studentid:String,
-//     phone:String,
-//     name:String,
-//     qq:String,
-//     email:String
-//
-// }
+const reqformat={
+    username:String,
+    pwd:String,
+    pwdconfirm:String,
+    email:String,
+    studentid:String,
+    phone:String,
+    name:String,
+    qq:String,
+}
 
 const signup=async(ctx)=>{
 
     let body=ctx.request.body
 
-    // if(!format(reqformat,body)){
-    //     ctx.body={
-    //         msg:"数据验证未通过"
-    //     }
-    //     return
-    // }
+    if(!format(reqformat,body.signupform)){
+        ctx.body={
+            msg:"数据验证未通过"
+        }
+        return
+    }
+    if(body.isnotSeu){
+        if(body.signupform.username==''||body.signupform.pwd==''||body.signupform.pwdconfirm==''||body.signupform.email==''){
+            ctx.body={
+                msg:"您的注册数据不能为空"
+            }
+            return
+        }
+
+    }else {
+        for (let v in body){
+            if(body[v]==""){
+                ctx.body={
+                    msg:"注册数据不能为空"
+                }
+                return
+            }
+        }
+    }
+
     //数据验证后期再加，有些繁琐
     if(body.pwd!=body.pwdconfirm){
         ctx.body={msg:"两次密码不相同"}

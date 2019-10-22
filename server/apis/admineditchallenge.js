@@ -1,4 +1,15 @@
 const challenge=require("../db/model/challengedb")
+const format=require("../tools/format")
+
+const reqformat={
+    challengename:String,
+    description:String,
+    type:String,
+    flag:String,
+    score:Number
+
+}
+
 
 const editchallenge=async(ctx)=>{
     if(ctx.state.tokencode!=1){
@@ -14,6 +25,21 @@ const editchallenge=async(ctx)=>{
         return
     }
     let body=ctx.request.body
+    if(!format(reqformat,body)){
+        ctx.body={
+            msg:"数据验证未通过"
+        }
+        return
+    }
+    for(let v in body){
+        if(body[v]==''){
+            ctx.body={
+                msg:"数据不能为空"
+            }
+            return
+        }
+    }
+
     let tempchallenge=new challenge({
         challengename:body.challengename,
         flag: body.flag,

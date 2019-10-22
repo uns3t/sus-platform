@@ -1,5 +1,7 @@
 const log=require("../db/model/logdb")
 
+//不需要数据验证
+
 const userlog=async(ctx)=>{
     if(ctx.state.tokencode!=1){
         ctx.body={

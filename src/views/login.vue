@@ -123,12 +123,12 @@
                 signupform:{
                     username:'',
                     pwd:'',
+                    pwdconfirm:'',
+                    email:'',
                     studentid:'',
                     phone:'',
                     name:'',
                     qq:'',
-                    email:'',
-                    pwdconfirm:''
                 }
             }
         },
@@ -148,7 +148,7 @@
                 let res=await $axios.post("/postlogin",this.loginform)
                 console.log(res)
                 if(res.data.code==0){
-                    this.openmsg("通知","登陆成功")
+                    this.openmsg("通知","登陆成功,token将保存一周")
                     this.showlogin=false
                     console.log("token"+res.data.token)
                     this.$store.commit('login',res.data.token)
@@ -164,9 +164,12 @@
 
             async postsignup(){
 
-
-                console.log(this.signupform)
-                let res=await $axios.post("/postsignup",this.signupform)
+                let newsignupform={
+                    isnotSeu:this.showisseu,
+                    signupform:this.signupform
+                }
+                console.log(newsignupform)
+                let res=await $axios.post("/postsignup",newsignupform)
                 console.log(res)
                 if(res.data.code==0){
                     this.openmsg("通知","注册成功")

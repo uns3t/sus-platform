@@ -217,9 +217,24 @@
                 showaddcha:false,
                 showdeletecha:false,
                 showeditcha:false,
-                addchaform:{},
-                editchaform:{},
-                deletechaform:{}
+                addchaform:{
+                    challengename:'',
+                    description:'',
+                    type:'pwn',
+                    flag:'',
+                    score:0
+                },
+                editchaform:{
+                    challengename:'',
+                    description:'',
+                    type:'pwn',
+                    flag:'',
+                    score:0
+                },
+                deletechaform:{
+                    challengename:'',
+
+                }
 
             }
         },
@@ -277,9 +292,9 @@
                 let res=await $axios.post("/editchallenge",this.editchaform)
                 if(res.data.code===0){
                     this.showeditcha=false
-                    openmsg("通知","修改成功请进行检查")
+                    this.openmsg("通知","修改成功请进行检查")
                 }else {
-                    openmsg("通知",res.data.msg)
+                    this.openmsg("通知",res.data.msg)
 
                 }
             }

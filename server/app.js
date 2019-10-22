@@ -9,6 +9,10 @@ const mongoose=require('mongoose')
 const dbs=require('./db/config')
 const router=require('./router')
 const jwtTool=require("./tools/token")
+const static = require('koa-static');
+
+
+app.use(static(__dirname+'/public/'));
 
 
 
@@ -83,7 +87,7 @@ app.on('error', (err, ctx) => {
   console.error('server error', err, ctx)
 });
 
-app.listen(3000,()=>{
+app.listen(3000,'0.0.0.0',()=>{
   console.log("后端启动并监听 3000端口")
     });
 

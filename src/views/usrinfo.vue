@@ -42,7 +42,14 @@
         name: "information",
         data(){
             return{
-                userform:{},
+                userform:{
+                    username:'',
+                    pwd:'',
+                    pwdconfirm:'',
+                    email:'',
+                    qq:'',
+                    phone:''
+                },
                 showtran:false
             }
         },

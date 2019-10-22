@@ -1,7 +1,12 @@
 const user=require("../db/model/userdb")
 const challenge=require("../db/model/challengedb")
 const log=require("../db/model/logdb")
+const format=require("../tools/format")
 
+const reqformat={
+    challengename:String,
+    flag:String
+}
 
 const submitflag=async(ctx)=>{
     if(ctx.state.tokencode==-1){
@@ -18,6 +23,13 @@ const submitflag=async(ctx)=>{
         return
     }
     let body=ctx.request.body
+    if(!format(reqformat,body)){
+        ctx.body={
+            msg:"数据验证不通过"
+        }
+        return
+    }
+
     console.log("---------------")
     console.log(body)
     let chalog=await log.find({username:ctx.state.userinfo.username,challengename:body.challengename,issolved:true})

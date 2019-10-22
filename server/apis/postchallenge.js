@@ -2,6 +2,8 @@ const challenge=require("../db/model/challengedb")
 const log=require("../db/model/logdb")
 
 
+//不需要数据验证
+
 const postchallenge=async(ctx)=>{
 
     if(ctx.state.tokencode==-1){
@@ -16,8 +18,7 @@ const postchallenge=async(ctx)=>{
         }
         return
     }
-    console.log("--------------------------")
-    console.log(ctx.request.body)
+
     let challenges=await challenge.find()
     let retcha=challenges.map((v)=>{
         v.flag=undefined
