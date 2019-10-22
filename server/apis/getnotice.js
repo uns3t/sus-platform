@@ -15,13 +15,18 @@ marked.setOptions({
 
 
 const notice=async(ctx)=>{
-    // console.log(ctx.state.tokencode)
+    // console.log(ctx.state.userinfo.expires)
+    // console.log(Date.now())
+
     let mdExist = fs.existsSync(path.join(__dirname, '../index.md'))
     if (mdExist) {
         let data = fs.readFileSync(path.join(__dirname, '../index.md'), 'utf8')
         let html = marked(data)
         console.log(html)
-        ctx.body=html
+        ctx.body={
+            readme:html,
+
+        }
     }
 
 }

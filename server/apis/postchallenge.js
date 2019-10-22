@@ -3,9 +3,17 @@ const log=require("../db/model/logdb")
 
 
 const postchallenge=async(ctx)=>{
-    if(ctx.state.tokencode==-1){
 
-        ctx.response.status=401
+    if(ctx.state.tokencode==-1){
+        ctx.body={
+            msg:"401"
+        }
+        return
+    }
+    if(ctx.state.userinfo.expires<Date.now()){
+        ctx.body={
+            msg:"登陆Token过期，请重新登陆"
+        }
         return
     }
     console.log("--------------------------")
@@ -36,7 +44,9 @@ const postchallenge=async(ctx)=>{
 
     console.log(ret)
 
-    ctx.body=ret
+    ctx.body={
+        challenge:ret
+    }
 
 
     //需要在log中获取该用户已解答的题目

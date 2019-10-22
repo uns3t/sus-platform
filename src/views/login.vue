@@ -183,7 +183,7 @@
                 this.$router.replace("/notice")
             }
             let res=await $axios.get("/getnotice")
-            this.notice=res.data
+            this.notice=res.data.readme
         }
 
     }

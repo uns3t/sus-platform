@@ -49,7 +49,9 @@ app.use(async (ctx,next)=>{
   if(usertoken){
     try {
       let tokentemp=jwtTool.jwtdecode(usertoken)
-      console.log(tokentemp)
+      // console.log(tokentemp)
+
+
       if(tokentemp.isadmin===1){
         tokencode=1
       }else {

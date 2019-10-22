@@ -23,7 +23,7 @@
                 width="50%">
             <span >
 <!--                <div style="box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.3);font-size: 15px;padding: 20px;margin-left: 10px;margin-right: 10px">-->
-                    <div style="font-size: 25px;">{{submitcha.value.challengename}}</div>
+                    <div style="font-size: 23px;">{{submitcha.value.challengename}}</div>
                     <div style="margin-top: 20px;font-size: 15px" v-html="submitcha.value.description">
 
                     </div>
@@ -61,7 +61,7 @@
         async beforeCreate() {
 
             let res=await $axios.post("/postchallenge")
-            this.challenges=res.data
+            this.challenges=res.data.challenge
 
             console.log(this.challenges)
         },

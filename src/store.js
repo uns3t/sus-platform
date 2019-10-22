@@ -29,6 +29,7 @@ window.$store = new Vuex.Store({
             state.isLogin = false
             window.$axios.defaults.headers.common['Access-Token'] = ''
             state.accessToken = ''
+            window.$router.replace("/")
         },
         userInfo(state, userInfo){
             state.userInfo = userInfo
