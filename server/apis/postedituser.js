@@ -16,6 +16,10 @@ const edituser=async(ctx)=>{
     }
     let body=ctx.request.body
     //注意验证信息
+    if(body.pwd!=body.pwdconfirm){
+        ctx.body={msg:"两次密码不相同"}
+        return
+    }
 
     try{
         await user.where({username:ctx.state.userinfo.username}).update({pwd:body.pwd,email:body.email,qq:body.qq,phone:body.phone})

@@ -8,6 +8,34 @@ vue+koa2+mongodb
 
 基于vue-cli3 后端内容与前端src文件夹同级
 
+
+
+#### 测试情况
+
+admin添加题目:每个方向一道      ok
+
+admin修改题目:每道题目修改一次    ok
+
+注册用户:两个用户     ok
+
+登陆: 两个用户的登陆  ok
+
+修改用户信息: 两用户分别修改一次信息  ok
+
+注销: 两用户注销   ok
+
+答题:  每道题一次错误flag，一次正确flag  ok
+
+检查:排行榜情况，分数页面情况，admin用户情况，admin所有用户flag提交情况  ok
+
+admin删除题目:admin删除4道题目   ok
+
+
+
+
+
+
+
 #### 开发环境运行方法
 
 ```
@@ -91,7 +119,7 @@ yarn start
 
 ```
    全局前缀:api/
-   
+
    postflag:{
       req:{
            challengename:string,
@@ -119,7 +147,7 @@ yarn start
             challengename:string
         },
         res:{
-             code:number
+             code:number
         }               
    }
    postedituser{
@@ -144,7 +172,7 @@ yarn start
    }
    postsignup{
        req:{
-       		username：string,
+               username：string,
             pwd:string,
             name:string,
             email:string,
@@ -157,18 +185,18 @@ yarn start
      }
    }
    postchallenge{
-   		req:{
-   			null
-   		}
-   		res:{
-   			challenges:[
-   				cha:{
-   					issolved:bool,
-   					challenge:Object
-   				}
-   			]
-   		}
-       
+           req:{
+               null
+           }
+           res:{
+               challenges:[
+                   cha:{
+                       issolved:bool,
+                       challenge:Object
+                   }
+               ]
+           }
+
    }
    editchallenge{
        req:{

@@ -23,11 +23,15 @@ const signup=async(ctx)=>{
     //     return
     // }
     //数据验证后期再加，有些繁琐
-
+    if(body.pwd!=body.pwdconfirm){
+        ctx.body={msg:"两次密码不相同"}
+        return
+    }
     console.log(body)
     let check= await user.find({username: body.username})
     if(check.length>0){
         ctx.body={msg:"用户名已注册"}
+        return
     }else {
         let tempuser=new user({
             username:body.username,

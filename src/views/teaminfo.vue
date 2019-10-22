@@ -64,13 +64,9 @@
                 username: ""
             }
         },
-        computed:{
-            userName(){
-                return this.$store.state.userInfo.username
-            },
 
-        },
         methods:{
+
             tableRowClassName({row, rowIndex}) {
                 if (rowIndex%2 == 1) {
                     return 'row1';
@@ -120,7 +116,7 @@
                     },
                     indicator: [
                         { name: 'pwn', max: this.echartsdata.pwn[1]},
-                        { name: 're', max: this.echartsdata.re[1]},
+                        { name: 'reserve', max: this.echartsdata.reserve[1]},
                         { name: 'web', max: this.echartsdata.web[1]},
                         { name: 'misc', max: this.echartsdata.misc[1]},
                         { name: 'crypto', max: this.echartsdata.crypto[1]},
@@ -134,7 +130,7 @@
                     data : [
 
                         {
-                            value : [this.echartsdata.pwn[0], this.echartsdata.re[0], this.echartsdata.web[0], this.echartsdata.misc[0], this.echartsdata.crypto[0]],
+                            value : [this.echartsdata.pwn[0], this.echartsdata.reserve[0], this.echartsdata.web[0], this.echartsdata.misc[0], this.echartsdata.crypto[0]],
                             name : '完成进度'
                         },
                     ]

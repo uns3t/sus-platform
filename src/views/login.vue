@@ -171,6 +171,7 @@
                 if(res.data.code==0){
                     this.openmsg("通知","注册成功")
                     this.showsignup=false
+                    this.signupform={}
                 }else {
                     this.openmsg("错误",res.data.msg)
                 }

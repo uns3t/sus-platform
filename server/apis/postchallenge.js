@@ -32,7 +32,7 @@ const postchallenge=async(ctx)=>{
     for(let val1 of retcha){
         let solved=false
         for(let val2 of usercha){
-            if(val1.challengename==val2.challengename){
+            if(val1.challengename==val2.challengename&&val2.issolved==true){
                 solved=true
             }
         }

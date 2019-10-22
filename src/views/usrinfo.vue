@@ -47,10 +47,21 @@
             }
         },
         methods:{
+            openmsg(tl,msg) {
+                const h = this.$createElement;
+
+                this.$notify({
+                    title: tl,
+                    message: h('i', { style: 'color: teal'}, msg)
+                });
+            },
             async posteidtuser(){
                 let res=await $axios.post("/postedituser",this.userform)
                 if(res.data.code===0){
-                    alert("修改成功请重新登陆")
+                    this.openmsg("成功","信息修改成功请重新登陆")
+                    this.$store.commit("logout")
+                }else {
+                    this.openmsg("错误",res.data.msg)
                 }
             }
         },

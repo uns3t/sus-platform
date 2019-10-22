@@ -256,6 +256,7 @@
                 let res=await $axios.post("/addchallenge",this.addchaform)
                 if(res.data.code===0){
                     this.showaddcha=false
+                    this.addchaform={}
                     this.openmsg("通知","添加成功请进行检查")
                 }else {
                     this.openmsg("通知",res.data.msg)
@@ -266,6 +267,7 @@
                 if(res.data.code===0){
                     this.showdeletecha=false
                     this.openmsg("通知","删除成功请进行检查")
+                    this.deletechaform={}
                 }else {
                     this.openmsg("通知",res.data.msg)
 

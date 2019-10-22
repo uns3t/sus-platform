@@ -29,7 +29,7 @@ const userscore=async(ctx)=>{
     console.log(body)
     let forechart={
         pwn:[0,0],
-        re:[0,0],
+        reserve:[0,0],
         web:[0,0],
         misc:[0,0],
         crypto:[0,0],

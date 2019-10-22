@@ -63,7 +63,7 @@ const submitflag=async(ctx)=>{
             let tempuser=await user.findOne({username: ctx.state.userinfo.username})
             tempuser.userscore+=cha.score
             console.log(cha.solved)
-            await user.where({username:body.username}).update({userscore:tempuser.userscore})
+            await user.where({username: ctx.state.userinfo.username}).update({userscore:tempuser.userscore})
             await challenge.where({challengename:cha.challengename}).update({solved: cha.solved+1,submit:cha.submit+1})
             ctx.body={
                 code:0
