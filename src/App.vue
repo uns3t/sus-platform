@@ -37,6 +37,7 @@ export default {
 
       }
     },
+
   methods:{
 
         torouter(path){

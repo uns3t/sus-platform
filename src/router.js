@@ -10,6 +10,7 @@ import usrscore from "./views/usrscore.vue";
 import notice from "./views/notice.vue";
 import admin from "./views/admin.vue";
 import page404 from "./views/page404.vue";
+import teaminfo from "./views/teaminfo";
 
 
 
@@ -49,12 +50,20 @@ window.$router=new Router({
             component: notice
         },
         {
+            path:"/teaminfo",
+            component: teaminfo
+        },
+        {
             path:'*',
             component:page404
         }
     ]
 })
 
+const originalPush = Router.prototype.push
+Router.prototype.push = function push(location) {
+    return originalPush.call(this, location).catch(err => err)
+}
 
 window.$router.beforeEach((to, from, next) => {
     if(!store.state.isLogin&&to.path!="/"){

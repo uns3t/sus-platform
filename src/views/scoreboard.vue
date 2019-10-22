@@ -19,6 +19,12 @@
                                 prop="username"
                                 label="用户名"
                                 width="180">
+                            <template slot-scope="scope">
+                                <div @click="toteaminfo(scope.row.username)" class="teamname">
+                                    {{ scope.row.username }}
+                                </div>
+
+                            </template>
                         </el-table-column>
                         <el-table-column
                                 prop="userscore"
@@ -52,6 +58,10 @@
             console.log(this.users)
         },
         methods:{
+            toteaminfo(teamname){
+                window.teamname=teamname
+                window.$router.replace("/teaminfo")
+            },
             tableRowClassName({row, rowIndex}) {
                 if (rowIndex%2 == 1) {
                     return 'Odd-row';
@@ -65,6 +75,9 @@
 </script>
 
 <style scoped>
+    .teamname:hover{
+        cursor: pointer;
+    }
 
 </style>
 <style>

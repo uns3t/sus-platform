@@ -16,7 +16,16 @@ const userscore=async(ctx)=>{
         }
         return
     }
-    let body=ctx.state.userinfo
+    let body={}
+
+    if(Object.keys(ctx.request.body).length!=0){
+
+        body=ctx.request.body
+    }else {
+
+        body=ctx.state.userinfo
+
+    }
     console.log(body)
     let forechart={
         pwn:[0,0],

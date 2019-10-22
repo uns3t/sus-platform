@@ -54,7 +54,7 @@
 
     export default {
 
-        name: "usrscore",
+        name: "teaminfo",
         data(){
             return{
                 userRank:1,
@@ -87,8 +87,9 @@
 
             let res={}
 
-            this.username=this.$store.state.userInfo.username
-            res=await $axios.post("/postuserscore")
+            console.log(window.teamname)
+            this.username=window.teamname
+            res=await $axios.post("/postuserscore",{username:window.teamname})
 
 
 
@@ -157,3 +158,5 @@
         background: #f0f0f0;
     }
 </style>
+
+
