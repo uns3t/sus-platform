@@ -3,9 +3,12 @@
         <div style="font-size: 40px;color: #f0f0f0;position: absolute;width: 400px;left: calc(50% - 200px);text-align: center;top:20vh">
             公告
         </div>
-        <div class="commoninfo" v-html="notice">
+        <transition name="el-zoom-in-center">
+            <div class="commoninfo" v-html="notice" v-show="showtran">
 
-        </div>
+            </div>
+        </transition>
+
     </div>
 </template>
 
@@ -14,13 +17,17 @@
         name: "notice",
         data(){
             return {
-                notice:''
+                notice:'',
+                showtran:false
             }
         },
-        async created() {
+        async beforeCreate() {
             console.log(this.$store.state.accessToken)
             let res=await $axios.get("/getnotice")
             this.notice=res.data
+        },
+        mounted() {
+          this.showtran=true
         }
     }
 </script>

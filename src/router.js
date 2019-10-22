@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
 import login from "./views/login.vue";
+import store from "./store.js";
 
 import challenge from "./views/challenge.vue";
 import scoreboard from "./views/scoreboard.vue";
@@ -54,5 +55,15 @@ window.$router=new Router({
     ]
 })
 
+
+window.$router.beforeEach((to, from, next) => {
+    if(!store.state.isLogin&&to.path!="/"){
+        next({path:"/"})
+    }else {
+        next()
+    }
+})
+
+// window.$router=router
 
 export default window.$router

@@ -3,71 +3,123 @@
         <div style="font-size: 40px;color: #f0f0f0;position: absolute;width: 400px;left: calc(50% - 200px);text-align: center;top:20vh">
             管理
         </div>
-        <div class="commoninfo">
-            <el-tabs v-model="activeName">
-                <el-tab-pane label="题目管理" name="first">
-                    <div style="height: 200px;text-align: center">
-                        <div style="font-size: 40px;color: darkmagenta;margin-top: 20px">
-                            <i class="el-icon-circle-plus" @click="openaddcha"></i>
-                            <i class="el-icon-remove" @click="opendeletecha"></i>
-                            <i class="el-icon-edit" @click="openeditcha"></i>
+        <transition name="el-zoom-in-center">
+            <div class="commoninfo" v-show="showtran">
+                <el-tabs v-model="activeName">
+                    <el-tab-pane label="题目管理" name="first">
+                        <div style="height: 200px;text-align: center">
+                            <div style="font-size: 40px;color: darkmagenta;margin-top: 20px">
+                                <i class="el-icon-circle-plus" @click="openaddcha"></i>
+                                <i class="el-icon-remove" @click="opendeletecha"></i>
+                                <i class="el-icon-edit" @click="openeditcha"></i>
+                            </div>
                         </div>
-                    </div>
-                </el-tab-pane>
-                <el-tab-pane label="flag提交日志" name="second">
-                    <el-table
-                            :data="flaglogs"
-                            style="width: 100%">
-                        <el-table-column
-                                type="index"
-                                width="50">
-                        </el-table-column>
-                        <el-table-column
-                                prop="username"
-                                label="队名"
-                                width="180">
-                        </el-table-column>
-                        <el-table-column
-                                prop="challengename"
-                                label="题目"
-                                width="180">
-                        </el-table-column>
-                        <el-table-column
-                                prop="type"
-                                label="类型"
-                                width="180">
-                        </el-table-column>
-                        <el-table-column
-                                prop="submittime"
-                                label="提交时间"
-                                width="250">
-                        </el-table-column>
-                        <el-table-column
-                                prop="issolved"
-                                label="是否正确"
-                                width="100">
-                        </el-table-column>
-                        <el-table-column
-                                prop="flag"
-                                label="flag"
-                        >
-                        </el-table-column>
-                    </el-table>
-                </el-tab-pane>
-                <el-tab-pane label="用户管理" name="third">角色管理</el-tab-pane>
+                    </el-tab-pane>
+                    <el-tab-pane label="flag提交日志" name="second">
+                        <el-table
+                                :data="flaglogs"
+                                style="width: 100%">
+                            <el-table-column
+                                    type="index"
+                                    width="50">
+                            </el-table-column>
+                            <el-table-column
+                                    prop="username"
+                                    label="队名"
+                                    width="180">
+                            </el-table-column>
+                            <el-table-column
+                                    prop="challengename"
+                                    label="题目"
+                                    width="180">
+                            </el-table-column>
+                            <el-table-column
+                                    prop="type"
+                                    label="类型"
+                                    width="180">
+                            </el-table-column>
+                            <el-table-column
+                                    prop="submittime"
+                                    label="提交时间"
+                                    width="250">
+                            </el-table-column>
+                            <el-table-column
+                                    prop="issolved"
+                                    label="是否正确"
+                                    width="100">
+                            </el-table-column>
+                            <el-table-column
+                                    prop="flag"
+                                    label="flag"
+                            >
+                            </el-table-column>
+                        </el-table>
+                    </el-tab-pane>
+                    <el-tab-pane label="用户管理" name="third">
+                        <div>
+                            <el-table
+                                    :data="userlog"
+                                    style="width: 100%"
+                                    :default-sort = "{prop: 'userscore', order: 'descending'}"
+                            >
+                                <el-table-column
+                                        prop="username"
+                                        label="用户名"
+                                        width="180">
+                                </el-table-column>
+                                <el-table-column
+                                        prop="name"
+                                        label="姓名"
+                                        width="180">
+                                </el-table-column>
+                                <el-table-column
+                                        prop="studentid"
+                                        label="学号"
+                                        sortable
+                                        width="180">
+                                </el-table-column>
+                                <el-table-column
+                                        prop="email"
+                                        label="邮箱"
+                                        sortable
+                                        width="180">
+                                </el-table-column>
 
-            </el-tabs>
+                                <el-table-column
+                                        prop="phone"
+                                        label="电话"
+                                        width="180">
+                                </el-table-column>
+
+                                <el-table-column
+                                        prop="qq"
+                                        label="QQ"
+                                        sortable
+                                        width="180">
+                                </el-table-column>
+                                <el-table-column
+                                        prop="userscore"
+                                        label="分数"
+                                        sortable>
+                                </el-table-column>
+                            </el-table>
+                        </div>
+                    </el-tab-pane>
+                </el-tabs>
 
 
 
-<!--            分页功能还未完成-->
+                <!--            分页功能还未完成-->
 
-        </div>
+            </div>
+        </transition>
+
         <el-dialog
                 title="添加题目"
                 :visible.sync="showaddcha"
                 width="60%">
-            <span><div style="box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.3);padding: 20px;margin-left: 10px;margin-right: 10px">
+            <span>
+
                 <el-form ref="form" :model="addchaform" label-width="80px">
                   <el-form-item label="题目名">
                     <el-input v-model="addchaform.challengename"></el-input>
@@ -92,7 +144,7 @@
                   </el-form-item>
 
                 </el-form>
-            </div></span>
+            </span>
             <span slot="footer" class="dialog-footer">
                 <el-button type="primary" @click="postaddcha">添 加</el-button>
             </span>
@@ -102,14 +154,14 @@
         <el-dialog
                 title="删除题目"
                 :visible.sync="showdeletecha"
-                width="60%">
-            <span><div style="box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.3);padding: 20px;margin-left: 10px;margin-right: 10px">
+                width="50%">
+            <span>
                 <el-form ref="form" :model="deletechaform" label-width="80px">
                   <el-form-item label="题目名">
                     <el-input v-model="deletechaform.challengename"></el-input>
                   </el-form-item>
                 </el-form>
-            </div></span>
+            </span>
             <span slot="footer" class="dialog-footer">
                 <el-button type="primary" @click="postdeletecha">删 除</el-button>
             </span>
@@ -120,7 +172,7 @@
                 title="修改题目"
                 :visible.sync="showeditcha"
                 width="60%">
-            <span><div style="box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.3);padding: 20px;margin-left: 10px;margin-right: 10px">
+            <span>
                 <el-form ref="form" :model="editchaform" label-width="80px">
                   <el-form-item label="题目名">
                     <el-input v-model="editchaform.challengename"></el-input>
@@ -145,7 +197,7 @@
                   </el-form-item>
 
                 </el-form>
-            </div></span>
+            </span>
             <span slot="footer" class="dialog-footer">
                 <el-button type="primary" @click="posteditcha">修 改</el-button>
             </span>
@@ -158,8 +210,10 @@
         name: "admin",
         data(){
             return{
+                showtran:false,
                 activeName:"first",
                 flaglogs:[],
+                userlog:[],
                 showaddcha:false,
                 showdeletecha:false,
                 showeditcha:false,
@@ -169,10 +223,16 @@
 
             }
         },
+        mounted(){
+            this.showtran=true
+        },
         async beforeCreate() {
             let res=await $axios.get("/getuserlog")
             console.log(res)
             this.flaglogs=res.data
+            let alluser=await $axios.get("/getalluser")
+            this.userlog=alluser.data
+            console.log(this.userlog)
         },
         methods:{
             openmsg(tl,msg) {

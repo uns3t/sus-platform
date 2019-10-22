@@ -18,9 +18,12 @@
 
             </div>
         </div>
-        <div class="logincontent" v-html="notice">
+        <transition name="el-zoom-in-center">
+            <div class="logincontent" v-html="notice" v-show="showtran">
 
-        </div>
+            </div>
+        </transition>
+
 
         <el-dialog
                 title="平台身份认证"
@@ -63,6 +66,18 @@
                     <el-form-item label="邮箱">
                         <el-input placeholder="请输入邮箱" v-model="signupform.email" ></el-input>
                     </el-form-item>
+                    <el-form-item>
+                        <el-switch
+                                style="display: block"
+                                v-model="showisseu"
+                                active-color="#2ecc71"
+                                inactive-color="#bdc3c7"
+                                inactive-text="我不是东南大学的学生">
+                        </el-switch>
+                    </el-form-item>
+
+                </el-form>
+                <el-form v-show="!showisseu" label-position="right" label-width="80px" :model="signupform" size="small" style="margin: 20px">
                     <el-form-item label="学号">
                         <el-input placeholder="请输入学号" v-model="signupform.studentid" ></el-input>
                     </el-form-item>
@@ -76,7 +91,9 @@
                         <el-input placeholder="请输入您的电话" v-model="signupform.phone" ></el-input>
                     </el-form-item>
                 </el-form>
+
             </span>
+
 
             <span slot="footer" class="dialog-footer">
                 <el-button @click="postsignup" size="small">注 册</el-button>
@@ -92,11 +109,11 @@
         name: "login",
         data(){
             return{
-
+                showtran:false,
                 showlogin:false,
                 showsignup:false,
                 notice:'',
-
+                showisseu:false,
 
                 loginform:{
                     username:'',
@@ -114,6 +131,9 @@
                     pwdconfirm:''
                 }
             }
+        },
+        mounted(){
+            this.showtran=true
         },
         methods: {
             openmsg(tl,msg) {
@@ -143,6 +163,9 @@
 
 
             async postsignup(){
+
+
+                console.log(this.signupform)
                 let res=await $axios.post("/postsignup",this.signupform)
                 console.log(res)
                 if(res.data.code==0){

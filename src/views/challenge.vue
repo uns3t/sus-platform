@@ -3,24 +3,27 @@
         <div style="font-size: 40px;color: #f0f0f0;position: absolute;width: 400px;left: calc(50% - 200px);text-align: center;top:20vh">
             题库
         </div>
-        <div class="commoninfo">
-            <div v-for="(value,key) in challenges" class="block-challenge">
-                <el-divider content-position="left">{{key}}</el-divider>
-                <div v-for="cha in value" class="detail-challenge" @click="openchallenge(cha)">
-                    <span v-show="cha.solved" style="float: left"><i class="el-icon-circle-check"></i></span>
-                    <br/>
-                    <div style="font-size: 25px;display: inline-block">{{cha.value.challengename}}</div>
-                    <div style="font-size: 13px;margin-bottom: 0px">{{cha.value.score+' 分  '+cha.value.solved+'解出/'+cha.value.submit+'提交'}}</div>
+
+        <transition name="el-zoom-in-center">
+            <div class="commoninfo" v-show="showtran">
+                <div v-for="(value,key) in challenges" class="block-challenge">
+                    <el-divider content-position="left">{{key}}</el-divider>
+                    <div v-for="cha in value" class="detail-challenge" @click="openchallenge(cha)">
+                        <span v-show="cha.solved" style="float: left"><i class="el-icon-circle-check"></i></span>
+                        <br/>
+                        <div style="font-size: 25px;display: inline-block">{{cha.value.challengename}}</div>
+                        <div style="font-size: 13px;margin-bottom: 0px">{{cha.value.score+' 分  '+cha.value.solved+'解出/'+cha.value.submit+'提交'}}</div>
+                    </div>
                 </div>
             </div>
-        </div>
+        </transition>
         <el-dialog
-                :title="submitcha.value.challengename"
+                title="题目描述:"
                 :visible.sync="showsubmitdialog"
-                width="60%">
+                width="50%">
             <span >
-                <div style="box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.3);font-size: 15px;padding: 20px;margin-left: 10px;margin-right: 10px">
-                    <div style="font-size: 20px;">题目描述:</div>
+<!--                <div style="box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.3);font-size: 15px;padding: 20px;margin-left: 10px;margin-right: 10px">-->
+                    <div style="font-size: 25px;">{{submitcha.value.challengename}}</div>
                     <div style="margin-top: 20px;font-size: 15px" v-html="submitcha.value.description">
 
                     </div>
@@ -29,7 +32,7 @@
                             <el-button slot="append" @click="postflag">提交</el-button>
                         </el-input>
                     </div>
-                </div>
+<!--                </div>-->
             </span>
         </el-dialog>
     </div>
@@ -40,6 +43,7 @@
         name: "challenge",
         data(){
             return{
+                showtran:false,
                 challenges:[],
                 submitcha:{
                     value:{
@@ -50,6 +54,9 @@
                 showsubmitdialog:false,
                 flag:""
             }
+        },
+        mounted(){
+            this.showtran=true
         },
         async beforeCreate() {
 

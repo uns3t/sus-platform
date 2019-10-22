@@ -3,7 +3,8 @@
         <div style="font-size: 40px;color: #f0f0f0;position: absolute;width: 400px;left: calc(50% - 200px);text-align: center;top:20vh">
             得分记录
         </div>
-        <div class="commoninfo">
+        <transition name="el-zoom-in-center">
+            <div class="commoninfo" v-show="showtran">
                 <div style="width: 300px;height: 400px;padding: 30px;display: inline-block;float: left;margin-right: 50vh">
                     <div style="font-size: 25px;">{{userName}}</div>
                     <div style="font-size: 13px;color: #8c939d">{{"在排行榜中位于第 "+userRank+" 名"}}</div>
@@ -41,7 +42,9 @@
                         </el-table-column>
                     </el-table>
                 </div>
-        </div>
+            </div>
+        </transition>
+
     </div>
 
 </template>
@@ -50,6 +53,7 @@
     import echarts from "echarts"
 
     export default {
+        showtran:false,
         name: "usrscore",
         data(){
             return{
@@ -62,6 +66,9 @@
             userName(){
                 return this.$store.state.userInfo.username
             },
+
+        },
+        methods:{
             tableRowClassName({row, rowIndex}) {
                 if (rowIndex%2 == 1) {
                     return 'row1';
@@ -124,6 +131,7 @@
                     ]
                 }]
             })
+            this.showtran=true
         },
     }
 </script>
@@ -133,7 +141,7 @@
 </style>
 <style>
     .el-table .row0 {
-        background: oldlace;
+        background: #ffffff;
     }
 
     .el-table .row1 {

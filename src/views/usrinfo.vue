@@ -3,33 +3,36 @@
         <div style="font-size: 40px;color: #f0f0f0;position: absolute;width: 400px;left: calc(50% - 200px);text-align: center;top:20vh">
             修改信息
         </div>
-        <div class="commoninfo">
-            <div style="padding: 10px;width: 400px;margin: 0 auto">
-                <el-form label-position="left" label-width="80px" :model="userform" size="medium" style="margin: 20px">
-                    <el-form-item label="用户名">
-                        <el-input :placeholder=userform.username v-model="userform.username" :disabled="true"></el-input>
-                    </el-form-item>
-                    <el-form-item label="密码">
-                        <el-input placeholder="请输入密码" v-model="userform.pwd" show-password></el-input>
-                    </el-form-item>
-                    <el-form-item label="确认密码">
-                        <el-input placeholder="请确认密码" v-model="userform.pwdconfirm" show-password></el-input>
-                    </el-form-item>
-                    <el-form-item label="邮箱">
-                        <el-input placeholder="请输入邮箱" v-model="userform.email" ></el-input>
-                    </el-form-item>
-                    <el-form-item label="QQ">
-                        <el-input placeholder="请输入您的QQ" v-model="userform.qq" ></el-input>
-                    </el-form-item>
-                    <el-form-item label="电话">
-                        <el-input placeholder="请输入您的电话" v-model="userform.phone" ></el-input>
-                    </el-form-item>
-                    <el-form-item>
-                        <el-button @click="posteidtuser">修改信息</el-button>
-                    </el-form-item>
-                </el-form>
+        <transition name="el-zoom-in-center">
+            <div class="commoninfo" v-show="showtran">
+                <div style="padding: 10px;width: 400px;margin: 0 auto">
+                    <el-form label-position="left" label-width="80px" :model="userform" size="medium" style="margin: 20px">
+                        <el-form-item label="用户名">
+                            <el-input :placeholder=userform.username v-model="userform.username" :disabled="true"></el-input>
+                        </el-form-item>
+                        <el-form-item label="密码">
+                            <el-input placeholder="请输入密码" v-model="userform.pwd" show-password></el-input>
+                        </el-form-item>
+                        <el-form-item label="确认密码">
+                            <el-input placeholder="请确认密码" v-model="userform.pwdconfirm" show-password></el-input>
+                        </el-form-item>
+                        <el-form-item label="邮箱">
+                            <el-input placeholder="请输入邮箱" v-model="userform.email" ></el-input>
+                        </el-form-item>
+                        <el-form-item label="QQ">
+                            <el-input placeholder="请输入您的QQ" v-model="userform.qq" ></el-input>
+                        </el-form-item>
+                        <el-form-item label="电话">
+                            <el-input placeholder="请输入您的电话" v-model="userform.phone" ></el-input>
+                        </el-form-item>
+                        <el-form-item>
+                            <el-button @click="posteidtuser">修改信息</el-button>
+                        </el-form-item>
+                    </el-form>
+                </div>
             </div>
-        </div>
+        </transition>
+
     </div>
 
 </template>
@@ -39,7 +42,8 @@
         name: "information",
         data(){
             return{
-                userform:{}
+                userform:{},
+                showtran:false
             }
         },
         methods:{
@@ -53,6 +57,9 @@
         created() {
             this.userform=this.$store.state.userInfo
             console.log(this.$store.state.userInfo)
+        },
+        mounted() {
+            this.showtran=true
         }
     }
 </script>
