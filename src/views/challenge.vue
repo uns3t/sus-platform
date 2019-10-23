@@ -39,6 +39,8 @@
 </template>
 
 <script>
+    import { Notification } from 'element-ui'
+
     export default {
         name: "challenge",
         data(){
@@ -73,7 +75,7 @@
             openmsg(tl,msg) {
                 const h = this.$createElement;
 
-                this.$notify({
+                Notification({
                     title: tl,
                     message: h('i', { style: 'color: teal'}, msg)
                 });

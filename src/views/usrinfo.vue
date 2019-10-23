@@ -38,6 +38,8 @@
 </template>
 
 <script>
+    import { Notification } from 'element-ui'
+
     export default {
         name: "information",
         data(){
@@ -57,7 +59,7 @@
             openmsg(tl,msg) {
                 const h = this.$createElement;
 
-                this.$notify({
+                Notification({
                     title: tl,
                     message: h('i', { style: 'color: teal'}, msg)
                 });

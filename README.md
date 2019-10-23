@@ -4,9 +4,49 @@
 
 vue+koa2+mongodb
 
-#### 文件结构
 
-基于vue-cli3 后端内容与前端src文件夹同级
+
+#### 功能描述
+
+
+
+![打包详情](C:\Users\uns3t\Desktop\vue\susCTF\susctf\image_for_readme\build.png)
+
+spa应用首屏加载文件大小为:  1.2MB，首次加载可能需要较长时间
+
+
+
+![](C:\Users\uns3t\Desktop\vue\susCTF\susctf\image_for_readme\index.png)
+
+登陆页面，支持markdown编写公告
+
+
+
+![](C:\Users\uns3t\Desktop\vue\susCTF\susctf\image_for_readme\challenge.png)
+
+题库页面，由弹出框来显示题目详情和提交flag
+
+
+
+![](C:\Users\uns3t\Desktop\vue\susCTF\susctf\image_for_readme\scoreboard.png)
+
+排行榜页面，稍显简陋，但点击即可跳转该队伍的得分详情
+
+
+
+![](C:\Users\uns3t\Desktop\vue\susCTF\susctf\image_for_readme\socre.png)
+
+得分详情，加入了echarts的雷达图，做题清空可视化(可以当五边形战士)
+
+
+
+![](C:\Users\uns3t\Desktop\vue\susCTF\susctf\image_for_readme\man1.png)
+
+
+
+管理页面，可以添加删除修改题目，查看队伍flag提交的日志，以及所有用户的注册信息
+
+
 
 
 
@@ -30,9 +70,7 @@ admin修改题目:每道题目修改一次    ok
 
 admin删除题目:admin删除4道题目   ok
 
-
-
-
+线上测试:    ok
 
 
 
@@ -53,19 +91,9 @@ yarn start
 具体数据库名见server/db/config.js
 ```
 
-#### 完善目标
 
-1. 完善前后端接口数据
 
-2. 完善前端响应式布局
-
-3. 完善token功能
-
-4. 增加页面趣味性，增加一些梗
-
-5. 完善前端页面功能
-
-6. 完善admin认证
+#### 功能
 
 前端：
 
@@ -98,10 +126,12 @@ yarn start
 后端:
 
 1. 主要是数据库CRUD功能，以及能够提供token，以区别普通用户与admin
-
 2. 动态分数功能的实现
-
 3. 必须进行token验证
+
+
+
+#### 文件架构
 
 后端项目架构:
 

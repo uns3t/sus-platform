@@ -203,6 +203,7 @@
 </template>
 
 <script>
+    import { Notification } from 'element-ui'
     export default {
         name: "admin",
         data(){
@@ -250,7 +251,7 @@
             openmsg(tl,msg) {
                 const h = this.$createElement;
 
-                this.$notify({
+                Notification({
                     title: tl,
                     message: h('i', { style: 'color: teal'}, msg)
                 });

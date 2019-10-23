@@ -26,7 +26,8 @@
 </template>
 
 <script>
-
+    import { MessageBox } from 'element-ui';
+    import { Message } from 'element-ui';
 
 export default {
   name: 'app',
@@ -46,12 +47,12 @@ export default {
           logout(){
 
 
-              this.$confirm('是否退出登陆?', '提示', {
+              MessageBox.confirm('是否退出登陆?', '提示', {
                   confirmButtonText: '确定',
                   cancelButtonText: '取消',
                   type: 'warning'
               }).then(() => {
-                  this.$message({
+                  Message({
                       type: 'success',
                       message: '已退出登陆'
                   });
@@ -61,7 +62,7 @@ export default {
                   this.$router.push("/")
 
               }).catch(() => {
-                  this.$message({
+                  Message({
                       type: 'info',
                       message: '已取消'
                   });
