@@ -1,6 +1,13 @@
 const log=require("../db/model/logdb")
 const user=require("../db/model/userdb")
 const challenge=require("../db/model/challengedb")
+const format=require("../tools/format")
+
+const reqformat={
+    username:String,
+}
+
+
 
 const userscore=async(ctx)=>{
     if(ctx.state.tokencode==-1){
@@ -19,7 +26,7 @@ const userscore=async(ctx)=>{
     let body={}
 
     if(Object.keys(ctx.request.body).length!=0){
-
+        format(reqformat,ctx.request.body)
         body=ctx.request.body
     }else {
 

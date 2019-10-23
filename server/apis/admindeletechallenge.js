@@ -34,11 +34,14 @@ const deletechallenge=async(ctx)=>{
     }
 
     try{
-        let test=challenge.find({challengename:ctx.request.body.challengename})
+        let test=await challenge.find({challengename:ctx.request.body.challengename})
+        console.log("----------")
+        console.log(test.length)
         if(test.length==0){
             ctx.body={
                 msg:"题目不存在"
             }
+            return
         }
         await challenge.where({challengename:ctx.request.body.challengename}).remove()
         await log.where({challengename:ctx.request.body.challengename}).remove()

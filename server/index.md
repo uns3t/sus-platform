@@ -1,5 +1,7 @@
 ## SUS Platform 文档
 
+经过按需引入和图片压缩，打包文件缩小30%
+
 #### 技术栈
 
 vue+koa2+mongodb

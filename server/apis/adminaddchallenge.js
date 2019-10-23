@@ -7,7 +7,7 @@ const reqformat={
     description:String,
     type:String,
     flag:String,
-    score:Number
+    score:String
 
 }
 

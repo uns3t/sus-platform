@@ -63,7 +63,10 @@
                 });
             },
             async posteidtuser(){
-                let res=await $axios.post("/postedituser",this.userform)
+                let temp={
+                    userform:this.userform
+                }
+                let res=await $axios.post("/postedituser",temp)
                 if(res.data.code===0){
                     this.openmsg("成功","信息修改成功请重新登陆")
                     this.$store.commit("logout")

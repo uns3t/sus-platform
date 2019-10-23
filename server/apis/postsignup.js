@@ -31,8 +31,8 @@ const signup=async(ctx)=>{
         }
 
     }else {
-        for (let v in body){
-            if(body[v]==""){
+        for (let v in body.signupform){
+            if(body.signupform[v]==""){
                 ctx.body={
                     msg:"注册数据不能为空"
                 }
@@ -42,24 +42,24 @@ const signup=async(ctx)=>{
     }
 
     //数据验证后期再加，有些繁琐
-    if(body.pwd!=body.pwdconfirm){
+    if(body.signupform.pwd!=body.signupform.pwdconfirm){
         ctx.body={msg:"两次密码不相同"}
         return
     }
     console.log(body)
-    let check= await user.find({username: body.username})
+    let check= await user.find({username: body.signupform.username})
     if(check.length>0){
         ctx.body={msg:"用户名已注册"}
         return
     }else {
         let tempuser=new user({
-            username:body.username,
-            pwd:body.pwd,      //注意后面加上md5
-            studentid:body.studentid,
-            phone:body.phone,
-            name:body.name,
-            qq:body.qq,
-            email:body.email
+            username:body.signupform.username,
+            pwd:body.signupform.pwd,      //注意后面加上md5
+            studentid:body.signupform.studentid,
+            phone:body.signupform.phone,
+            name:body.signupform.name,
+            qq:body.signupform.qq,
+            email:body.signupform.email
         })
 
         try{

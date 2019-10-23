@@ -104,7 +104,7 @@
 </template>
 
 <script>
-    import "../assets/image/bg3.jpg"
+
     export default {
         name: "login",
         data(){

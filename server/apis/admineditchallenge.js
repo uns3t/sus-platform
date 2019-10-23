@@ -6,7 +6,7 @@ const reqformat={
     description:String,
     type:String,
     flag:String,
-    score:Number
+    score:String
 
 }
 
@@ -39,11 +39,12 @@ const editchallenge=async(ctx)=>{
             return
         }
     }
-    let test=challenge.find({challengename:ctx.request.body.challengename})
+    let test=await challenge.find({challengename:ctx.request.body.challengename})
     if(test.length==0){
         ctx.body={
             msg:"题目不存在"
         }
+        return
     }
     let tempchallenge=new challenge({
         challengename:body.challengename,

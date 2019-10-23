@@ -108,9 +108,6 @@
                 </el-tabs>
 
 
-
-                <!--            分页功能还未完成-->
-
             </div>
         </transition>
 
@@ -222,14 +219,14 @@
                     description:'',
                     type:'pwn',
                     flag:'',
-                    score:0
+                    score:''
                 },
                 editchaform:{
                     challengename:'',
                     description:'',
                     type:'pwn',
                     flag:'',
-                    score:0
+                    score:''
                 },
                 deletechaform:{
                     challengename:'',
