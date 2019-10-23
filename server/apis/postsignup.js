@@ -40,6 +40,9 @@ const signup=async(ctx)=>{
             }
         }
     }
+    for(let v in body.signupform){
+        body.signupform[v]=body.signupform[v].replace(/\s*/g,"");
+    }
 
     //数据验证后期再加，有些繁琐
     if(body.signupform.pwd!=body.signupform.pwdconfirm){

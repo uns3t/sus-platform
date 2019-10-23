@@ -39,6 +39,7 @@ const editchallenge=async(ctx)=>{
             return
         }
     }
+
     let test=await challenge.find({challengename:ctx.request.body.challengename})
     if(test.length==0){
         ctx.body={

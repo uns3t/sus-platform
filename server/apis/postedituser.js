@@ -31,6 +31,9 @@ const edituser=async(ctx)=>{
         }
         return
     }
+    for(let v in body.userform){
+        body.userform[v]=body.userform[v].replace(/\s*/g,"");
+    }
     //注意验证信息
     console.log(body)
     if(body.userform.pwd!=body.userform.pwdconfirm){

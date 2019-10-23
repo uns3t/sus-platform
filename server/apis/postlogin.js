@@ -24,6 +24,9 @@ const login=async(ctx)=>{
             }
             return
         }
+        for(let v in body){
+            body[v]=body[v].replace(/\s*/g,"");
+        }
         if(body.username==susconfig.admin.username&&body.pwd==susconfig.admin.pwd){
             let info={
                 username:body.username,

@@ -5,8 +5,8 @@ import { Notification } from 'element-ui';
 const Axiosp={
     install:(Vue)=>{
         window.$axios=axio.create({
-                // baseURL : 'http://localhost:3000/api',
-                baseURL : 'http://uns3t.cn:3000/api',
+                baseURL : 'http://localhost:3000/api',
+                // baseURL : 'http://uns3t.cn:3000/api',
                 transformResponse: function (data) {
                     function openmsg(tl,msg) {
                         Notification({

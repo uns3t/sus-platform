@@ -23,11 +23,15 @@ const submitflag=async(ctx)=>{
         return
     }
     let body=ctx.request.body
+
     if(!format(reqformat,body)){
         ctx.body={
             msg:"数据验证不通过"
         }
         return
+    }
+    for(let v in body){
+        body[v]=body[v].replace(/\s*/g,"");
     }
 
     console.log("---------------")
