@@ -10,37 +10,37 @@ vue+koa2+mongodb
 
 
 
-![打包详情](C:\Users\uns3t\Desktop\vue\susCTF\susctf\image_for_readme\build.png)
+![打包详情](./image_for_readme/build.png)
 
 spa应用首屏加载文件大小为:  1.2MB，首次加载可能需要较长时间
 
 
 
-![](C:\Users\uns3t\Desktop\vue\susCTF\susctf\image_for_readme\index.png)
+![](./image_for_readme/index.png)
 
 登陆页面，支持markdown编写公告
 
 
 
-![](C:\Users\uns3t\Desktop\vue\susCTF\susctf\image_for_readme\challenge.png)
+![](./image_for_readme/challenge.png)
 
 题库页面，由弹出框来显示题目详情和提交flag
 
 
 
-![](C:\Users\uns3t\Desktop\vue\susCTF\susctf\image_for_readme\scoreboard.png)
+![](./image_for_readme/scoreboard.png)
 
 排行榜页面，稍显简陋，但点击即可跳转该队伍的得分详情
 
 
 
-![](C:\Users\uns3t\Desktop\vue\susCTF\susctf\image_for_readme\socre.png)
+![](./image_for_readme/socre.png)
 
 得分详情，加入了echarts的雷达图，做题清空可视化(可以当五边形战士)
 
 
 
-![](C:\Users\uns3t\Desktop\vue\susCTF\susctf\image_for_readme\man1.png)
+![](./image_for_readme/man1.png)
 
 
 
