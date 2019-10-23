@@ -57,9 +57,6 @@ const userscore=async(ctx)=>{
     let templog=await log.find({username:body.username})
 
     for(let temp of templog){
-        if(!forechart[temp.type]){
-            forechart[temp.type]=[0,0]
-        }
         if(temp.issolved){
             forechart[temp.type][0]+=1
         }
@@ -67,7 +64,7 @@ const userscore=async(ctx)=>{
 
     let chas=await challenge.find()
     for(let temp of chas){
-        forechart[temp.type][1]++
+        forechart[temp.type][1]+=1
     }
 
     let newrelog=[]
