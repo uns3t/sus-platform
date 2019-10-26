@@ -83,18 +83,15 @@
 
             let res={}
 
-            console.log(window.teamname)
             this.username=window.teamname
             res=await $axios.post("/postuserscore",{username:window.teamname})
 
 
 
-            console.log(res)
             this.userRank=res.data.rank
             this.challengelog=res.data.challengelog
             this.echartsdata=res.data.echartdata
             var myChart = echarts.init(document.getElementById('echartsUse'));
-            console.log(this.echartsdata)
 
             myChart.setOption({
                 title: {

@@ -70,7 +70,6 @@
                 let res=await $axios.post("/postchallenge")
                 this.challenges=res.data.challenge
 
-                console.log(this.challenges)
             },
             openmsg(tl,msg) {
                 const h = this.$createElement;
@@ -86,9 +85,7 @@
                   challengename:this.submitcha.value.challengename,
                   flag:this.flag,
               }
-              console.log(temp)
               let res=await $axios.post("/postflag",temp)
-              console.log(res.data)
               if(res.data.code===0){
                   this.openmsg("通知","解答成功")
                   this.showsubmitdialog=false

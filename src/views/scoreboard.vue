@@ -55,7 +55,6 @@
         async beforeCreate() {
             let res=await $axios.get("/getscoreboard")
             this.users=res.data
-            console.log(this.users)
         },
         methods:{
             toteaminfo(teamname){

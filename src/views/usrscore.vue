@@ -92,12 +92,10 @@
 
 
 
-            console.log(res)
             this.userRank=res.data.rank
             this.challengelog=res.data.challengelog
             this.echartsdata=res.data.echartdata
             var myChart = echarts.init(document.getElementById('echartsUse'));
-            console.log(this.echartsdata)
 
             myChart.setOption({
                 title: {

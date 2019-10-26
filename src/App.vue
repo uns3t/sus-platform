@@ -114,7 +114,7 @@ export default {
         border-radius: 15px;
         padding: 20px;
         position: relative;
-        top: -10vh;
+        top: -8vh;
         z-index: 10px;
         background: #ffffff;
     }

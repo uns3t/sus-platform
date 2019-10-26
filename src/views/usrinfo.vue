@@ -79,7 +79,6 @@
         },
         created() {
             this.userform=this.$store.state.userInfo
-            console.log(this.$store.state.userInfo)
         },
         mounted() {
             this.showtran=true

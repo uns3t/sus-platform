@@ -22,7 +22,6 @@
             }
         },
         async beforeCreate() {
-            console.log(this.$store.state.accessToken)
             let res=await $axios.get("/getnotice")
             this.notice=res.data.readme
         },

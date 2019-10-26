@@ -3,8 +3,7 @@ import Router from "vue-router";
 import login from "./views/login.vue";
 import store from "./store.js";
 
-import challenge from "./views/challenge.vue";
-import scoreboard from "./views/scoreboard.vue";
+
 import usrinfo from "./views/usrinfo.vue";
 import usrscore from "./views/usrscore.vue";
 import notice from "./views/notice.vue";
@@ -23,39 +22,40 @@ window.$router=new Router({
     routes:[
         {
             path:"/",
-            component: login
+            component: resolve => require(['./views/login.vue'], resolve),
         },
         {
             path:"/scoreboard",
-            component: scoreboard
+            component: resolve => require(['./views/scoreboard.vue'], resolve),
+
         },
         {
             path:"/challenge",
-            component: challenge
+            component: resolve => require(['./views/challenge.vue'], resolve),
         },
         {
             path:"/usrinfo",
-            component: usrinfo
+            component: resolve => require(['./views/usrinfo.vue'], resolve),
         },
         {
             path:"/usrscore",
-            component: usrscore
+            component: resolve => require(['./views/usrscore.vue'], resolve),
         },
         {
             path:"/admin",
-            component: admin
+            component: resolve => require(['./views/admin.vue'], resolve),
         },
         {
             path:"/notice",
-            component: notice
+            component: resolve => require(['./views/notice.vue'], resolve),
         },
         {
             path:"/teaminfo",
-            component: teaminfo
+            component: resolve => require(['./views/teaminfo.vue'], resolve),
         },
         {
             path:'*',
-            component:page404
+            component:resolve => require(['./views/page404.vue'], resolve),
         }
     ]
 })

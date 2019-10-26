@@ -241,11 +241,9 @@
         },
         async beforeCreate() {
             let res=await $axios.get("/getuserlog")
-            console.log(res)
             this.flaglogs=res.data
             let alluser=await $axios.get("/getalluser")
             this.userlog=alluser.data
-            console.log(this.userlog)
         },
         methods:{
             openmsg(tl,msg) {
