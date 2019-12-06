@@ -80,7 +80,9 @@ const submitflag=async(ctx)=>{
             tempuser.userscore+=cha.score
             console.log(cha.solved)
             await user.where({username: ctx.state.userinfo.username}).update({userscore:tempuser.userscore,time:new Date()})
-            await challenge.where({challengename:cha.challengename}).update({solved: cha.solved+1,submit:cha.submit+1})
+            let chanummer=parseInt(cha.score*0.98)+1
+
+            await challenge.where({challengename:cha.challengename}).update({solved: cha.solved+1,submit:cha.submit+1,score:chanummer})
             ctx.body={
                 code:0
             }
