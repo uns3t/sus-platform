@@ -3,10 +3,11 @@
         <div style="font-size: 40px;color: #f0f0f0;position: absolute;width: 400px;left: calc(50% - 200px);text-align: center;top:20vh">
             修改信息
         </div>
+
         <transition name="el-zoom-in-center">
             <div class="commoninfo" v-show="showtran">
                 <div style="padding: 10px;width: 400px;margin: 0 auto">
-                    <el-form label-position="left" label-width="80px" :model="userform" size="medium" style="margin: 20px">
+                    <el-form label-position="left" label-width="80px" :model="userform" size="medium" style="margin: 10px;width: 300px">
                         <el-form-item label="用户名">
                             <el-input :placeholder=userform.username v-model="userform.username" :disabled="true"></el-input>
                         </el-form-item>

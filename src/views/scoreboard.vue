@@ -28,7 +28,7 @@
                         </el-table-column>
                         <el-table-column
                                 prop="userscore"
-                                label="分数"
+                                label="战斗力"
                         >
                         </el-table-column>
 

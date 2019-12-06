@@ -1,7 +1,7 @@
 const susconfig={
     admin:{
-        username:"admin",
-        pwd:"admin"
+        username:"sus2019",
+        pwd:"*/20191111"
     },
     msg:{
         msg_overdue:"",     //token过期

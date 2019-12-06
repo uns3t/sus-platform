@@ -105,8 +105,36 @@
                             </el-table>
                         </div>
                     </el-tab-pane>
-                </el-tabs>
 
+
+                    <el-tab-pane label="SUSrc" name="fourth">
+                        <div>
+                            <el-table
+                                    :data="susrclog"
+                                    style="width: 100%"
+                                    :default-sort = "{prop: 'time', order: 'descending'}"
+                            >
+                                <el-table-column
+                                        prop="type"
+                                        label="类型"
+                                        width="180">
+                                </el-table-column>
+
+                                <el-table-column
+                                        prop="time"
+                                        label="提交时间"
+                                        sortable
+                                        width="180">
+                                </el-table-column>
+                                <el-table-column
+                                        prop="description"
+                                        label="详细"
+                                        >
+                                </el-table-column>
+                            </el-table>
+                        </div>
+                    </el-tab-pane>
+                </el-tabs>
 
             </div>
         </transition>
@@ -232,8 +260,8 @@
                 deletechaform:{
                     challengename:'',
 
-                }
-
+                },
+                susrclog: [],
             }
         },
         mounted(){
@@ -244,6 +272,9 @@
             this.flaglogs=res.data
             let alluser=await $axios.get("/getalluser")
             this.userlog=alluser.data
+            let allsrc=await $axios.get("/admingetsrc")
+            this.susrclog=allsrc.data
+            console.log(allsrc)
         },
         methods:{
             openmsg(tl,msg) {

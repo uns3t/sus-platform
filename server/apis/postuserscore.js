@@ -23,6 +23,7 @@ const userscore=async(ctx)=>{
         }
         return
     }
+
     let body={}
 
     if(Object.keys(ctx.request.body).length!=0){

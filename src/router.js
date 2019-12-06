@@ -2,15 +2,13 @@ import Vue from "vue";
 import Router from "vue-router";
 import login from "./views/login.vue";
 import store from "./store.js";
-
-
 import usrinfo from "./views/usrinfo.vue";
 import usrscore from "./views/usrscore.vue";
 import notice from "./views/notice.vue";
 import admin from "./views/admin.vue";
 import page404 from "./views/page404.vue";
 import teaminfo from "./views/teaminfo";
-
+import susrc from "./views/susrc";
 
 
 
@@ -54,6 +52,10 @@ window.$router=new Router({
             component: resolve => require(['./views/teaminfo.vue'], resolve),
         },
         {
+            path:"/susrc",
+            component: resolve => require(['./views/susrc.vue'], resolve),
+        },
+        {
             path:'*',
             component:resolve => require(['./views/page404.vue'], resolve),
         }
@@ -73,6 +75,5 @@ window.$router.beforeEach((to, from, next) => {
     }
 })
 
-// window.$router=router
 
 export default window.$router

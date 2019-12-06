@@ -12,6 +12,7 @@
                   <li class="pure-menu-item" @click="torouter('/notice')"><a class="pure-menu-link">公告</a></li>
                   <li class="pure-menu-item" @click="torouter('/usrscore')"><a class="pure-menu-link">得分详情</a></li>
                   <li class="pure-menu-item" @click="torouter('/usrinfo')"><a class="pure-menu-link">用户信息</a></li>
+                  <li class="pure-menu-item" @click="torouter('/susrc')"><a class="pure-menu-link">bug与漏洞提交</a></li>
                   <li class="pure-menu-item" @click="logout"><a class="pure-menu-link">登出</a></li>
               </ul>
           </div>

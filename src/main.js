@@ -40,8 +40,6 @@ Vue.use(Divider)
 
 
 
-
-
 Vue.config.productionTip = false
 
 

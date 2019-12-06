@@ -13,6 +13,8 @@ const postsignup=require('./apis/postsignup')
 const getlogout=require('./apis/getlogout')
 const postuserscore=require('./apis/postuserscore')
 const postchallenge=require('./apis/postchallenge')
+const postsusrc=require('./apis/postsusrc')
+const admingetsrc=require('./apis/admingetsrc')
 
 
 const router=new Router({
@@ -28,6 +30,7 @@ router.post("/postsignup",postsignup)
 router.post("/postchallenge",postchallenge)
 router.post("/editchallenge",editchallenge)
 router.post("/postuserscore",postuserscore)
+router.post("/postsusrc",postsusrc)
 
 
 router.get("/getalluser",getalluser)
@@ -35,6 +38,7 @@ router.get("/getnotice",getnotice)
 router.get("/getscoreboard",getscoreboard)
 router.get("/getuserlog",getuserlog)
 router.get("/getlogout",getlogout)
+router.get("/admingetsrc",admingetsrc)
 
 
 module.exports=router

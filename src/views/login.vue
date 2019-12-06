@@ -6,9 +6,10 @@
                 <img src="../assets/image/logo1.png" style="max-width: 50px;margin-bottom: -15px">
                 <div class="logo1">SUS Platform 2019</div>
             </div>
-            <div style="margin:0 auto;margin-top: 50px;width: 300px;">
-                <div style="text-align: center;font-size: 45px;color: #f0f0f0;margin-bottom: 10px">know it and hack it</div>
-                <div style="text-align: center;font-size: 18px;color: #f0f0f0;margin-bottom: 30px">
+            <div style="margin:0 auto;margin-top: 100px;width: 400px;">
+<!--                <div style="text-align: center;font-size: 45px;color: #f0f0f0;margin-bottom: 10px">know it and hack it</div>-->
+                <div style="text-align: center;font-size: 30px;color: #f0f0f0;margin-bottom: 10px">我会穿过那七大海洋，将我的爱意带到你身边</div>
+                <div style="text-align: center;font-size: 18px;color: #f0f0f0;margin-bottom: 30px;color: #8c939d">
                     东南大学SUSCTF竞赛平台
                 </div>
                 <div style="text-align: center">

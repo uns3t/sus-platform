@@ -31,7 +31,7 @@ const submitflag=async(ctx)=>{
         return
     }
     for(let v in body){
-        body[v]=body[v].replace(/\s*/g,"");
+        body[v]=body[v].replace(/\s*/g,"");        //过滤空格
     }
 
     console.log("---------------")

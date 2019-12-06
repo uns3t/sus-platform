@@ -10,7 +10,6 @@ const reqformat={
 
 const login=async(ctx)=>{
     let body=ctx.request.body
-    console.log(body)
     if(!format(reqformat,body)){
         ctx.body={
             msg:"数据验证未通过"
