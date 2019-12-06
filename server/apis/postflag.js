@@ -45,7 +45,7 @@ const submitflag=async(ctx)=>{
     }else {
         let cha=await challenge.findOne({challengename:body.challengename})
 
-        console.log(cha)
+
         Date.prototype.Format = function(fmt){
             var o = {
                 "M+": this.getMonth()+1,
@@ -79,7 +79,7 @@ const submitflag=async(ctx)=>{
             let tempuser=await user.findOne({username: ctx.state.userinfo.username})
             tempuser.userscore+=cha.score
             console.log(cha.solved)
-            await user.where({username: ctx.state.userinfo.username}).update({userscore:tempuser.userscore})
+            await user.where({username: ctx.state.userinfo.username}).update({userscore:tempuser.userscore,time:new Date()})
             await challenge.where({challengename:cha.challengename}).update({solved: cha.solved+1,submit:cha.submit+1})
             ctx.body={
                 code:0
@@ -102,8 +102,6 @@ const submitflag=async(ctx)=>{
             }
         }
     }
-
-
 }
 
 module.exports=submitflag

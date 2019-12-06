@@ -79,7 +79,8 @@
 
 <style scoped>
     .banner{
-        width: 80%;font-family: SFMono-Regular,Menlo,Monaco,Consolas,'Liberation Mono','Courier New',monospace;
+        width: 80%;
+        font-family: SFMono-Regular,Menlo,Monaco,Consolas,'Liberation Mono','Courier New',monospace;
         margin-bottom: 30px;
         padding: 20px;
     }

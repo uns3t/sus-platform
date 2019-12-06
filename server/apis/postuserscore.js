@@ -50,7 +50,16 @@ const userscore=async(ctx)=>{
             return 1;
         } else if (val1 > val2) {
             return -1;
-        } else {
+        } else if(val1==val2){
+            if (obj1.time > obj2.time) {
+                return 1;
+            } else if (obj1.time < obj2.time) {
+                return -1;
+            } else {
+                return 0;
+            }
+        }
+        else {
             return 0;
         }
     }

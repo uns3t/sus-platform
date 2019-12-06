@@ -8,7 +8,8 @@ let userSchema=new mongoose.Schema({
     phone:{type:String},
     name:{type:String},
     qq:{type:String},
-    email:{type:String}
+    email:{type:String},
+    time:{type:String}
 })
 
 module.exports=mongoose.model("user",userSchema)

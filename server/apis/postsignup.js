@@ -55,6 +55,8 @@ const signup=async(ctx)=>{
         ctx.body={msg:"用户名已注册"}
         return
     }else {
+
+
         let tempuser=new user({
             username:body.signupform.username,
             pwd:body.signupform.pwd,      //注意后面加上md5
@@ -62,7 +64,8 @@ const signup=async(ctx)=>{
             phone:body.signupform.phone,
             name:body.signupform.name,
             qq:body.signupform.qq,
-            email:body.signupform.email
+            email:body.signupform.email,
+            time:new Date()
         })
 
         try{

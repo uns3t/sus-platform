@@ -234,6 +234,8 @@
         top: -5vh;
         z-index: 10px;
         background: #ffffff;
+        font-family: SFMono-Regular,Menlo,Monaco,Consolas,'Liberation Mono','Courier New',monospace;
+
     }
 
 

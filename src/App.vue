@@ -16,9 +16,7 @@
                   <li class="pure-menu-item" @click="logout"><a class="pure-menu-link">登出</a></li>
               </ul>
           </div>
-          <div>
 
-          </div>
       </header>
       <router-view></router-view>
       <div style="text-align: center;height: 30px;margin-top: -30px;font-size: 13px;color: #8c939d">©2005-2019 Security Union of SEU  • All rights reserved</div>
