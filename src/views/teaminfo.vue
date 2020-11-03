@@ -1,9 +1,11 @@
 <template>
+
     <div>
         <div style="font-size: 40px;color: #f0f0f0;position: absolute;width: 400px;left: calc(50% - 200px);text-align: center;top:20vh">
             得分记录
         </div>
         <transition name="el-zoom-in-center">
+
             <div class="commoninfo" v-show="showtran">
                 <div style="width: 300px;height: 400px;padding: 30px;display: inline-block;float: left;margin-right: 50vh">
                     <div style="font-size: 25px;">{{username}}</div>
@@ -46,22 +48,25 @@
         </transition>
 
     </div>
-
+	
 </template>
 
 <script>
     import echarts from "../echart"
-
     export default {
-
+	components:{
+	
+	},
         name: "teaminfo",
         data(){
             return{
+                
                 userRank:1,
                 challengelog:[],
                 echartsdata:{},
                 showtran:false,
-                username: ""
+                username: "",
+                
             }
         },
 
@@ -79,6 +84,12 @@
         async created(){
 
         },
+        clkt: function (idx) {
+        console.log('idx: ' + idx)
+      },
+      	clickMainBtn: function () {
+        console.log('clickMainBtn')
+      },
         async mounted(){
 
             let res={}

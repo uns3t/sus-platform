@@ -1,8 +1,6 @@
-
-
 const logout=async(ctx)=>{
 
-    if(ctx.state.tokencode==-1){
+    if(ctx.state.tokencode===-1){
         ctx.body={
             msg:"401"
         }

@@ -1,5 +1,5 @@
 const challenge=require("../db/model/challengedb")
-
+const verify = require("../tools/verify")
 const format=require("../tools/format")
 
 const reqformat={
@@ -13,16 +13,8 @@ const reqformat={
 
 const addchallenge=async(ctx)=>{
 
-    if(ctx.state.tokencode!=1){
-        ctx.body={
-            msg:"401"
-        }
-        return
-    }
-    if(ctx.state.userinfo.expires<Date.now()){
-        ctx.body={
-            msg:"登陆Token过期，请重新登陆"
-        }
+    if(!verify.admin_login(ctx))
+    {
         return
     }
 
@@ -52,6 +44,7 @@ const addchallenge=async(ctx)=>{
             challengename:body.challengename,
             flag: body.flag,
             score: body.score,
+            originscore: body.score,
             type: body.type,
             description: body.description,
         })
@@ -61,7 +54,7 @@ const addchallenge=async(ctx)=>{
                 code:0
             }
         }catch (e) {
-
+            console.log(e)
         }
     }
 

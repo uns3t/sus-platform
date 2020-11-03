@@ -2,7 +2,8 @@
 node_modules
 /dist
 /server/node_modules
-
+_cacache
+_locks
 
 *.mp4
 # local env files

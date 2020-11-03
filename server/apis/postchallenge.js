@@ -1,23 +1,23 @@
 const challenge=require("../db/model/challengedb")
 const log=require("../db/model/logdb")
-
+const verify=require("../tools/verify")
 
 //不需要数据验证
 
 const postchallenge=async(ctx)=>{
 
-    if(ctx.state.tokencode==-1){
-        ctx.body={
-            msg:"401"
-        }
+    if(!verify.user_login(ctx))
+    {
         return
     }
-    if(ctx.state.userinfo.expires<Date.now()){
-        ctx.body={
-            msg:"登陆Token过期，请重新登陆"
-        }
-        return
-    }
+    // const start_time = "2020-10-17 10:00:00"
+    // if(ctx.state.tokencode !== 1 && Date.now() < new Date(start_time).getTime())
+    // {
+    //     ctx.body = {
+    //         msg: "比赛尚未开始"
+    //     }
+    //     return
+    // }
 
     let challenges=await challenge.find()
     let retcha=challenges.map((v)=>{

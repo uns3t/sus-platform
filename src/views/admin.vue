@@ -134,6 +134,82 @@
                             </el-table>
                         </div>
                     </el-tab-pane>
+
+                    <el-tab-pane label="榜单" name="fivith">
+
+                        <div>
+                            <el-radio-group v-model="radio" size="medium" @change="changeTheme" fill="#66b1ff">
+                            <el-radio-button :label="1">20级新生榜</el-radio-button>
+                            <el-radio-button :label="2">总 榜</el-radio-button>
+                            </el-radio-group>
+                            <el-button @click="export2Excel" type="primary" icon="el-icon-save" >下载</el-button>
+                            <el-table
+                            id="out-table"
+                            stripe
+                            border style="margin-bottom:14px;width: 100%;font-size: 20px;"
+                            :data="users"
+                            :row-class-name="tableRowClassName">
+                        <el-table-column
+                                property="index"
+                                label="排名"
+                                width="100">
+                        </el-table-column>
+                        <el-table-column
+                                property="username"
+                                label="用户名"
+                                width="200">
+                            <template slot-scope="scope">
+                                <div @click="toteaminfo(scope.row.username)" class="teamname">
+                                    {{ scope.row.username }}
+                                </div>
+
+                            </template>
+                        </el-table-column>
+                        <el-table-column
+                                v-if="showTwenty"
+                                property="grade"
+                                label="本/研"
+                        ></el-table-column>
+                        <el-table-column
+                                sortable
+                                property="pwn"
+                                label="Pwn"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                                sortable
+                                property="web"
+                                label="Web"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                                sortable
+                                property="reserve"
+                                label="Reserve"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                                sortable
+                                property="misc"
+                                label="Misc"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                                sortable
+                                property="crypto"
+                                label="Crypto"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                                sortable
+                                property="userscore"
+                                label="战斗力"
+                        >
+                        </el-table-column>
+                    </el-table>
+                        </div>
+                    </el-tab-pane>
+
                 </el-tabs>
 
             </div>
@@ -231,6 +307,8 @@
 </template>
 
 <script>
+    import FileSaver from 'file-saver'
+    import XLSX from 'xlsx'
     import { Notification } from 'element-ui'
     export default {
         name: "admin",
@@ -240,6 +318,7 @@
                 activeName:"first",
                 flaglogs:[],
                 userlog:[],
+                users:[],
                 showaddcha:false,
                 showdeletecha:false,
                 showeditcha:false,
@@ -274,9 +353,50 @@
             this.userlog=alluser.data
             let allsrc=await $axios.get("/admingetsrc")
             this.susrclog=allsrc.data
-            console.log(allsrc)
+            //console.log(allsrc)
         },
         methods:{
+            changeTheme(val) {
+                if(val=='1'){
+                    this.listTwenty()		
+                }else{
+                    this.listAll()
+                }
+      	    },
+            async listTwenty(){
+                let res=await $axios.get("/getscoreboard")
+                this.showTwenty = true
+                this.total1 = res.data.theTwentyTot
+                this.users=res.data.theTwenty
+            },
+            async listAll(){
+                let res=await $axios.get("/getscoreboard")
+                this.showTwenty = false
+                this.users=res.data.theRet
+                this.total1 = res.data.theTot
+            },
+            export2Excel: function() {
+                let tables = document.getElementById("out-table");
+                let table_book = this.$XLSX.utils.table_to_book(tables);
+                var table_write = this.$XLSX.write(table_book, {
+                    bookType: "xlsx",
+                    bookSST: true,
+                    type: "array"
+                });
+                try {
+                    let FileName=undefined
+                    if(this.radio=='1'){
+                        FileName="20GradeRes.xlsx"
+                    }else{
+                        FileName="AllRes.xlsx"
+                    }
+                    this.$FileSaver.saveAs(
+                    new Blob([table_write], { type: "application/octet-stream" }),FileName);
+                } catch (e) {
+                    if (typeof console !== "undefined") console.log(e, table_write);
+                }
+                return table_write;
+            },
             openmsg(tl,msg) {
                 const h = this.$createElement;
 
@@ -337,5 +457,17 @@
     i:hover{
         color: indigo;
         cursor: pointer;
+    }
+        .el-button {
+        font-size: 12px;
+        margin: 15px;
+    }
+    .el-button--primary:focus, .el-button--primary:hover {
+        background: #42e165;
+        border-color: #42e149;
+        color: #FFF;
+    }
+    .el-radio-group{
+        margin: 15px;
     }
 </style>

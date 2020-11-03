@@ -16,6 +16,12 @@ Copyright (c) Nicolas Gallagher and Jonathan Neal
  *    without disabling user zoom.
  */
 
+.main-org{
+    text-align:center;
+}
+.ds-org{
+    text-align:center;
+}
 html {
   font-family: sans-serif; /* 1 */
   -ms-text-size-adjust: 100%; /* 2 */
@@ -1262,7 +1268,7 @@ since IE8 won't execute CSS that contains a CSS3 selector.
 }
 
 .pure-menu-list,
-.pure-menu-item {
+.pure-menu-item .org-img{
     position: relative;
 }
 
@@ -1272,7 +1278,7 @@ since IE8 won't execute CSS that contains a CSS3 selector.
     padding: 0;
 }
 
-.pure-menu-item {
+.pure-menu-item .org-img {
     padding: 0;
     margin: 0;
     height: 100%;
@@ -1296,7 +1302,7 @@ since IE8 won't execute CSS that contains a CSS3 selector.
 }
 
 /* Initial menus should be inline-block so that they are horizontal */
-.pure-menu-horizontal .pure-menu-item,
+.pure-menu-horizontal .pure-menu-item,.org-img,
 .pure-menu-horizontal .pure-menu-heading,
 .pure-menu-horizontal .pure-menu-separator {
     display: inline-block;
@@ -1306,7 +1312,7 @@ since IE8 won't execute CSS that contains a CSS3 selector.
 }
 
 /* Submenus should still be display: block; */
-.pure-menu-item .pure-menu-item {
+.pure-menu-item .pure-menu-item .org-img {
     display: block;
 }
 
@@ -1409,7 +1415,7 @@ since IE8 won't execute CSS that contains a CSS3 selector.
 .pure-menu-link,
 .pure-menu-disabled,
 .pure-menu-heading {
-    padding: .5em 1em;
+    padding: .5em 1.5em;
 }
 
 .pure-menu-disabled {

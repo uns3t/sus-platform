@@ -1,3 +1,4 @@
+const md5 = require('md5-node')
 const user=require("../db/model/userdb")
 const jwttools=require("../tools/token")
 const susconfig=require('../susplatformconfig')
@@ -35,7 +36,7 @@ const login=async(ctx)=>{
             let token=jwttools.jwtencode(info)
             ctx.body={code:0,token:token}
         }else {
-            let tempuser=await user.findOne({username:body.username,pwd:body.pwd})
+            let tempuser=await user.findOne({username:body.username,pwd:md5(body.pwd)})
             console.log(tempuser)
             if(tempuser){
                 let info={

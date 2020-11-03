@@ -1,17 +1,9 @@
 const user=require("../db/model/userdb")
+const verify = require("../tools/verify")
 
 const admingetusr=async(ctx)=>{
-    if(ctx.state.tokencode!=1){
-        ctx.body={
-            msg:"401"
-        }
-
-        return
-    }
-    if(ctx.state.userinfo.expires<Date.now()){
-        ctx.body={
-            msg:"登陆Token过期，请重新登陆"
-        }
+    if(!verify.admin_login(ctx))
+    {
         return
     }
     let ret=await user.find()

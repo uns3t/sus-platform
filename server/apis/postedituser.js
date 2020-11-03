@@ -1,6 +1,7 @@
 const user=require("../db/model/userdb")
-
+const md5 = require("md5-node")
 const format=require("../tools/format")
+const verify=require("../tools/verify")
 
 const reqformat={
     username:String,
@@ -12,16 +13,8 @@ const reqformat={
 }
 
 const edituser=async(ctx)=>{
-    if(ctx.state.tokencode==-1){
-        ctx.body={
-            msg:"401"
-        }
-        return
-    }
-    if(ctx.state.userinfo.expires<Date.now()){
-        ctx.body={
-            msg:"登陆Token过期，请重新登陆"
-        }
+    if(!verify.user_login(ctx))
+    {
         return
     }
     let body=ctx.request.body
@@ -42,7 +35,7 @@ const edituser=async(ctx)=>{
     }
 
     try{
-        await user.where({username:ctx.state.userinfo.username}).update({pwd:body.userform.pwd,email:body.userform.email,qq:body.userform.qq,phone:body.userform.phone})
+        await user.where({username:ctx.state.userinfo.username}).update({pwd:md5(body.userform.pwd),email:body.userform.email,qq:body.userform.qq,phone:body.userform.phone})
         ctx.body={
             code:0
         }

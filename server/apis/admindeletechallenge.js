@@ -1,6 +1,7 @@
 const challenge=require("../db/model/challengedb")
 const log=require("../db/model/logdb")
 const format=require("../tools/format")
+const verify = require("../tools/verify")
 
 const reqformat={
     challengename:String,
@@ -8,16 +9,8 @@ const reqformat={
 
 }
 const deletechallenge=async(ctx)=>{
-    if(ctx.state.tokencode!=1){
-        ctx.body={
-            msg:"401"
-        }
-        return
-    }
-    if(ctx.state.userinfo.expires<Date.now()){
-        ctx.body={
-            msg:"登陆Token过期，请重新登陆"
-        }
+    if(!verify.admin_login(ctx))
+    {
         return
     }
     if(!format(reqformat,ctx.request.body)){

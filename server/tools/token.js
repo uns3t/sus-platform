@@ -1,5 +1,5 @@
 const jwt=require("jwt-simple")
-let secret="uns3t"
+let secret="as32hf8h-57j203-dfnrg-0w9391jeo13"
 const tokenExpiresTime = 1000 * 60 * 60 * 24 * 7
 // const tokenExpiresTime = 1000*20
 

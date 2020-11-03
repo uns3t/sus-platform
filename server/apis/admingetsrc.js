@@ -1,22 +1,12 @@
 const src=require("../db/model/susrcdb")
-const format=require("../tools/format")
+const verify = require("../tools/verify")
+
 const getsusrc=async(ctx)=> {
-    if(ctx.state.tokencode!=1){
-        ctx.body={
-            msg:"401"
-        }
-
+    if(!verify.admin_login(ctx))
+    {
         return
     }
-    if(ctx.state.userinfo.expires<Date.now()){
-        ctx.body={
-            msg:"登陆Token过期，请重新登陆"
-        }
-        return
-    }
-    let ret=await src.find()
-
-    ctx.body=ret
+    ctx.body=await src.find()
 
 }
 

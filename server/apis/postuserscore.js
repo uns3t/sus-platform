@@ -1,6 +1,7 @@
 const log=require("../db/model/logdb")
 const user=require("../db/model/userdb")
 const challenge=require("../db/model/challengedb")
+const verify=require("../tools/verify")
 const format=require("../tools/format")
 
 const reqformat={
@@ -10,17 +11,8 @@ const reqformat={
 
 
 const userscore=async(ctx)=>{
-    if(ctx.state.tokencode==-1){
-
-        ctx.body={
-            msg:"401"
-        }
-        return
-    }
-    if(ctx.state.userinfo.expires<Date.now()){
-        ctx.body={
-            msg:"登陆Token过期，请重新登陆"
-        }
+    if(!verify.user_login(ctx))
+    {
         return
     }
 
@@ -103,7 +95,7 @@ const userscore=async(ctx)=>{
         challengelog:newrelog
     }
 
-    console.log(ret)
+   // console.log(ret)
     ctx.body=ret
 }
 

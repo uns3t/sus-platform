@@ -1,5 +1,6 @@
 const src=require("../db/model/susrcdb")
 const format=require("../tools/format")
+const verify=require("../tools/verify")
 
 const reqformat={
     type:String,
@@ -8,19 +9,10 @@ const reqformat={
 
 const postsusrc=async(ctx)=>{
 
-    if(ctx.state.tokencode==-1){
-        ctx.body={
-            msg:"401"
-        }
+    if(!verify.user_login(ctx))
+    {
         return
     }
-    if(ctx.state.userinfo.expires<Date.now()){
-        ctx.body={
-            msg:"登陆Token过期，请重新登陆"
-        }
-        return
-    }
-
     let body=ctx.request.body
     if(!format(reqformat,body.susrcform)){
         ctx.body={

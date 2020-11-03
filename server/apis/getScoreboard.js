@@ -1,5 +1,5 @@
 const user=require("../db/model/userdb")
-
+const log=require("../db/model/logdb")
 //不需要数据验证
 
 const scoreboard=async(ctx)=>{
@@ -16,6 +16,7 @@ const scoreboard=async(ctx)=>{
         return
     }
     let users=await user.find()
+    let tots = await user.count()
     let compare=(obj1,obj2)=>{
         var val1 = obj1.userscore;
         var val2 = obj2.userscore;
@@ -39,14 +40,66 @@ const scoreboard=async(ctx)=>{
     let ret=users.map((v)=>{
         v.pwd=undefined
         v.studentid=undefined
+        v.email=undefined
         v.qq=undefined
         v.phone=undefined
         v.name=undefined
         v.time=undefined
         return v
     })
+    var reg = new RegExp(/.{3}20.{4}/) 
+    var regy = new RegExp(/21320.{4}/) 
+    var regx = new RegExp(/213.{6}/)
+    let from = 0
+    let res = []
+    let res20A = []
+    let tot20A=0
+    let res20B = []
+    let tot20B=0
+    for(;from<tots;++from){
+        let foreach={
+            pwn:0,
+            reserve:0,
+            web:0,
+            misc:0,
+            crypto:0,
+        }
+        let templog=await log.find({username:ret[from].username})
+        for(let kt of templog){
+            if(kt.issolved){
+                foreach[kt.type]+=kt.solvedscore
+            }
+        }
+        if(regx.test(ret[from].ecard)){
+            res.push({username:ret[from].username,userscore:ret[from].userscore,pwn:foreach['pwn'],web:foreach['web'],reserve:foreach['reserve'],
+                misc:foreach['misc'],crypto:foreach['crypto'],index:from+1,grade:"本科生"})
+        }else{
+            res.push({username:ret[from].username,userscore:ret[from].userscore,pwn:foreach['pwn'],web:foreach['web'],reserve:foreach['reserve'],
+                misc:foreach['misc'],crypto:foreach['crypto'],index:from+1,grade:"研究生"})
+        }
+        
+        
+        if(reg.test(ret[from].ecard)){
+            if(regy.test(ret[from].ecard)){
+                tot20A++
+                res20A.push({username:ret[from].username,userscore:ret[from].userscore,pwn:foreach['pwn'],web:foreach['web'],reserve:foreach['reserve'],
+                misc:foreach['misc'],crypto:foreach['crypto'],index:from+1,grade:"本科"})
+            }else{
+                tot20B++
+                res20B.push({username:ret[from].username,userscore:ret[from].userscore,pwn:foreach['pwn'],web:foreach['web'],reserve:foreach['reserve'],
+                misc:foreach['misc'],crypto:foreach['crypto'],index:from+1,grade:"研究生"})
+            }
+        }
+    }
 
-    ctx.body=ret
+    ctx.body = {
+        theTwentyA: res20A,
+        theTwentyTotA: tot20A,
+        theTwentyB: res20B,
+        theTwentyTotB: tot20B,
+        theRet: res,
+        theTot: tots,
+    }
 }
 
 module.exports=scoreboard

@@ -1,5 +1,6 @@
 const challenge=require("../db/model/challengedb")
 const format=require("../tools/format")
+const verify = require("../tools/verify")
 
 const reqformat={
     challengename:String,
@@ -12,19 +13,13 @@ const reqformat={
 
 
 const editchallenge=async(ctx)=>{
-    if(ctx.state.tokencode!=1){
-        ctx.body={
-            msg:"401"
-        }
+    if(!verify.admin_login(ctx))
+    {
         return
     }
-    if(ctx.state.userinfo.expires<Date.now()){
-        ctx.body={
-            msg:"登陆Token过期，请重新登陆"
-        }
-        return
-    }
+
     let body=ctx.request.body
+
     if(!format(reqformat,body)){
         ctx.body={
             msg:"数据验证未通过"
@@ -47,17 +42,10 @@ const editchallenge=async(ctx)=>{
         }
         return
     }
-    let tempchallenge=new challenge({
-        challengename:body.challengename,
-        flag: body.flag,
-        score: body.score,
-        type: body.type,
-        description: body.description,
-    })
     try{
         await challenge.findOneAndUpdate({challengename:body.challengename},{
             flag: body.flag,
-            score: body.score,
+            originscore: body.score,
             type: body.type,
             description: body.description,
         })
@@ -65,7 +53,7 @@ const editchallenge=async(ctx)=>{
             code:0
         }
     }catch (e) {
-
+        console.log(e)
     }
 }
 

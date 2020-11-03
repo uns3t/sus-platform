@@ -15,7 +15,8 @@ const postuserscore=require('./apis/postuserscore')
 const postchallenge=require('./apis/postchallenge')
 const postsusrc=require('./apis/postsusrc')
 const admingetsrc=require('./apis/admingetsrc')
-
+const postpasschange=require('./apis/postpasschange')
+const postemail=require('./apis/postemail')
 
 const router=new Router({
     prefix: '/api'
@@ -31,7 +32,8 @@ router.post("/postchallenge",postchallenge)
 router.post("/editchallenge",editchallenge)
 router.post("/postuserscore",postuserscore)
 router.post("/postsusrc",postsusrc)
-
+router.post("/postemail",postemail)
+router.post("/postpasschange",postpasschange)
 
 router.get("/getalluser",getalluser)
 router.get("/getnotice",getnotice)

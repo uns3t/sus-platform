@@ -75,7 +75,7 @@ app.use(async (ctx,next)=>{
 })
 //连接数据库
 
-mongoose.connect(dbs.dbpath)
+mongoose.connect(dbs.dbpath,{ useNewUrlParser: true })
 
 // routes
 

@@ -4,16 +4,18 @@
         <div class="header">
             <div style="margin: 0px 5% 5px 5%;padding: 10px">
                 <img src="../assets/image/logo1.png" style="max-width: 50px;margin-bottom: -15px">
-                <div class="logo1">SUS Platform 2019</div>
-            </div>
+                <div class="logo0">SUS Platform 2020</div>
+        	<div class="logo0" @click="showlogin=true">Login</div>
+                <div class="logo0" @click="showsignup=true">Register</div>    
+	</div>
             <div style="margin:0 auto;margin-top: 100px;width: 400px;">
 <!--                <div style="text-align: center;font-size: 45px;color: #f0f0f0;margin-bottom: 10px">know it and hack it</div>-->
-                <div style="text-align: center;font-size: 30px;color: #f0f0f0;margin-bottom: 10px">我会穿过那七大海洋，将我的爱意带到你身边</div>
+                <div style="text-align: center;font-size: 50px;color: #f0f0f0;margin-bottom: 10px">SUSCTF 2020</div>
                 <div style="text-align: center;font-size: 18px;color: #f0f0f0;margin-bottom: 30px;color: #8c939d">
                     东南大学SUSCTF竞赛平台
                 </div>
                 <div style="text-align: center">
-                    <a class="pure-button" @click="showlogin=true" style="background-color:transparent;border: 1.5px #8c939d solid;color: #f0f0f0;margin: 10px">登 陆</a>
+                    <a class="pure-button" @click="showlogin=true" style="background-color:transparent;border: 1.5px #8c939d solid;color: #f0f0f0;margin: 10px">登 录</a>
                     <a class="pure-button" @click="showsignup=true" style="background-color:transparent;border: 1.5px #8c939d solid;color: #f0f0f0;margin: 10px">注 册</a>
                 </div>
 
@@ -25,6 +27,52 @@
             </div>
         </transition>
 
+        
+
+        <el-dialog
+                title="重置密码"
+                :visible.sync="showPassChange"
+                width="400px"
+        >
+            <span>
+                <el-form label-position="left" label-width="80px" :model="passchangeFrom" size="small">
+                <el-form-item label="邮箱">
+                    <el-input :placeholder=emailForm.email v-model="passchangeFrom.email" :disabled="true"></el-input>
+                </el-form-item>
+                <el-form-item label="验证码">
+                    <el-input placeholder="请输入邮箱验证码" v-model="passchangeFrom.verification" show-password></el-input>
+                </el-form-item>
+                <el-form-item label="新密码">
+                    <el-input placeholder="请输入新密码" v-model="passchangeFrom.newpass" show-password></el-input>
+                </el-form-item>
+                <el-form-item label="确认密码">
+                    <el-input placeholder="请再次输入相同密码" v-model="passchangeFrom.confirmpass" show-password></el-input>
+                </el-form-item>
+            </el-form>
+            </span>
+            
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="postpasschange" size="small">确定</el-button>
+            </span>
+        </el-dialog>
+        
+        <el-dialog
+                title="邮箱验证"
+                :visible.sync="showEmaillog"
+                width="400px"
+        >
+            <span>
+                <el-form label-position="left" label-width="80px" :model="emailForm" size="small">
+                <el-form-item label="邮箱">
+                    <el-input placeholder="请输入注册所用邮箱" v-model="emailForm.email"></el-input>
+                </el-form-item>
+            </el-form>
+            </span>
+            
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="postemailForm" size="small">确定</el-button>
+            </span>
+        </el-dialog>
 
         <el-dialog
                 title="平台身份认证"
@@ -33,7 +81,7 @@
         >
             <span>
                 <el-form label-position="left" label-width="80px" :model="loginform" size="small">
-                <el-form-item label="用户名">
+                <el-form-item label="用户">
                     <el-input placeholder="请输入用户名" v-model="loginform.username"></el-input>
                 </el-form-item>
                 <el-form-item label="密码">
@@ -41,14 +89,15 @@
                 </el-form-item>
             </el-form>
             </span>
-
+            
             <span slot="footer" class="dialog-footer">
-                <el-button @click="postLoginForm" size="small">登 陆</el-button>
+            <el-button @click="AandB" size="small">忘记密码</el-button>
+                <el-button @click="postLoginForm" size="small">登录</el-button>
             </span>
         </el-dialog>
 
 
-        <el-dialog
+       <el-dialog
                 title="平台身份注册"
                 :visible.sync="showsignup"
                 width="400px"
@@ -67,21 +116,16 @@
                     <el-form-item label="邮箱">
                         <el-input placeholder="请输入邮箱" v-model="signupform.email" ></el-input>
                     </el-form-item>
-                    <el-form-item>
-                        <el-switch
-                                style="display: block"
-                                v-model="showisseu"
-                                active-color="#2ecc71"
-                                inactive-color="#bdc3c7"
-                                inactive-text="我不是东南大学的学生">
-                        </el-switch>
+                   
+                </el-form>
+                <el-form label-position="right" label-width="80px" :model="signupform" size="small" style="margin: 20px">
+                    <el-form-item label="一卡通号">
+                        <el-input placeholder="请输入您的一卡通号" v-model="signupform.ecard" ></el-input>
+                    </el-form-item>
+		    <el-form-item label="学号">
+                        <el-input placeholder="请输入您的学号" v-model="signupform.studentid" ></el-input>
                     </el-form-item>
 
-                </el-form>
-                <el-form v-show="!showisseu" label-position="right" label-width="80px" :model="signupform" size="small" style="margin: 20px">
-                    <el-form-item label="学号">
-                        <el-input placeholder="请输入学号" v-model="signupform.studentid" ></el-input>
-                    </el-form-item>
                     <el-form-item label="姓名">
                         <el-input placeholder="请输入您的姓名" v-model="signupform.name" ></el-input>
                     </el-form-item>
@@ -106,7 +150,7 @@
 
 <script>
     import { Notification } from 'element-ui'
-
+    
     export default {
         name: "login",
         data(){
@@ -114,20 +158,31 @@
                 showtran:false,
                 showlogin:false,
                 showsignup:false,
+                showEmaillog:false,
+                showPassChange:false,
+                showVerCodedialog:false,
                 notice:'',
                 showisseu:false,
-
+                passchangeFrom:{
+                    newpass:'',
+                    confirmpass:'',
+                    email:'',
+                    verification:''
+                },
+                emailForm:{
+                    email:''
+                },
                 loginform:{
                     username:'',
                     pwd:''
                 },
-
                 signupform:{
                     username:'',
                     pwd:'',
                     pwdconfirm:'',
                     email:'',
                     studentid:'',
+		            ecard:'',
                     phone:'',
                     name:'',
                     qq:'',
@@ -145,6 +200,32 @@
                     title: tl,
                     message: h('i', { style: 'color: teal'}, msg)
                 });
+            },
+            AandB(){
+                this.showEmaillog=true
+                this.showlogin=false
+                this.emailForm={}
+            },
+            async postpasschange(){
+                this.passchangeFrom.email = this.emailForm.email
+                let res=await $axios.post("/postpasschange",this.passchangeFrom)
+                if(res.data.code==0){
+                    this.openmsg("通知","密码修改成功,请重新登录")
+                    this.showPassChange = false
+                }else{
+                    this.openmsg("错误",res.data.msg)
+                }
+            },
+            async postemailForm(){
+                console.log(this.emailForm.email)
+                let res=await $axios.post("/postemail",this.emailForm)
+                if(res.data.code==0){
+                    this.openmsg("通知","邮件已发送,请前往邮箱确认验证码")
+                    this.showPassChange = true 
+                    this.showEmaillog = false
+                }else{
+                    this.openmsg("错误",res.data.msg)
+                }
             },
             async postLoginForm(){
                 let res=await $axios.post("/postlogin",this.loginform)
@@ -186,6 +267,7 @@
             this.notice=res.data.readme
         }
 
+
     }
 </script>
 
@@ -199,7 +281,17 @@
         margin: 0;
 
     }
-    .logo1{
+    .logo0{
+        margin: 0px 3% 0px 3%;
+	display: inline-block;
+        font-size: 20px;
+        color: #f0f0f0;
+        font-weight: bold;
+    }
+    .logo0:hover {
+        color: darkcyan;
+    }
+ .logo1{
         display: inline-block;
         font-size: 20px;
         color: #f0f0f0;
