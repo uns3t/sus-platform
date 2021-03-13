@@ -1,6 +1,7 @@
 const log=require("../db/model/logdb")
 const user=require("../db/model/userdb")
 const challenge=require("../db/model/challengedb")
+const challengeInfo = require("../tools/challengeInfo")
 const verify=require("../tools/verify")
 const format=require("../tools/format")
 
@@ -16,9 +17,9 @@ const userscore=async(ctx)=>{
         return
     }
 
-    let body={}
+    let body
 
-    if(Object.keys(ctx.request.body).length!=0){
+    if(Object.keys(ctx.request.body).length!==0){
         format(reqformat,ctx.request.body)
         body=ctx.request.body
     }else {
@@ -34,7 +35,16 @@ const userscore=async(ctx)=>{
         misc:[0,0],
         crypto:[0,0],
     }
-    let socre=await user.find()
+    let score=await user.find()
+
+    for (let tmpuser in score) {
+        tmpuser.userscore = 0
+            for (let cha in tmpuser.solved) {
+                tmpuser.userscore += challengeInfo.getInfo(cha).score
+            }
+        }
+
+
     let compare=(obj1,obj2)=>{
         var val1 = obj1.userscore;
         var val2 = obj2.userscore;
@@ -42,7 +52,7 @@ const userscore=async(ctx)=>{
             return 1;
         } else if (val1 > val2) {
             return -1;
-        } else if(val1==val2){
+        } else if(val1===val2){
             if (obj1.time > obj2.time) {
                 return 1;
             } else if (obj1.time < obj2.time) {
@@ -55,36 +65,37 @@ const userscore=async(ctx)=>{
             return 0;
         }
     }
-    socre.sort(compare)
+    score.sort(compare)
     let index=0
-    for(let temp of socre){
+    for(let temp of score){
         index++
-        if(temp.username==body.username){
+        if(temp.username===body.username){
             break
         }
     }
     let templog=await log.find({username:body.username})
+    let solvedCha = score[index - 1].solved;
 
-    for(let temp of templog){
-        if(temp.issolved){
-            forechart[temp.type][0]+=1
-        }
+
+    // 做出来该方向题的分数和该方向题总分
+    for(let cha of solvedCha){
+        forechart[temp.type][0]+=challengeInfo.getInfo(cha).score
     }
 
     let chas=await challenge.find()
     for(let temp of chas){
-        forechart[temp.type][1]+=1
+        forechart[temp.type][1]+=temp.score
     }
 
     let newrelog=[]
     templog.map((v,i,e)=>{
         if(v.issolved){
             newrelog.push({username:v.username,challengename:v.challengename,submittime:v.submittime,
-                solvedscore:v.solvedscore,type:v.type,issolved:"yes"})
+                type:v.type,issolved:"yes"})
         }
         else {
             newrelog.push({username:v.username,challengename:v.challengename,submittime:v.submittime,
-                solvedscore:v.solvedscore,type:v.type,issolved:"no"})
+                type:v.type,issolved:"no"})
         }
     })
 

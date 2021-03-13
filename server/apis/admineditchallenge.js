@@ -36,7 +36,7 @@ const editchallenge=async(ctx)=>{
     }
 
     let test=await challenge.find({challengename:ctx.request.body.challengename})
-    if(test.length==0){
+    if(test.length===0){
         ctx.body={
             msg:"题目不存在"
         }

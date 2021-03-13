@@ -1,19 +1,20 @@
-const mongoose=require("mongoose")
+const mongoose = require("mongoose")
 
-let userSchema=new mongoose.Schema({
-    username:{type:String},
-    pwd:{type:String},
-    userscore: {type:Number,default:0},
-    studentid:{type:String},
-    ecard:{type:String},
-    phone:{type:String},
-    name:{type:String},
-    qq:{type:String},
-    email:{type:String},
-    time:{type:String},
-    verification:{type:String, default:null},
-    expiration:{type:Number,default:0},
-    lucky_draw:{type:Number,default: 1}
+let userSchema = new mongoose.Schema({
+    username: {type: String},
+    pwd: {type: String},
+    // userscore: {type: Number, default: 0},
+    studentid: {type: String},
+    ecard: {type: String},
+    phone: {type: String},
+    name: {type: String},
+    qq: {type: String},
+    email: {type: String},
+    time: {type: String},       // 最近一次解题时间
+    verification: {type: String, default: null},    // 验证码
+    expiration: {type: Number, default: 0},          // 验证码有效时间
+    solved:{type: Array, default: []},       // 解出来的题，总分靠这个查题目分数做加法
+    token:{type: String, default: null}      // 独立开docker单独记录flag,flag=md5(flag+token)
 })
 
-module.exports=mongoose.model("user",userSchema)
+module.exports = mongoose.model("user", userSchema)

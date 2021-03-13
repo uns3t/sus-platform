@@ -5,7 +5,7 @@ let logSchema=new mongoose.Schema({
     challengename:{type:String},
     submittime: {type:String},
     type: {type:String},
-    solvedscore: {type:Number,require:true},
+    // solvedscore: {type:Number,require:true},     // 没什么用，弃了
     issolved: {type:Boolean},
     flag: {type:String},
 })

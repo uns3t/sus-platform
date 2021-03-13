@@ -1,5 +1,8 @@
 const jwt=require("jwt-simple")
-let secret="as32hf8h-57j203-dfnrg-0w9391jeo13"
+import { v4 as uuidv4 } from 'uuid';
+
+let secret=uuidv4();
+
 const tokenExpiresTime = 1000 * 60 * 60 * 24 * 7
 // const tokenExpiresTime = 1000*20
 

@@ -5,7 +5,7 @@ import { Notification } from 'element-ui';
 const Axiosp={
     install:(Vue)=>{
         window.$axios=axio.create({
-                baseURL : 'http://146.56.223.95:3000/api',
+                baseURL : 'http://127.0.0.1:3000/api',  // 后端沟通地址
                 // baseURL : 'http://uns3t.cn:3000/api',
                 transformResponse: function (data) {
                     function openmsg(tl,msg) {
@@ -18,11 +18,11 @@ const Axiosp={
 
                     // 对 data 进行任意转换处理
 
-                    if(data.msg =="登陆Token过期，请重新登陆" ){
+                    if(data.msg ==="登陆Token过期，请重新登陆" ){
                         openmsg("通知","登陆Token过期，请重新登陆")
                         window.$store.commit('logout')
                     }
-                    if(data.msg =="401" ){
+                    if(data.msg ==="401" ){
                         openmsg("通知","用户权限不足,请重新登陆")
                         window.$store.commit('logout')
                     }

@@ -1,6 +1,8 @@
 const user=require("../db/model/userdb")
 const format=require("../tools/format")
 const md5 = require("md5-node")
+import { v4 as uuidv4 } from 'uuid';
+
 const reqformat={
     username:String,
     pwd:String,
@@ -15,7 +17,7 @@ const reqformat={
 
 function is_email(str)
 {
-
+    // TODO 会不会吃ReDOS啊。。。有待考据
     const reg = /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/;
     return reg.test(str);
 }
@@ -69,17 +71,17 @@ const signup=async(ctx)=>{
         body.signupform[v]=body.signupform[v].replace(/\s*/g,"");
     }
 
-    const end = "2020-10-14 00:00:00"
-    let t1 = new Date(end).getTime()
-    if(Date.now() > t1)
-    {
-        ctx.body = {
-            msg: "注册已结束"
-        }
-        return
-    }
+    // 结束注册
+    // const end = "2020-10-14 00:00:00"
+    // let t1 = new Date(end).getTime()
+    // if(Date.now() > t1)
+    // {
+    //     ctx.body = {
+    //         msg: "注册已结束"
+    //     }
+    //     return
+    // }
 
-    //数据验证后期再加，有些繁琐
     if(body.signupform.pwd!==body.signupform.pwdconfirm){
         ctx.body={msg:"两次密码不相同"}
         return
@@ -124,7 +126,8 @@ const signup=async(ctx)=>{
         name: body.signupform.name,
         qq: body.signupform.qq,
         email: body.signupform.email,
-        time: new Date()
+        time: new Date(),
+        token: uuidv4()     // 生成flag token
     })
 
     try {

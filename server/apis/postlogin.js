@@ -37,7 +37,7 @@ const login=async(ctx)=>{
             ctx.body={code:0,token:token}
         }else {
             let tempuser=await user.findOne({username:body.username,pwd:md5(body.pwd)})
-            console.log(tempuser)
+            // console.log(tempuser)
             if(tempuser){
                 let info={
                     username:body.username,

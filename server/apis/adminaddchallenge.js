@@ -1,4 +1,5 @@
 const challenge=require("../db/model/challengedb")
+const challengeInfo = require("../tools/challengeInfo")
 const verify = require("../tools/verify")
 const format=require("../tools/format")
 
@@ -47,9 +48,11 @@ const addchallenge=async(ctx)=>{
             originscore: body.score,
             type: body.type,
             description: body.description,
+            isDynamic: body.isDynamic
         })
         try{
             await tempchallenge.save()
+            challengeInfo.setInfo(tempchallenge.challengename, tempchallenge.originscore)
             ctx.body={
                 code:0
             }
