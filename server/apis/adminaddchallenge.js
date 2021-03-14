@@ -8,8 +8,10 @@ const reqformat={
     description:String,
     type:String,
     flag:String,
-    score:String
-
+    score:String,
+    isDynamic: Boolean,
+    imageName: String,
+    port: Number
 }
 
 const addchallenge=async(ctx)=>{
@@ -21,20 +23,23 @@ const addchallenge=async(ctx)=>{
 
     let body=ctx.request.body
 
+    // 可能会有问题？
     if(!format(reqformat,body)){
         ctx.body={
             msg:"数据验证未通过"
         }
         return
     }
-    for(let v in body){
-        if(body[v]==''){
-            ctx.body={
-                msg:"数据不能为空"
-            }
-            return
-        }
-    }
+
+    // 相信管理员不要操作失误了。。。。
+    // for(let v in body){
+    //     if(body[v]==''){
+    //         ctx.body={
+    //             msg:"数据不能为空"
+    //         }
+    //         return
+    //     }
+    // }
     let check=await challenge.find({challengename:body.challengename})
     if(check.length>0){
         ctx.body={
@@ -48,7 +53,9 @@ const addchallenge=async(ctx)=>{
             originscore: body.score,
             type: body.type,
             description: body.description,
-            isDynamic: body.isDynamic
+            isDynamic: body.isDynamic,
+            imageName: body.imageName,
+            port: body.port
         })
         try{
             await tempchallenge.save()

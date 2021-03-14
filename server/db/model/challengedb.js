@@ -9,7 +9,9 @@ let challengeSchema=new mongoose.Schema({
     solved: {type:Number,default:0},
     submit: {type:Number,default:0},
     type: {type:String},
-    isDynamic: {type:Boolean, default: false}   // 是否是独立docker的动态flag
+    isDynamic: {type:Boolean, default: false},  // 是否是独立docker的动态flag
+    imageName: {type: String},       // 镜像名
+    port:{type: Number}     // 暴露的端口
 })
 
 module.exports=mongoose.model("challenge",challengeSchema)
