@@ -24,10 +24,16 @@
             <span >
 <!--                <div style="box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.3);font-size: 15px;padding: 20px;margin-left: 10px;margin-right: 10px">-->
                     <div style="font-size: 23px;">{{submitcha.value.challengename}}</div>
-                    <div style="margin-top: 20px;font-size: 15px" v-html="submitcha.value.description">
-
+                    <div style="margin-top: 20px;font-size: 15px" v-html="submitcha.value.description"></div>
+                    <div v-if="submitcha.value.isDynamic==1" style="text-align: center;">
+                        <el-progress :percentage="dockerCreatePercentage"></el-progress>
+                        <el-row type="flex" justify="center" align="middle">
+                            <el-button type="primary">建立容器</el-button>
+                            <el-button type="success">暂停服务</el-button>
+                            <el-button type="warning">取消服务</el-button>
+                        </el-row>
                     </div>
-                    <div style="margin-top: 50px">
+                    <div style="margin-top: 40px">
                         <el-input placeholder="请输入flag" v-model="flag">
                             <el-button slot="append" @click="postflag">提交</el-button>
                         </el-input>
@@ -124,5 +130,8 @@
         box-shadow: 0 2px 7px 0 rgba(0, 0, 0, 0.5);
         cursor: pointer;
         color: darkred;
+    }
+    .el-row {
+        width: 100%;
     }
 </style>

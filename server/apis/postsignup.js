@@ -1,7 +1,7 @@
 const user=require("../db/model/userdb")
 const format=require("../tools/format")
 const md5 = require("md5-node")
-import { v4 as uuidv4 } from 'uuid';
+const { v4: uuidv4 } = require('uuid');
 
 const reqformat={
     username:String,
@@ -24,7 +24,7 @@ function is_email(str)
 
 function is_telephone(str)
 {
-    const reg = /^1[3456789]\d{9}$/;
+    const reg = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/;
     return reg.test(str);
 }
 

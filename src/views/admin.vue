@@ -147,8 +147,7 @@
                             id="out-table"
                             stripe
                             border style="margin-bottom:14px;width: 100%;font-size: 20px;"
-                            :data="users"
-                            :row-class-name="tableRowClassName">
+                            :data="users">
                         <el-table-column
                                 property="index"
                                 label="排名"
@@ -243,7 +242,15 @@
                   <el-form-item label="分数">
                     <el-input v-model="addchaform.score"></el-input>
                   </el-form-item>
-
+                  <el-form-item label="虚拟机">
+                    <el-switch @change="changeDocVal" on-value="1" off-value="0" v-model="addchaform.isDynamic"></el-switch>
+                  </el-form-item>
+                  <el-form-item v-if="addchaform.isDynamic==1" label="镜像名称">
+                    <el-input v-model="addchaform.imageName"></el-input>
+                  </el-form-item>
+                  <el-form-item v-if="addchaform.isDynamic==1" label="端口">
+                    <el-input v-model="addchaform.port"></el-input>
+                  </el-form-item>
                 </el-form>
             </span>
             <span slot="footer" class="dialog-footer">
@@ -296,7 +303,6 @@
                   <el-form-item label="分数">
                     <el-input v-model="editchaform.score"></el-input>
                   </el-form-item>
-
                 </el-form>
             </span>
             <span slot="footer" class="dialog-footer">
@@ -314,6 +320,8 @@
         name: "admin",
         data(){
             return{
+                showTwenty:false,
+                radio: 3,
                 showtran:false,
                 activeName:"first",
                 flaglogs:[],
@@ -323,11 +331,14 @@
                 showdeletecha:false,
                 showeditcha:false,
                 addchaform:{
-                    challengename:'',
-                    description:'',
+                    challengename:'test',
+                    description:'test',
                     type:'pwn',
-                    flag:'',
-                    score:''
+                    flag:'test',
+                    score:'100',
+                    isDynamic:0,
+                    imageName:'test',
+                    port:10000,
                 },
                 editchaform:{
                     challengename:'',
@@ -363,6 +374,9 @@
                     this.listAll()
                 }
       	    },
+            changeDocVal(val) {
+                this.addchaform.isDynamic=val
+            },
             async listTwenty(){
                 let res=await $axios.get("/getscoreboard")
                 this.showTwenty = true
@@ -415,6 +429,7 @@
                 this.showeditcha=true
             },
             async postaddcha(){
+                console.log(typeof this.addchaform.port);
                 let res=await $axios.post("/addchallenge",this.addchaform)
                 if(res.data.code===0){
                     this.showaddcha=false

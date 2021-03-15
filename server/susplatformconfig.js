@@ -1,7 +1,7 @@
 const susconfig={
     admin:{
         username:"susz02o",
-        pwd:"&jd%ls3$vmdKdE@"   // 记得改
+        pwd:"&jd%ls3$vmdKdE@"
     },
     msg:{
         msg_overdue:"",     //token过期
@@ -9,5 +9,6 @@ const susconfig={
 
     }
 }
+//此处修改admin
 
 module.exports=susconfig

@@ -22,7 +22,7 @@ import {
   Divider,
   Pagination,
 	RadioButton,
-	RadioGroup
+	RadioGroup,
         } from "element-ui"
 
 import "./assets/index.css"
@@ -46,7 +46,6 @@ Vue.use(Button)
 Vue.use(Divider)
 Vue.use(RadioButton)
 Vue.use(RadioGroup)
-
 Vue.config.productionTip = false
 
 Vue.prototype.$FileSaver = FileSaver;

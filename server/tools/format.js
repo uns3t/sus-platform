@@ -27,6 +27,11 @@ function formatValidation(type, data) {
                     return false;
                 }
             }
+            else if(type[i] === Boolean) {
+                if (typeof(data[i]) != 'boolean') {
+                    return false;
+                }
+            }
         }
     }
     return true;
