@@ -23,6 +23,8 @@ import {
   Pagination,
 	RadioButton,
 	RadioGroup,
+  Row,
+  Progress
         } from "element-ui"
 
 import "./assets/index.css"
@@ -46,6 +48,8 @@ Vue.use(Button)
 Vue.use(Divider)
 Vue.use(RadioButton)
 Vue.use(RadioGroup)
+Vue.use(Row)
+Vue.use(Progress)
 Vue.config.productionTip = false
 
 Vue.prototype.$FileSaver = FileSaver;

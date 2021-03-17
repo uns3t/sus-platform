@@ -15,7 +15,11 @@ window.$store = new Vuex.Store({
         userInfo:{username:''},
         accessToken:'',
         // currentRouteName:''
-
+        dockerInfo:{
+            dockerTimeStamp: 0,
+            dockerTimeout: null,
+            port: null
+        }
     },
     mutations: {
         //
@@ -43,6 +47,9 @@ window.$store = new Vuex.Store({
             let { to } = routeName
             state.currentRouteName = to.meta.displayName
         },
+        setDockerTime(state, dockerInfo){
+            state.dockerInfo = dockerInfo
+        }
 
     },
     actions: {

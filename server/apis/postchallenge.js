@@ -25,7 +25,7 @@ const postchallenge = async (ctx) => {
     // 直接从用户数据库查找用户解出来了哪些题
     var usercha = await user.find({username: ctx.state.userinfo.username}).solved
     usercha = usercha === undefined? []:usercha
-    console.log(typeof usercha)
+    // console.log(typeof usercha)
     let ret = {}
     for (let val1 of retcha) {
         ret[val1.type] = []

@@ -1,7 +1,7 @@
 const user=require("../db/model/userdb")
 const format=require("../tools/format")
 const md5 = require("md5-node")
-const { v4: uuidv4 } = require('uuid');
+const { v4: uuidv4 } = require('uuid')
 
 const reqformat={
     username:String,

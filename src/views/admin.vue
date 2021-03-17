@@ -331,13 +331,13 @@
                 showdeletecha:false,
                 showeditcha:false,
                 addchaform:{
-                    challengename:'test',
-                    description:'test',
-                    type:'pwn',
-                    flag:'test',
-                    score:'100',
+                    challengename:'',
+                    description:'',
+                    type:'',
+                    flag:'',
+                    score:'',
                     isDynamic:0,
-                    imageName:'test',
+                    imageName:'',
                     port:10000,
                 },
                 editchaform:{
@@ -429,7 +429,7 @@
                 this.showeditcha=true
             },
             async postaddcha(){
-                console.log(typeof this.addchaform.port);
+                this.addchaform.port = Number(this.addchaform.port)
                 let res=await $axios.post("/addchallenge",this.addchaform)
                 if(res.data.code===0){
                     this.showaddcha=false

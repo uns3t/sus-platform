@@ -24,9 +24,7 @@ const addchallenge=async(ctx)=>{
     let body=ctx.request.body
 
     // 可能会有问题？
-    if(!format(reqformat,body)){
-        let dbg = formatValidation(reqformat,body);
-         
+    if(!format(reqformat,body)){         
         ctx.body={
             msg:"数据验证未通过"
         }
