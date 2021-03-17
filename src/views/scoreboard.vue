@@ -21,8 +21,7 @@
                             id="out-table"
                             stripe
                             border style="margin-bottom:14px;width: 100%;font-size: 20px;"
-                            :data="fyusers"
-                            :row-class-name="tableRowClassName">
+                            :data="fyusers">
                         <el-table-column
                                 property="index"
                                 label="排名"

@@ -1,5 +1,4 @@
 const challenge=require("../db/model/challengedb")
-const challengeInfo = require("../tools/challengeInfo")
 const log=require("../db/model/logdb")
 const format=require("../tools/format")
 const verify = require("../tools/verify")
@@ -29,17 +28,16 @@ const deletechallenge=async(ctx)=>{
 
     try{
         let test=await challenge.find({challengename:ctx.request.body.challengename})
-        // console.log("----------")
-        // console.log(test.length)
-        if(test.length===0){
+        console.log("----------")
+        console.log(test.length)
+        if(test.length==0){
             ctx.body={
                 msg:"题目不存在"
             }
             return
         }
-        challengeInfo.deleteInfo(ctx.request.body.challengename)
-        await challenge.deleteMany({challengename:ctx.request.body.challengename})
-        await log.deleteMany({challengename:ctx.request.body.challengename})
+        await challenge.where({challengename:ctx.request.body.challengename}).remove()
+        await log.where({challengename:ctx.request.body.challengename}).remove()
         ctx.body={
             code:0
         }

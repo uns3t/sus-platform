@@ -1,7 +1,7 @@
 const marked = require('marked');
 const fs=require("fs")
 const path=require("path")
-
+const moment=require('moment')
 marked.setOptions({
     renderer: new marked.Renderer(),
     gfm: true,
@@ -28,11 +28,9 @@ const notice=async(ctx)=>{
 
     //     }
     // }
-
     let htmlExist = fs.existsSync(path.join(__dirname, '../index.html'))
     if (htmlExist) {
         let html = fs.readFileSync(path.join(__dirname, '../index.html'), 'utf8')
-        console.log(html)
         ctx.body={
             readme:html,
 

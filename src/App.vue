@@ -19,17 +19,10 @@
       </header>
       <router-view></router-view>
 <div class="azhe" >
-            <center><h1>合作单位</h1></center>
+            <center><h1>主办方</h1></center>
             <i></i>
-            <div class="main-org">
-             <li class="org-img"><img src="https://5aku1em.github.io/images/wangan.png"  alt="img" style="max-height: 120px;"></li>    
-            <li class="org-img"><img src="https://datacon.qianxin.com/static/qianxin.ee0d09f0.png" alt="img" style="max-height: 70px;"></li>
-            </div>
             <div class="ds-org">
             <li class="org-img"><img src="https://5aku1em.github.io/images/suss.png"  alt="img" style="max-height: 120px;"></li>    
-          
-
-	 <li class="org-img"><img src="https://5aku1em.github.io/images/xsh.png" alt="img" style="max-height: 120px;"></li>
             </div>
             <center><h1>联系我们</h1></center>
             <i></i>

@@ -23,16 +23,17 @@ const postchallenge = async (ctx) => {
         return v
     })
     // 直接从用户数据库查找用户解出来了哪些题
-    let usercha = await user.find({username: ctx.state.userinfo.username}).solved
+    var usercha = await user.find({username: ctx.state.userinfo.username}).solved
+    usercha = usercha === undefined? []:usercha
+    // console.log(typeof usercha)
     let ret = {}
     for (let val1 of retcha) {
         ret[val1.type] = []
     }
-
     for (let val1 of retcha) {
         let solved = false
         for (let val2 of usercha) {
-            if (val1.challengename === val2) {
+            if (val1.challengename === val2.challengename) {
                 solved = true
             }
         }
@@ -42,14 +43,12 @@ const postchallenge = async (ctx) => {
         })
     }
 
-    // console.log(ret)
+    
 
     ctx.body = {
         challenge: ret
     }
 
-
-    //需要在log中获取该用户已解答的题目
 }
 
 module.exports = postchallenge

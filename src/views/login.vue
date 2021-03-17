@@ -4,13 +4,13 @@
         <div class="header">
             <div style="margin: 0px 5% 5px 5%;padding: 10px">
                 <img src="../assets/image/logo1.png" style="max-width: 50px;margin-bottom: -15px">
-                <div class="logo0">SUS Platform 2020</div>
+                <div class="logo0">SUS Platform 2021</div>
         	<div class="logo0" @click="showlogin=true">Login</div>
                 <div class="logo0" @click="showsignup=true">Register</div>    
 	</div>
             <div style="margin:0 auto;margin-top: 100px;width: 400px;">
 <!--                <div style="text-align: center;font-size: 45px;color: #f0f0f0;margin-bottom: 10px">know it and hack it</div>-->
-                <div style="text-align: center;font-size: 50px;color: #f0f0f0;margin-bottom: 10px">SUSCTF 2020</div>
+                <div style="text-align: center;font-size: 50px;color: #f0f0f0;margin-bottom: 10px">SUSCTF 2021</div>
                 <div style="text-align: center;font-size: 18px;color: #f0f0f0;margin-bottom: 30px;color: #8c939d">
                     东南大学SUSCTF竞赛平台
                 </div>
