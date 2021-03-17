@@ -48,7 +48,9 @@ const stopDocker = async (ctx) => {
     ctx.body = body;
     // 清楚之前的停止docker计时，并主动更新dockerTimeoutID
     clearTimeout(tempuser.dockerTimeout)
-
+    ctx.cookies.set('dockerTimeStamp',null,{overwrite:true,httpOnly:false})
+    ctx.cookies.set('port',null,{overwrite:true,httpOnly:false})
+    ctx.cookies.set('dockerChallenge',null,{overwrite:true,httpOnly:false})
 }
 
 module.exports = stopDocker

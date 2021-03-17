@@ -24,9 +24,8 @@ const refreshDocker = async(ctx) => {
         body = {
             code: 0,
             msg: "容器刷新成功",
-            dockerTimeout: timeoutID,
-            dockerTimeStamp: +moment(),
         }
+        ctx.cookies.set('dockerTimeStamp',+moment(),{overwrite:true,httpOnly:false})
     }else{
         body = {
             code: -1,

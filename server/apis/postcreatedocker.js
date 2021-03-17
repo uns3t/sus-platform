@@ -74,10 +74,10 @@ const createDocker = async (ctx) => {
         let res = await user.findOneAndUpdate({username: tempuser.username}, {dockerTimeout: timeoutID})
         ctx.body={
             code:0,
-            dockerTimeout: timeoutID,
-            dockerTimeStamp: +moment(),
-            port: port.toString()
         }
+        ctx.cookies.set('port',port.toString(),{overwrite:true,httpOnly:false})
+        ctx.cookies.set('dockerTimeStamp',+moment(),{overwrite:true,httpOnly:false})
+        ctx.cookies.set('dockerChallenge',body.challengename,{overwrite:true,httpOnly:false})
     }
     
 }
