@@ -10,6 +10,7 @@ const reqformat={
     flag:String,
     score:String,
     isDynamic: Boolean,
+    hasDocker: Boolean,
     imageName: String,
     port: Number
 }
@@ -54,12 +55,13 @@ const addchallenge=async(ctx)=>{
             type: body.type,
             description: body.description,
             isDynamic: body.isDynamic,
+            hasDocker: body.hasDocker,
             imageName: body.imageName,
             port: body.port
         })
         try{
             await tempchallenge.save()
-            challengeInfo.setInfo(tempchallenge.challengename, tempchallenge.originscore)
+            challengeInfo.setInfo(tempchallenge.challengename, tempchallenge)  //这里...
             ctx.body={
                 code:0
             }

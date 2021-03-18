@@ -23,9 +23,11 @@ const postchallenge = async (ctx) => {
         return v
     })
     // 直接从用户数据库查找用户解出来了哪些题
-    var usercha = await user.find({username: ctx.state.userinfo.username}).solved
-    usercha = usercha === undefined? []:usercha
-    // console.log(typeof usercha)
+    var usercha = await user.find({username: ctx.state.userinfo.username})
+    usercha = usercha[0]
+    if(usercha === undefined )usercha=[]
+    else usercha=usercha.solved
+    console.log(challenges)
     let ret = {}
     for (let val1 of retcha) {
         ret[val1.type] = []
@@ -33,7 +35,7 @@ const postchallenge = async (ctx) => {
     for (let val1 of retcha) {
         let solved = false
         for (let val2 of usercha) {
-            if (val1.challengename === val2.challengename) {
+            if (val1.challengename === val2) {
                 solved = true
             }
         }
@@ -44,7 +46,7 @@ const postchallenge = async (ctx) => {
     }
 
     
-
+    console.log(ret)
     ctx.body = {
         challenge: ret
     }

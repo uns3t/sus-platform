@@ -39,6 +39,7 @@ const userscore=async(ctx)=>{
 
     for (let tmpuser in score) {
         tmpuser.userscore = 0
+        if(tmpuser.solved === undefined) tmpuser.solved=[]
             for (let cha in tmpuser.solved) {
                 tmpuser.userscore += challengeInfo.getInfo(cha).score
             }
@@ -75,13 +76,20 @@ const userscore=async(ctx)=>{
     }
     let templog=await log.find({username:body.username})
     let solvedCha = score[index - 1].solved;
-
+    console.log(solvedCha)
+    if(solvedCha===undefined) solvedCha =[]
 
     // 做出来该方向题的分数和该方向题总分
+    
     for(let cha of solvedCha){
-        forechart[temp.type][0]+=challengeInfo.getInfo(cha).score
+        let chas=await challenge.find({challengename:cha})
+        console.log(chas)
+        for(let temp of chas){
+            console.log(temp.challengename)
+            console.log(challengeInfo.getInfo(temp.challengename))
+            forechart[temp.type][0]+=challengeInfo.getInfo(temp.challengename).score
+        }
     }
-
     let chas=await challenge.find()
     for(let temp of chas){
         forechart[temp.type][1]+=temp.score
@@ -99,7 +107,7 @@ const userscore=async(ctx)=>{
         }
     })
 
-
+    console.log(forechart)
     let ret={
         rank:index,
         echartdata:forechart,

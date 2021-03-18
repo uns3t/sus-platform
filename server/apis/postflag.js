@@ -98,14 +98,12 @@ const submitflag = async (ctx) => {
 
             // 添加已经做出来的题进入数组
             tempuser.solved.push(cha.challengename)
-            await user.updateOne({username: ctx.state.userinfo.username}, {solved: tempuser.solved, time: new Date()})
-
+            await user.where({username: ctx.state.userinfo.username}).update({solved: tempuser.solved, time: new Date()}) //..... 这里也是
             // 更新题目分数
-            await cha.updateOne({challengename: cha.challengename}, {
+            await challenge.where({challengename:cha.challengename}).update({
                 solved: cha.solved + 1,
                 submit: cha.submit + 1,
-                score: present_score
-            })
+                score: present_score})
             ctx.body = {
                 code: 0
             }
@@ -120,7 +118,7 @@ const submitflag = async (ctx) => {
                 flag: body.flag
             })
             await templog.save()
-            await challenge.updateOne({challengename: cha.challengename}, {submit: cha.submit + 1})
+            await challenge.where({challengename:cha.challengename}).update({submit: cha.submit + 1})
             ctx.body = {
                 msg: "flag错误"
             }

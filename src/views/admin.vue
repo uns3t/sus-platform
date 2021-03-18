@@ -243,12 +243,15 @@
                     <el-input v-model="addchaform.score"></el-input>
                   </el-form-item>
                   <el-form-item label="虚拟机">
-                    <el-switch @change="changeDocVal" on-value="1" off-value="0" v-model="addchaform.isDynamic"></el-switch>
+                    <el-switch @change="changeDocVal" on-value="1" off-value="0" v-model="addchaform.hasDocker"></el-switch>
                   </el-form-item>
-                  <el-form-item v-if="addchaform.isDynamic==1" label="镜像名称">
+                  <el-form-item v-if="addchaform.hasDocker==1" label="动态flag">
+                    <el-switch  @change="changeDfVal" on-value="1" off-value="0" v-model="addchaform.isDynamic"></el-switch>
+                  </el-form-item>
+                  <el-form-item v-if="addchaform.hasDocker==1" label="镜像名称">
                     <el-input v-model="addchaform.imageName"></el-input>
                   </el-form-item>
-                  <el-form-item v-if="addchaform.isDynamic==1" label="端口">
+                  <el-form-item v-if="addchaform.hasDocker==1" label="端口">
                     <el-input v-model="addchaform.port"></el-input>
                   </el-form-item>
                 </el-form>
@@ -337,6 +340,7 @@
                     flag:'',
                     score:'',
                     isDynamic:0,
+                    hasDocker:0,
                     imageName:'',
                     port:10000,
                 },
@@ -374,8 +378,11 @@
                     this.listAll()
                 }
       	    },
-            changeDocVal(val) {
+            changeDfVal(val) {
                 this.addchaform.isDynamic=val
+            },
+            changeDocVal(val) {
+                this.addchaform.hasDocker=val
             },
             async listTwenty(){
                 let res=await $axios.get("/getscoreboard")
@@ -430,6 +437,9 @@
             },
             async postaddcha(){
                 this.addchaform.port = Number(this.addchaform.port)
+                if(this.addchaform.hasDocker===0){
+                    this.addchaform.imageName = this.addchaform.challengename
+                }
                 let res=await $axios.post("/addchallenge",this.addchaform)
                 if(res.data.code===0){
                     this.showaddcha=false

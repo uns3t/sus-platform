@@ -10,11 +10,13 @@ const scoreboard = async (ctx) => {
     let tots = await user.count()
 
     // 为什么超级报错？
-    for (let tmpuser in users) {
+    for (let tmpuser of users) {
         tmpuser.userscore = 0
-        for (let cha in tmpuser.solved) {
+        for (let cha of tmpuser.solved) {
+            console.log(cha)
             tmpuser.userscore += challengeInfo.getInfo(cha).score
         }
+        console.log(tmpuser)
     }
 
     let compare = (obj1, obj2) => {
@@ -68,11 +70,15 @@ const scoreboard = async (ctx) => {
             crypto: 0,
         }
         let tempuser = await user.find({username: ret[from].username})
+        tempuser=tempuser[0]
         // 从challenge缓存里面拿数据
+        if(tempuser.solved === undefined)tempuser.solved = [] 
         for (let chaName of tempuser.solved) {
             let tmpChallenge = challengeInfo.getInfo(chaName)
             foreach[tmpChallenge.type] += tmpChallenge.score
         }
+        console.log(tempuser)
+        console.log(foreach)
         if (regx.test(ret[from].ecard)) {
             res.push({
                 username: ret[from].username,

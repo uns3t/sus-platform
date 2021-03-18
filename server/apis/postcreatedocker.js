@@ -28,7 +28,7 @@ const createDocker = async (ctx) => {
     let cha = await challenge.find({challengename:body.challengename})
     cha = cha[0]
     let tempuser = await user.findOne({username: ctx.state.userinfo.username})
-    if (cha === undefined || !cha.isDynamic) {
+    if (cha === undefined || !cha.hasDocker) {
         ctx.body = {
             code:-1,
             msg: "题目不存在或不能动态启动docker"

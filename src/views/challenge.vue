@@ -27,7 +27,7 @@
                     <div style="margin-top: 20px;font-size: 15px" v-html="submitcha.value.description"></div>
                     <div v-if="submitcha.value.isDynamic==1" style="text-align: center;">
                         <el-progress v-if="dockerstatus===1 && submitcha.value.challengename===dockerChallenge" justify="center" align="middle" :percentage="parseInt(dockerCreatePercentage)" :stroke-width="10" style="width: 60%;margin-top: 25px;margin:0 auto;"></el-progress>
-                        <div style="font-size: 18px;" v-if="dockerstatus===1 && submitcha.value.challengename===dockerChallenge">Remain Time: {{parseInt(dockerRemainTime)}}s Your Port is {{port}}</div>
+                        <div style="font-size: 18px;" v-if="dockerstatus===1 && submitcha.value.challengename===dockerChallenge">Remain Time: {{parseInt(dockerRemainTime)}}s Your Port is <p style="color:#1780C7;display: inline;">{{port}}</p></div>
                         <div style="font-size: 20px; color: black;" v-if="dockerstatus===1 && submitcha.value.challengename!==dockerChallenge">You need to stop the container: <p style="color:red;display: inline;">{{dockerChallenge}}</p> first</div>
                         <el-row type="flex" justify="center" align="middle" style="margin-top: 15px;">
                             <el-button type="primary" @click="buildDocker" v-if="dockerstatus==0">建立容器</el-button>
@@ -95,7 +95,6 @@
                 this.dockerRemainTime = (7200 - (NowTime-this.dockerTimeStamp)/1000);
                 if(this.dockerRemainTime > 0) this.dockerstatus = 1
             }
-            console.log(this.dockerChallenge)
         },
         methods:{
             async DockerInfo(){
