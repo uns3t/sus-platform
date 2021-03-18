@@ -11,42 +11,44 @@ const stopDocker = async (ctx) => {
     let docker = new Docker()
     let container =  docker.getContainer(tempuser.token)
     let body;
-    // 怎么会有人设计出来没同时给opts和fallback就把opts赋给fallback的
-    // container.stop(function (error, data){
+
+    await user.findOneAndUpdate({username: tempuser.username}, {$set:{dockerTimeout: null}})
+    // container.remove(function (error, data){  //remove 自带stop 重复使用会GG
     //     if(error)
     //     {
+    //         console.log(error)
     //         body = {
     //             code: -1,
-    //             msg: "容器停止失败"
-    //         }
-    //         console.log(error)
-    //     }
-    //     else
-    //     {
-    //         console.log(data)
-    //         body = {
-    //             code: 0,
-    //             msg: "容器清除成功"
+    //             msg: "容器删除失败"
     //         }
     //     }
     // })
+
+    // 这里在then里面的不会回显?
+    container.stop().then(function (data) {
+        return container.remove()
+    }).then(function (data){
+        console.log("容器"+tempuser.token+"删除成功")
+        body = {
+            code: 0,
+            msg: "容器删除成功"
+        }
+    }).catch(function (error) {
+        console.log(error)
+        body = {
+            code: -1,
+            msg: "容器删除失败"
+        }
+    })
+
+    // 这样子就永恒成功了?
     body = {
         code: 0,
         msg: "容器删除成功"
     }
-    let res = await user.findOneAndUpdate({username: tempuser.username}, {$set:{dockerTimeout: null}})
-    container.remove(function (error, data){  //remove 自带stop 重复使用会GG
-        if(error)
-        {
-            console.log(error)
-            body = {
-                code: -1,
-                msg: "容器删除失败"
-            }
-        }
-    })
+
     ctx.body = body;
-    // 清楚之前的停止docker计时，并主动更新dockerTimeoutID
+    // 清除之前的停止docker计时，并主动更新dockerTimeoutID
     clearTimeout(tempuser.dockerTimeout)
     ctx.cookies.set('dockerTimeStamp',null,{overwrite:true,httpOnly:false})
     ctx.cookies.set('port',null,{overwrite:true,httpOnly:false})
