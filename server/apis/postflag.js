@@ -1,6 +1,5 @@
 const user = require("../db/model/userdb")
 const challenge = require("../db/model/challengedb")
-const challengeInfo = require("../tools/challengeInfo")
 const log = require("../db/model/logdb")
 const verify = require("../tools/verify")
 const format = require("../tools/format")
@@ -82,8 +81,6 @@ const submitflag = async (ctx) => {
         if ((cha.isDynamic && body.flag === flagFormat.replace("$",md5(cha.flag + tempuser.token)))
             || (!cha.isDynamic && cha.flag === body.flag)) {
 
-            // 更新缓存
-            challengeInfo.setInfo(cha.challengename, cha)
 
             let templog = new log({
                 username: ctx.state.userinfo.username,

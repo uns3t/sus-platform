@@ -41,7 +41,7 @@ const stopDocker = async (ctx) => {
         }
     })
 
-    // 这样子就永恒成功了?
+    // 这样子好像会永恒成功?then和catch似乎不能赋值到外面
     body = {
         code: 0,
         msg: "容器删除成功"

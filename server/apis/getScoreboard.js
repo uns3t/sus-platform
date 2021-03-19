@@ -1,22 +1,32 @@
 const user = require("../db/model/userdb")
-const challengeInfo = require("../tools/challengeInfo")
+const challenge=require("../db/model/challengedb")
 // const log = require("../db/model/logdb")
 
 const scoreboard = async (ctx) => {
 
     //不需要登录验证，所有人都可以看得分板
 
-    let users = await user.find()
+    // 这样子就只查这几个字段出来了
+    let users = await user.find({}, {username: undefined, solved:[], ecard: 0})
     let tots = await user.count()
+    let chas = await challenge.find()
 
-    // 为什么超级报错？
-    for (let tmpuser of users) {
-        tmpuser.userscore = 0
-        for (let cha of tmpuser.solved) {
-            console.log(cha)
-            tmpuser.userscore += challengeInfo.getInfo(cha).score
+    // 给用户算总分，排序(超级性能瓶颈)
+    for (let user of users) {
+        user.userscore = 0
+        user.pwn = 0
+        user.web = 0
+        user.reverse = 0
+        user.crypto = 0
+        user.misc = 0
+        // 应该用上面那种查询方法就能default了？
+        //if (user.solved === undefined) user.solved = []
+        for (let cha of chas) {
+            if ((user.solved).includes(cha.name)) {
+                user.userscore += cha.score
+                user[cha.type] += cha.score
+            }
         }
-        console.log(tmpuser)
     }
 
     let compare = (obj1, obj2) => {
@@ -39,16 +49,6 @@ const scoreboard = async (ctx) => {
         }
     }
     users.sort(compare)
-    let ret = users.map((v) => {
-        v.pwd = undefined
-        v.studentid = undefined
-        v.email = undefined
-        v.qq = undefined
-        v.phone = undefined
-        v.name = undefined
-        v.time = undefined
-        return v
-    })
 
     // 研本一卡通正则
     var reg = new RegExp(/.{3}20.{4}/)
@@ -60,79 +60,35 @@ const scoreboard = async (ctx) => {
     let res20B = []
     let tot20B = 0
 
-    // 遍历排序过的全部用户，计算各方向分数
     for (let from = 0; from < tots; ++from) {
-        let foreach = {
-            pwn: 0,
-            reserve: 0,
-            web: 0,
-            misc: 0,
-            crypto: 0,
+        let tempuser = users[from]
+        let result = {
+            username: tempuser.username,
+            userscore: tempuser.userscore,
+            pwn: tempuser.pwn,
+            web: tempuser.web,
+            reverse: tempuser.reverse,
+            misc: tempuser.misc,
+            crypto: tempuser.crypto,
+            index: from + 1,
         }
-        let tempuser = await user.find({username: ret[from].username})
-        tempuser=tempuser[0]
-        // 从challenge缓存里面拿数据
-        if(tempuser.solved === undefined)tempuser.solved = [] 
-        for (let chaName of tempuser.solved) {
-            let tmpChallenge = challengeInfo.getInfo(chaName)
-            foreach[tmpChallenge.type] += tmpChallenge.score
-        }
-        console.log(tempuser)
-        console.log(foreach)
-        if (regx.test(ret[from].ecard)) {
-            res.push({
-                username: ret[from].username,
-                userscore: ret[from].userscore,
-                pwn: foreach['pwn'],
-                web: foreach['web'],
-                reserve: foreach['reserve'],
-                misc: foreach['misc'],
-                crypto: foreach['crypto'],
-                index: from + 1,
-                grade: "本科生"
-            })
+        if (regx.test(tempuser.ecard)) {
+            result.grade = "本科生"
+            res.push(result)
         } else {
-            res.push({
-                username: ret[from].username,
-                userscore: ret[from].userscore,
-                pwn: foreach['pwn'],
-                web: foreach['web'],
-                reserve: foreach['reserve'],
-                misc: foreach['misc'],
-                crypto: foreach['crypto'],
-                index: from + 1,
-                grade: "研究生"
-            })
+            result.grade = "研究生"
+            res.push(result)
         }
 
-
-        if (reg.test(ret[from].ecard)) {
-            if (regy.test(ret[from].ecard)) {
+        if (reg.test(tempuser.ecard)) {
+            if (regy.test(tempuser.ecard)) {
                 tot20A++
-                res20A.push({
-                    username: ret[from].username,
-                    userscore: ret[from].userscore,
-                    pwn: foreach['pwn'],
-                    web: foreach['web'],
-                    reserve: foreach['reserve'],
-                    misc: foreach['misc'],
-                    crypto: foreach['crypto'],
-                    index: from + 1,
-                    grade: "本科"
-                })
+                result.grade = "本科"
+                res20A.push(result)
             } else {
                 tot20B++
-                res20B.push({
-                    username: ret[from].username,
-                    userscore: ret[from].userscore,
-                    pwn: foreach['pwn'],
-                    web: foreach['web'],
-                    reserve: foreach['reserve'],
-                    misc: foreach['misc'],
-                    crypto: foreach['crypto'],
-                    index: from + 1,
-                    grade: "研究生"
-                })
+                result.grade = "研究生"
+                res20B.push(result)
             }
         }
     }

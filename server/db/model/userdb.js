@@ -3,7 +3,6 @@ mongoose.set('useFindAndModify', false)   //推荐开启
 let userSchema = new mongoose.Schema({
     username: {type: String},
     pwd: {type: String},
-    // userscore: {type: Number, default: 0},
     studentid: {type: String},
     ecard: {type: String},
     phone: {type: String},

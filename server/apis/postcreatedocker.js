@@ -4,7 +4,6 @@ const challenge = require("../db/model/challengedb")
 const getPort = require("get-port")
 const verify = require("../tools/verify")
 const format = require("../tools/format")
-const challengeInfo = require("../tools/challengeInfo")
 const user = require("../db/model/userdb")
 const moment = require('moment')
 const reqformat = {
@@ -31,6 +30,9 @@ const createDocker = async (ctx) => {
     let cha = await challenge.find({challengename: body.challengename})
     cha = cha[0]
     let tempuser = await user.findOne({username: ctx.state.userinfo.username})
+    console.log(ctx.state.userinfo.username)
+
+    // 判断能否启动docker
     if (cha === undefined || !cha.hasDocker) {
         ctx.body = {
             code: -1,
@@ -58,22 +60,23 @@ const createDocker = async (ctx) => {
         opt.ExposedPorts[cha.port.toString() + "/tcp"] = {}
         opt.HostConfig.PortBindings[cha.port.toString() + "/tcp"] = [{"HostPort": port.toString()}]
         await docker.createContainer(opt).then(function (container) {
-            //这里异步逻辑要注意 不然数据库是不会更新的(大概就是then里面不能异步吧)
+            //这里异步逻辑要注意 不然数据库是不会更新的(大概就是then里面不能异步吧?)
             auxContainer = container
             return auxContainer.start()
         }).then(function (data) {
-
-            auxContainer.exec({
-                Cmd: ["/bin/bash", "-c", "/service.sh"],
-                Env: ["flag=" + flag_format.replace("$", md5(cha.flag + tempuser.token))]
-            }).then(function (exec){
-                // log docker flag
-                console.log("flag=" + flag_format.replace("$", md5(cha.flag + tempuser.token)))
-                return exec.start({hijack: false, stdin: false})
-            }).catch(function (error){
-                console.log(error)
-            })
-
+            // 只对动态flag进行flag下发，允许能起docker但flag固定的情形
+            if (cha.isDynamic === true) {
+                auxContainer.exec({
+                    Cmd: ["/bin/bash", "-c", "/service.sh"],
+                    Env: ["flag=" + flag_format.replace("$", md5(cha.flag + tempuser.token))]
+                }).then(function (exec) {
+                    // log docker flag
+                    // console.log("flag=" + flag_format.replace("$", md5(cha.flag + tempuser.token)))
+                    return exec.start({hijack: false, stdin: false})
+                }).catch(function (error) {
+                    console.log(error)
+                })
+            }
 
             console.log("container " + tempuser.token + " started")
             // 创建一个定时任务，并把定时任务id存进数据库
