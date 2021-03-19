@@ -20,13 +20,13 @@ const refreshDocker = async(ctx) => {
             user.findOneAndUpdate({username: tempuser.username},  {$set:{dockerTimeout: null}})
         }, 7200 * 1000)   // 2h
         timeoutID = Number(""+timeoutID)
+        console.log("容器"+tempuser.token+"续费成功")
         user.findOneAndUpdate({username: tempuser.username},  {$set:{dockerTimeout: timeoutID}})   
         body = {
             code: 0,
             msg: "容器刷新成功",
-            dockerTimeout: timeoutID,
-            dockerTimeStamp: +moment(),
         }
+        ctx.cookies.set('dockerTimeStamp',+moment(),{overwrite:true,httpOnly:false})
     }else{
         body = {
             code: -1,

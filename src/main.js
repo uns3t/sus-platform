@@ -30,6 +30,8 @@ import {
 import "./assets/index.css"
 import "./assets/pure.css"
 
+import VueCookies from 'vue-cookies'
+Vue.use(VueCookies)
 
 Vue.use(Pagination)
 Vue.use(axios)

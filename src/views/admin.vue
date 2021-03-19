@@ -183,8 +183,8 @@
                         </el-table-column>
                         <el-table-column
                                 sortable
-                                property="reserve"
-                                label="Reserve"
+                                property="reverse"
+                                label="Reverse"
                         >
                         </el-table-column>
                         <el-table-column
@@ -228,7 +228,7 @@
                     <el-select v-model="addchaform.type" placeholder="选择题目类型">
                       <el-option label="pwn" value="pwn"></el-option>
                       <el-option label="web" value="web"></el-option>
-                      <el-option label="reserve" value="reserve"></el-option>
+                      <el-option label="reverse" value="reverse"></el-option>
                       <el-option label="misc" value="misc"></el-option>
                       <el-option label="crypto" value="crypto"></el-option>
                     </el-select>
@@ -243,12 +243,15 @@
                     <el-input v-model="addchaform.score"></el-input>
                   </el-form-item>
                   <el-form-item label="虚拟机">
-                    <el-switch @change="changeDocVal" on-value="1" off-value="0" v-model="addchaform.isDynamic"></el-switch>
+                    <el-switch @change="changeDocVal" on-value="1" off-value="0" v-model="addchaform.hasDocker"></el-switch>
                   </el-form-item>
-                  <el-form-item v-if="addchaform.isDynamic==1" label="镜像名称">
+                  <el-form-item v-show="addchaform.hasDocker==1" label="动态flag">
+                    <el-switch  @change="changeDfVal" on-value="1" off-value="0" v-model="addchaform.isDynamic"></el-switch>
+                  </el-form-item>
+                  <el-form-item v-show="addchaform.hasDocker==1" label="镜像名称">
                     <el-input v-model="addchaform.imageName"></el-input>
                   </el-form-item>
-                  <el-form-item v-if="addchaform.isDynamic==1" label="端口">
+                  <el-form-item v-show="addchaform.hasDocker==1" label="端口">
                     <el-input v-model="addchaform.port"></el-input>
                   </el-form-item>
                 </el-form>
@@ -289,7 +292,7 @@
                     <el-select v-model="editchaform.type" placeholder="选择题目类型">
                       <el-option label="pwn" value="pwn"></el-option>
                       <el-option label="web" value="web"></el-option>
-                      <el-option label="reserve" value="reserve"></el-option>
+                      <el-option label="reverse" value="reverse"></el-option>
                       <el-option label="misc" value="misc"></el-option>
                       <el-option label="crypto" value="crypto"></el-option>
                     </el-select>
@@ -337,7 +340,8 @@
                     flag:'',
                     score:'',
                     isDynamic:0,
-                    imageName:'',
+                    hasDocker:0,
+                    imageName:'imageName',
                     port:10000,
                 },
                 editchaform:{
@@ -374,8 +378,11 @@
                     this.listAll()
                 }
       	    },
-            changeDocVal(val) {
+            changeDfVal(val) {
                 this.addchaform.isDynamic=val
+            },
+            changeDocVal(val) {
+                this.addchaform.hasDocker=val
             },
             async listTwenty(){
                 let res=await $axios.get("/getscoreboard")
@@ -430,6 +437,9 @@
             },
             async postaddcha(){
                 this.addchaform.port = Number(this.addchaform.port)
+                if(this.addchaform.hasDocker===0){
+                    this.addchaform.imageName = this.addchaform.challengename
+                }
                 let res=await $axios.post("/addchallenge",this.addchaform)
                 if(res.data.code===0){
                     this.showaddcha=false

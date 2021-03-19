@@ -25,13 +25,14 @@
 <!--                <div style="box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.3);font-size: 15px;padding: 20px;margin-left: 10px;margin-right: 10px">-->
                     <div style="font-size: 23px;">{{submitcha.value.challengename}}</div>
                     <div style="margin-top: 20px;font-size: 15px" v-html="submitcha.value.description"></div>
-                    <div v-if="submitcha.value.isDynamic==1" style="text-align: center;">
-                        <el-progress justify="center" align="middle" :percentage="parseInt(dockerCreatePercentage)" :stroke-width="10" style="width: 60%;margin-top: 25px;margin:0 auto;"></el-progress>
-                        <div style="font-size: 18px;" v-if="dockerstatus==1">Remain Time: {{parseInt(dockerRemainTime)}}s Your Port is {{port}}</div>
+                    <div v-if="submitcha.value.hasDocker==1" style="text-align: center;">
+                        <el-progress v-if="dockerstatus===1 && submitcha.value.challengename===dockerChallenge" justify="center" align="middle" :percentage="parseInt(dockerCreatePercentage)" :stroke-width="10" style="width: 60%;margin-top: 25px;margin:0 auto;"></el-progress>
+                        <div style="font-size: 18px;" v-if="dockerstatus===1 && submitcha.value.challengename===dockerChallenge">Remain Time: {{parseInt(dockerRemainTime)}}s Your Port is <p style="color:#1780C7;display: inline;">{{port}}</p></div>
+                        <div style="font-size: 20px; color: black;" v-if="dockerstatus===1 && submitcha.value.challengename!==dockerChallenge">You need to stop the container: <p style="color:red;display: inline;">{{dockerChallenge}}</p> first</div>
                         <el-row type="flex" justify="center" align="middle" style="margin-top: 15px;">
                             <el-button type="primary" @click="buildDocker" v-if="dockerstatus==0">建立容器</el-button>
-                            <el-button type="success" @click="refreshDocker" v-if="dockerstatus==1">刷新服务</el-button>
-                            <el-button type="warning" @click="stopDocker" v-if="dockerstatus==1">停止服务</el-button>
+                            <el-button type="success" @click="refreshDocker" v-if="dockerstatus===1 && submitcha.value.challengename===dockerChallenge">刷新服务</el-button>
+                            <el-button type="warning" @click="stopDocker" v-if="dockerstatus==1 && submitcha.value.challengename===dockerChallenge">停止服务</el-button>
                         </el-row>
                     </div>
                     <div style="margin-top: 40px">
@@ -52,6 +53,8 @@
         name: "challenge",
         data(){
             return{
+                dockerChallenge: null,
+                dockerTimeStamp: 0,
                 port: null,
                 dockerRemainTime: 0,
                 dockerCreatePercentage:0,
@@ -62,7 +65,8 @@
                     value:{
                         challengename:"初始值",
                         description:"初始值",
-                        isDynamic:false
+                        isDynamic:false,
+                        hasDocker:false
                     }
                 },
                 showsubmitdialog:false,
@@ -75,15 +79,36 @@
             this.timer = setInterval(() => {
                 if(this.dockerstatus === 1){
                     let NowTime = +moment();
-                    this.dockerRemainTime = (7200 - (NowTime-this.$store.state.dockerInfo.timestamp)/1000);
+                    this.dockerRemainTime = (7200 - (NowTime-this.dockerTimeStamp)/1000);
                     this.dockerCreatePercentage = (this.dockerRemainTime*100/7200)
+                    
+                    if(this.dockerRemainTime < 0 ){
+                        this.dockerRemainTime = 0
+                        this.dockerstatus = 0
+                        this.dockerCreatePercentage = 0
+                    }
                 }
             }, 1000)
         },
         async beforeCreate() {
-
+            
+        },
+        created() {
+            this.port  = this.$cookies.get('port');
+            this.dockerTimeStamp = this.$cookies.get('dockerTimeStamp');
+            this.dockerChallenge = this.$cookies.get('dockerChallenge');
+            if(this.dockerChallenge !== undefined && this.dockerChallenge !== null){
+                let NowTime = +moment();
+                this.dockerRemainTime = (7200 - (NowTime-this.dockerTimeStamp)/1000);
+                if(this.dockerRemainTime > 0) this.dockerstatus = 1
+            }
         },
         methods:{
+            async DockerInfo(){
+                this.port  = this.$cookies.get('port');
+                this.dockerTimeStamp = this.$cookies.get('dockerTimeStamp');
+                this.dockerChallenge = this.$cookies.get('dockerChallenge');
+            },
             async buildDocker(){
                 let temp={
                     challengename: this.submitcha.value.challengename,
@@ -92,13 +117,7 @@
                 console.log(res.data)
                 if(res.data.code===0){
                     if(res.data.dockerTimeout !== null){
-                        let dockerInfo = {
-                            timestamp: res.data.dockerTimeStamp,
-                            timeout: res.data.dockerTimeout,
-                            port: res.data.port
-                        }
-                        this.$store.commit('setDockerTime',dockerInfo)
-                        this.port = res.data.port
+                        this.DockerInfo()
                         this.openmsg("通知","创建容器成功")
                         this.dockerstatus=1
                     }
@@ -108,7 +127,7 @@
                 }else if (res.data.code === 1){
                     this.openmsg("通知",res.data.msg)
                     this.dockerstatus=1
-                    refreshDocker()
+                    this.refreshDocker()
                 }else{
                     this.openmsg("通知",res.data.msg)
                 }
@@ -117,13 +136,7 @@
                 let res=await $axios.get("/getstopdocker")
                 this.openmsg("通知",res.data.msg)
                 if(res.data.code===0){
-                    this.port = null
-                    let dockerInfo = {
-                        timestamp: 0,
-                        timeout: null,
-                        port: null
-                    }
-                    this.$store.commit('setDockerTime',dockerInfo)
+                    this.DockerInfo()
                 }
                 this.dockerstatus=0
                 this.dockerRemainTime=0
@@ -133,12 +146,7 @@
                 let res=await $axios.get("/getrefreshdocker")
                 this.openmsg("通知",res.data.msg)
                 if(res.data.code===0){
-                    let dockerInfo = {
-                        timestamp: res.data.dockerTimeStamp,
-                        timeout: res.data.dockerTimeout,
-                        port: this.$store.state.dockerInfo.port
-                    }
-                    this.$store.commit('setDockerTime',dockerInfo)
+                    this.DockerInfo()
                 }
             },
             async getchallenge(){
@@ -171,6 +179,7 @@
           },
           openchallenge(cha){
               this.submitcha=cha
+              console.log(cha)
               this.showsubmitdialog=true
 
           }

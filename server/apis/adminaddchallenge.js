@@ -1,5 +1,4 @@
 const challenge=require("../db/model/challengedb")
-const challengeInfo = require("../tools/challengeInfo")
 const verify = require("../tools/verify")
 const format=require("../tools/format")
 
@@ -10,8 +9,7 @@ const reqformat={
     flag:String,
     score:String,
     isDynamic: Boolean,
-    imageName: String,
-    port: Number
+    hasDocker: Boolean,
 }
 
 const addchallenge=async(ctx)=>{
@@ -23,13 +21,14 @@ const addchallenge=async(ctx)=>{
 
     let body=ctx.request.body
 
-    // 可能会有问题？
+    // TODO 校验imageName和port
     if(!format(reqformat,body)){         
         ctx.body={
             msg:"数据验证未通过"
         }
         return
     }
+
 
     // 相信管理员不要操作失误了。。。。
     // for(let v in body){
@@ -54,12 +53,12 @@ const addchallenge=async(ctx)=>{
             type: body.type,
             description: body.description,
             isDynamic: body.isDynamic,
+            hasDocker: body.hasDocker,
             imageName: body.imageName,
             port: body.port
         })
         try{
             await tempchallenge.save()
-            challengeInfo.setInfo(tempchallenge.challengename, tempchallenge.originscore)
             ctx.body={
                 code:0
             }
