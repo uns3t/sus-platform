@@ -183,8 +183,8 @@
                         </el-table-column>
                         <el-table-column
                                 sortable
-                                property="reserve"
-                                label="Reserve"
+                                property="reverse"
+                                label="Reverse"
                         >
                         </el-table-column>
                         <el-table-column
@@ -228,7 +228,7 @@
                     <el-select v-model="addchaform.type" placeholder="选择题目类型">
                       <el-option label="pwn" value="pwn"></el-option>
                       <el-option label="web" value="web"></el-option>
-                      <el-option label="reserve" value="reserve"></el-option>
+                      <el-option label="reverse" value="reverse"></el-option>
                       <el-option label="misc" value="misc"></el-option>
                       <el-option label="crypto" value="crypto"></el-option>
                     </el-select>
@@ -245,13 +245,13 @@
                   <el-form-item label="虚拟机">
                     <el-switch @change="changeDocVal" on-value="1" off-value="0" v-model="addchaform.hasDocker"></el-switch>
                   </el-form-item>
-                  <el-form-item v-if="addchaform.hasDocker==1" label="动态flag">
+                  <el-form-item v-show="addchaform.hasDocker==1" label="动态flag">
                     <el-switch  @change="changeDfVal" on-value="1" off-value="0" v-model="addchaform.isDynamic"></el-switch>
                   </el-form-item>
-                  <el-form-item v-if="addchaform.hasDocker==1" label="镜像名称">
+                  <el-form-item v-show="addchaform.hasDocker==1" label="镜像名称">
                     <el-input v-model="addchaform.imageName"></el-input>
                   </el-form-item>
-                  <el-form-item v-if="addchaform.hasDocker==1" label="端口">
+                  <el-form-item v-show="addchaform.hasDocker==1" label="端口">
                     <el-input v-model="addchaform.port"></el-input>
                   </el-form-item>
                 </el-form>
@@ -292,7 +292,7 @@
                     <el-select v-model="editchaform.type" placeholder="选择题目类型">
                       <el-option label="pwn" value="pwn"></el-option>
                       <el-option label="web" value="web"></el-option>
-                      <el-option label="reserve" value="reserve"></el-option>
+                      <el-option label="reverse" value="reverse"></el-option>
                       <el-option label="misc" value="misc"></el-option>
                       <el-option label="crypto" value="crypto"></el-option>
                     </el-select>
@@ -341,7 +341,7 @@
                     score:'',
                     isDynamic:0,
                     hasDocker:0,
-                    imageName:'',
+                    imageName:'imageName',
                     port:10000,
                 },
                 editchaform:{

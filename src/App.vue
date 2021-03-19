@@ -5,7 +5,7 @@
               <ul class="pure-menu-list" style="margin-top: -10px;margin-left: 5%;">
                   <li class="pure-menu-item" @click="torouter('/challenge')">
                       <a class="pure-menu-link"><img src="./assets/image/logo1.png" style="max-width: 40px; vertical-align: middle;"></a></li>
-<li class="pure-menu-item" @click="torouter('/challenge')"><a class="pure-menu-link">SUS Platform 2020</a></li>
+<li class="pure-menu-item" @click="torouter('/challenge')"><a class="pure-menu-link">SUS Platform 2021</a></li>
                   <li class="pure-menu-item" @click="torouter('/challenge')"><a class="pure-menu-link">挑战</a></li>
                   <li class="pure-menu-item" @click="torouter('/scoreboard')"><a class="pure-menu-link">排行</a></li>
                   <li class="pure-menu-item" @click="torouter('/notice')"><a class="pure-menu-link">公告</a></li>
@@ -22,7 +22,7 @@
             <center><h1>主办方</h1></center>
             <i></i>
             <div class="ds-org">
-            <li class="org-img"><img src="https://5aku1em.github.io/images/suss.png"  alt="img" style="max-height: 120px;"></li>    
+            <li class="org-img"><img src="http://175.27.138.93:12345/suss.png"  alt="img" style="max-height: 120px;"></li>    
             </div>
             <center><h1>联系我们</h1></center>
             <i></i>
@@ -42,7 +42,7 @@
             </div>
 
     </div>
-      <div style="text-align: center;height: 30px;margin-top: 0px;font-size: 13px;color: #8c939d">©2005-2020 Security Union of SEU  • All rights reserved</div>
+      <div style="text-align: center;height: 30px;margin-top: 0px;font-size: 13px;color: #8c939d">©2005-2021 Security Union of SEU  • All rights reserved</div>
 
    </div>
 </template>

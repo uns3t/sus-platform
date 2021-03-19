@@ -4,6 +4,7 @@ node_modules
 /server/node_modules
 _cacache
 _locks
+/server/susplatformconfig.js
 
 *.mp4
 # local env files

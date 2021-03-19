@@ -25,7 +25,7 @@
 <!--                <div style="box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.3);font-size: 15px;padding: 20px;margin-left: 10px;margin-right: 10px">-->
                     <div style="font-size: 23px;">{{submitcha.value.challengename}}</div>
                     <div style="margin-top: 20px;font-size: 15px" v-html="submitcha.value.description"></div>
-                    <div v-if="submitcha.value.isDynamic==1" style="text-align: center;">
+                    <div v-if="submitcha.value.hasDocker==1" style="text-align: center;">
                         <el-progress v-if="dockerstatus===1 && submitcha.value.challengename===dockerChallenge" justify="center" align="middle" :percentage="parseInt(dockerCreatePercentage)" :stroke-width="10" style="width: 60%;margin-top: 25px;margin:0 auto;"></el-progress>
                         <div style="font-size: 18px;" v-if="dockerstatus===1 && submitcha.value.challengename===dockerChallenge">Remain Time: {{parseInt(dockerRemainTime)}}s Your Port is <p style="color:#1780C7;display: inline;">{{port}}</p></div>
                         <div style="font-size: 20px; color: black;" v-if="dockerstatus===1 && submitcha.value.challengename!==dockerChallenge">You need to stop the container: <p style="color:red;display: inline;">{{dockerChallenge}}</p> first</div>
@@ -65,7 +65,8 @@
                     value:{
                         challengename:"初始值",
                         description:"初始值",
-                        isDynamic:false
+                        isDynamic:false,
+                        hasDocker:false
                     }
                 },
                 showsubmitdialog:false,
@@ -80,6 +81,12 @@
                     let NowTime = +moment();
                     this.dockerRemainTime = (7200 - (NowTime-this.dockerTimeStamp)/1000);
                     this.dockerCreatePercentage = (this.dockerRemainTime*100/7200)
+                    
+                    if(this.dockerRemainTime < 0 ){
+                        this.dockerRemainTime = 0
+                        this.dockerstatus = 0
+                        this.dockerCreatePercentage = 0
+                    }
                 }
             }, 1000)
         },
@@ -172,6 +179,7 @@
           },
           openchallenge(cha){
               this.submitcha=cha
+              console.log(cha)
               this.showsubmitdialog=true
 
           }

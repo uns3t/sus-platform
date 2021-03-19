@@ -13,7 +13,6 @@
                     <el-radio-button :label="2">20级研究生榜</el-radio-button>
                     <el-radio-button :label="3">总 榜</el-radio-button>
                 </el-radio-group>
-                <el-button @click="export2Excel" type="primary" icon="el-icon-save" v-if="showDownload">下载</el-button>
             </div>
                 <div style="text-align: center">
                  
@@ -57,8 +56,8 @@
                         </el-table-column>
                         <el-table-column
                                 sortable
-                                property="reserve"
-                                label="Reserve"
+                                property="reverse"
+                                label="Reverse"
                         >
                         </el-table-column>
                         <el-table-column
@@ -94,13 +93,10 @@
 </template>
 
 <script>
-import FileSaver from 'file-saver'
-import XLSX from 'xlsx'
     export default {
         name: "scoreboard",
         data(){
             return {
-                showDownload: false,
                 showTwenty:false,
                 showtran:false,
                 users:[],
@@ -114,43 +110,10 @@ import XLSX from 'xlsx'
         mounted(){
             this.showtran=true
         },
-        async beforeCreate() {
-            let res=await $axios.get("/getscoreboard")
-            this.users=res.data.theRet
-            this.total1 = res.data.theTot
-            let from = (this.currentpage1 - 1) * this.pagesize
-            let to = this.currentpage1 * this.pagesize
-            this.fyusers = []
-            for (; from < to; from++) {
-                if (this.users[from]) {
-                   // console.log(this.users[from])
-                    this.fyusers.push(this.users[from]);
-                }
-            }
+        created() {
+            this.listCreate()
         },
         methods:{
-            export2Excel: function() {
-                let tables = document.getElementById("out-table");
-                let table_book = this.$XLSX.utils.table_to_book(tables);
-                var table_write = this.$XLSX.write(table_book, {
-                    bookType: "xlsx",
-                    bookSST: true,
-                    type: "array"
-                });
-                try {
-                    let FileName=undefined
-                    if(this.radio=='1'){
-                        FileName="20GradeRes.xlsx"
-                    }else{
-                        FileName="AllRes.xlsx"
-                    }
-                    this.$FileSaver.saveAs(
-                    new Blob([table_write], { type: "application/octet-stream" }),FileName);
-                } catch (e) {
-                    if (typeof console !== "undefined") console.log(e, table_write);
-                }
-                return table_write;
-            },
             toteaminfo(teamname){
                 window.teamname=teamname
                 window.$router.replace("/teaminfo")
@@ -181,6 +144,20 @@ import XLSX from 'xlsx'
                     this.listTwentyB()
                 }
       	    },
+            async listCreate(){
+                let res=await $axios.get("/getscoreboard")
+                this.users=res.data.theRet
+                this.total1 = res.data.theTot
+                let from = (this.currentpage1 - 1) * this.pagesize
+                let to = this.currentpage1 * this.pagesize
+                this.fyusers = []
+                for (; from < to; from++) {
+                    if (this.users[from]) {
+                    // console.log(this.users[from])
+                        this.fyusers.push(this.users[from]);
+                    }
+                }
+            },
             async listTwentyA(){
                 let res=await $axios.get("/getscoreboard")
                 this.showTwenty = true
