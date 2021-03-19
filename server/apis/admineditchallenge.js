@@ -26,7 +26,7 @@ const editchallenge=async(ctx)=>{
         }
         return
     }
-    for(let v in body){
+    for(let v of body){
         if(body[v]==''){
             ctx.body={
                 msg:"数据不能为空"

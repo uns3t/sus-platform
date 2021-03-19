@@ -24,7 +24,7 @@ const createDocker = async (ctx) => {
         }
         return
     }
-    for (let v in body) {
+    for (let v of body) {
         body[v] = body[v].replace(/\s*/g, "");        //过滤空格
     }
     let cha = await challenge.find({challengename: body.challengename})

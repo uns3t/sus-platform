@@ -2,14 +2,13 @@ const challenge=require("../db/model/challengedb")
 const verify = require("../tools/verify")
 const format=require("../tools/format")
 
+// TODO 前端可能还得改一下那两个bool量提交的是不是bool值
 const reqformat={
     challengename:String,
     description:String,
     type:String,
     flag:String,
     score:String,
-    isDynamic: Boolean,
-    hasDocker: Boolean,
 }
 
 const addchallenge=async(ctx)=>{
@@ -22,16 +21,16 @@ const addchallenge=async(ctx)=>{
     let body=ctx.request.body
 
     // TODO 校验imageName和port
-    if(!format(reqformat,body)){         
-        ctx.body={
-            msg:"数据验证未通过"
-        }
-        return
-    }
+    // if(!format(reqformat,body)){
+    //     ctx.body={
+    //         msg:"数据验证未通过"
+    //     }
+    //     return
+    // }
 
 
     // 相信管理员不要操作失误了。。。。
-    // for(let v in body){
+    // for(let v of body){
     //     if(body[v]==''){
     //         ctx.body={
     //             msg:"数据不能为空"
@@ -39,6 +38,7 @@ const addchallenge=async(ctx)=>{
     //         return
     //     }
     // }
+
     let check=await challenge.find({challengename:body.challengename})
     if(check.length>0){
         ctx.body={

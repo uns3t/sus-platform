@@ -17,7 +17,7 @@ const passchange=async(ctx)=> {
         }
         return
     }
-    for (let v in body) {
+    for (let v of body) {
         if (body[v] == "") {
             ctx.body = {
                 msg: "您的输入数据不能为空"

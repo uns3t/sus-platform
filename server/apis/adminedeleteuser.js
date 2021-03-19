@@ -11,11 +11,17 @@ const admindeleteuser=async(ctx)=>{
     {
         return
     }
+    let body = ctx.request.body
+
     if(!format(reqformat,body.userform)) {
         ctx.body = {
             msg: "数据验证不通过"
         }
         return
+    }
+
+    for (let v of body) {
+        body[v] = body[v].replace(/\s*/g, "");        //过滤空格
     }
 
     let tempuser =  await user.findOne({username: reqformat.username})

@@ -13,18 +13,28 @@ const deletechallenge=async(ctx)=>{
     {
         return
     }
+
+    let body = ctx.request.body
+
     if(!format(reqformat,ctx.request.body)){
         ctx.body={
             msg:"数据验证未通过"
         }
         return
     }
-    if(ctx.request.body.challengename==''){
+
+    for (let v of body) {
+        body[v] = body[v].replace(/\s*/g, "");        //过滤空格
+    }
+
+    if(body.challengename==''){
         ctx.body={
             msg:"数据不能为空"
         }
         return
     }
+
+
 
     try{
         let test=await challenge.find({challengename:ctx.request.body.challengename})

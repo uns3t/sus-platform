@@ -30,6 +30,11 @@ const emailpass=async(ctx)=>{
         }
         return
     }
+
+    for (let v of body) {
+        body[v] = body[v].replace(/\s*/g, "");        //过滤空格
+    }
+
     if(body.email===""){
         ctx.body={
             msg:"email不能为空"

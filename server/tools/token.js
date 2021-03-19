@@ -1,7 +1,8 @@
 const jwt=require("jwt-simple")
-const { v4: uuidv4 } = require('uuid');
+// const { v4: uuidv4 } = require('uuid');
 
-let secret=uuidv4();
+// 记得改
+let secret="1b9d6bcd-bbfd-4b2d-9b5d-ab8dfbbd4bed";
 
 const tokenExpiresTime = 1000 * 60 * 60 * 24 * 7
 // const tokenExpiresTime = 1000*20

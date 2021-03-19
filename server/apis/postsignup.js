@@ -38,7 +38,7 @@ const signup=async(ctx)=>{
         }
         return
     }
-    for (let v in body.signupform){
+    for (let v of body.signupform){
         if(body.signupform[v]==""){
             ctx.body={
                 msg:"您的注册数据不能为空"
@@ -66,7 +66,7 @@ const signup=async(ctx)=>{
         }
     }
     */
-    for(let v in body.signupform){
+    for(let v of body.signupform){
         // 已去除空格
         body.signupform[v]=body.signupform[v].replace(/\s*/g,"");
     }

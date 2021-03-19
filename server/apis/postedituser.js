@@ -25,7 +25,7 @@ const edituser=async(ctx)=>{
         }
         return
     }
-    for(let v in body.userform){
+    for(let v of body.userform){
         body.userform[v]=body.userform[v].replace(/\s*/g,"");
     }
     //注意验证信息
