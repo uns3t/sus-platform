@@ -1,60 +1,60 @@
 const md5 = require('md5-node')
-const user=require("../db/model/userdb")
-const jwttools=require("../tools/token")
-const susconfig=require('../susplatformconfig')
-const format=require("../tools/format")
+const user = require("../db/model/userdb")
+const jwttools = require("../tools/token")
+const susconfig = require('../susplatformconfig')
+const format = require("../tools/format")
 
-const reqformat={
-    username:String,
-    pwd:String
+const reqformat = {
+    username: String,
+    pwd: String
 }
 
-const login=async(ctx)=>{
-    let body=ctx.request.body
-    if(!format(reqformat,body)){
-        ctx.body={
-            msg:"数据验证未通过"
+const login = async (ctx) => {
+    let body = ctx.request.body
+    if (!format(reqformat, body)) {
+        ctx.body = {
+            msg: "数据验证未通过"
         }
         return
     }
-    try{
-        if(body.username==''||body.pwd==''){
-            ctx.body={
-                msg:"输入不能为空"
+    try {
+        for (let v in body) {
+            body[v] = body[v].replace(/\s*/g, "");
+        }
+        if (body.username === '' || body.pwd === '') {
+            ctx.body = {
+                msg: "输入不能为空"
             }
             return
         }
-        for(let v of body){
-            body[v]=body[v].replace(/\s*/g,"");
-        }
-        if(body.username===susconfig.admin.username&&body.pwd===susconfig.admin.pwd){
-            let info={
-                username:body.username,
-                isadmin:1
+        if (body.username === susconfig.admin.username && body.pwd === susconfig.admin.pwd) {
+            let info = {
+                username: body.username,
+                isadmin: 1
             }
             console.log("----------admin登陆")
-            let token=jwttools.jwtencode(info)
-            ctx.body={code:0,token:token}
-        }else {
-            let tempuser=await user.findOne({username:body.username,pwd:md5(body.pwd)})
+            let token = jwttools.jwtencode(info)
+            ctx.body = {code: 0, token: token}
+        } else {
+            let tempuser = await user.findOne({username: body.username, pwd: md5(body.pwd)})
             // console.log(tempuser)
-            if(tempuser){
-                let info={
-                    username:body.username,
-                    isadmin:0
+            if (tempuser) {
+                let info = {
+                    username: body.username,
+                    isadmin: 0
                 }
-                let token=jwttools.jwtencode(info)
-                ctx.body={code:0,token:token}
-            }else {
-                ctx.body={
-                    msg:"用户名或密码错误"
+                let token = jwttools.jwtencode(info)
+                ctx.body = {code: 0, token: token}
+            } else {
+                ctx.body = {
+                    msg: "用户名或密码错误"
                 }
             }
         }
 
-    }catch (e) {
+    } catch (e) {
         console.log(e)
     }
 }
 
-module.exports=login
+module.exports = login

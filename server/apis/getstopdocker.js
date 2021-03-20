@@ -12,19 +12,6 @@ const stopDocker = async (ctx) => {
     let container =  docker.getContainer(tempuser.token)
     let body;
 
-    await user.findOneAndUpdate({username: tempuser.username}, {$set:{dockerTimeout: null}})
-    // container.remove(function (error, data){  //remove 自带stop 重复使用会GG
-    //     if(error)
-    //     {
-    //         console.log(error)
-    //         body = {
-    //             code: -1,
-    //             msg: "容器删除失败"
-    //         }
-    //     }
-    // })
-
-    // 这里在then里面的不会回显?
     container.stop().then(function (data) {
         return container.remove()
     }).then(function (data){
@@ -33,6 +20,7 @@ const stopDocker = async (ctx) => {
             code: 0,
             msg: "容器删除成功"
         }
+        return data
     }).catch(function (error) {
         console.log(error)
         body = {
@@ -50,9 +38,11 @@ const stopDocker = async (ctx) => {
     ctx.body = body;
     // 清除之前的停止docker计时，并主动更新dockerTimeoutID
     clearTimeout(tempuser.dockerTimeout)
-    ctx.cookies.set('dockerTimeStamp',null,{overwrite:true,httpOnly:false})
-    ctx.cookies.set('port',null,{overwrite:true,httpOnly:false})
-    ctx.cookies.set('dockerChallenge',null,{overwrite:true,httpOnly:false})
+    await user.findOneAndUpdate({username: tempuser.username}, {dockerTimeout: null})   // 只用dockerTimeout判断是否开了docker
+
+    // ctx.cookies.set('dockerTimeStamp',null,{overwrite:true,httpOnly:false})
+    // ctx.cookies.set('port',null,{overwrite:true,httpOnly:false})
+    // ctx.cookies.set('dockerChallenge',null,{overwrite:true,httpOnly:false})
 }
 
 module.exports = stopDocker

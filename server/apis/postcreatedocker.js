@@ -24,13 +24,12 @@ const createDocker = async (ctx) => {
         }
         return
     }
-    for (let v of body) {
-        body[v] = body[v].replace(/\s*/g, "");        //过滤空格
-    }
-    let cha = await challenge.find({challengename: body.challengename})
-    cha = cha[0]
+
+    // challenge name 允许空格存在
+
+    let cha = await challenge.findOne({challengename: body.challengename})
     let tempuser = await user.findOne({username: ctx.state.userinfo.username})
-    console.log(ctx.state.userinfo.username)
+    // console.log(ctx.state.userinfo.username)
 
     // 判断能否启动docker
     if (cha === undefined || !cha.hasDocker) {
@@ -46,7 +45,7 @@ const createDocker = async (ctx) => {
     } else {
         // 获取1-2w之间的一个端口
         let port = await getPort({port: getPort.makeRange(10000, 20000)})
-        console.log(port)
+        // console.log(port)
         // 目前的想法应该是build通用的image，用image起container的时候要动态绑定端口，起来之后再execflag下发脚本修改flag
         let docker = new Docker()
         let auxContainer;
@@ -56,7 +55,7 @@ const createDocker = async (ctx) => {
             ExposedPorts: {},
             HostConfig: {PortBindings: {}},
         }
-        let timeoutID;
+        let timeoutID = 0;
         opt.ExposedPorts[cha.port.toString() + "/tcp"] = {}
         opt.HostConfig.PortBindings[cha.port.toString() + "/tcp"] = [{"HostPort": port.toString()}]
         await docker.createContainer(opt).then(function (container) {
@@ -86,21 +85,28 @@ const createDocker = async (ctx) => {
                 }).catch(function (error) {
                     if (error) {
                         console.log("容器" + tempuser.token + "删除失败")
+                        console.log(error)
                     }
                 })
-                user.findOneAndUpdate({username: tempuser.username}, {$set: {dockerTimeout: null}})
-            }, 7200 * 1000)   // 2h
-            timeoutID = Number("" + timeoutID) //number化 timeout返回值是object
+                user.findOneAndUpdate({username: tempuser.username}, {dockerTimeout: null})
+            }, 3600 * 1000)   // 1h
+            timeoutID = Number(timeoutID) //number化 timeout返回值是object，就这样也能用，但是如果服务器天天重启就不能用了
+            return data     // 返回之前的成功
         }).catch(function (error) {
             console.log(error)
         })
-        await user.findOneAndUpdate({username: tempuser.username}, {dockerTimeout: timeoutID})
+        await user.findOneAndUpdate({username: tempuser.username}, {
+            dockerTimeout: timeoutID,
+            port: port,
+            timestamp: +moment(),    // unix时间戳
+            challengename: cha.challengename
+        })
         ctx.body = {
             code: 0,
         }
-        ctx.cookies.set('port', port.toString(), {overwrite: true, httpOnly: false})
-        ctx.cookies.set('dockerTimeStamp', +moment(), {overwrite: true, httpOnly: false})
-        ctx.cookies.set('dockerChallenge', body.challengename, {overwrite: true, httpOnly: false})
+        // ctx.cookies.set('port', port.toString(), {overwrite: true, httpOnly: false})
+        // ctx.cookies.set('dockerTimeStamp', +moment(), {overwrite: true, httpOnly: false})
+        // ctx.cookies.set('dockerChallenge', body.challengename, {overwrite: true, httpOnly: false})
     }
 
 }

@@ -1,7 +1,7 @@
 const marked = require('marked');
-const fs=require("fs")
-const path=require("path")
-const moment=require('moment')
+const fs = require("fs")
+const path = require("path")
+
 marked.setOptions({
     renderer: new marked.Renderer(),
     gfm: true,
@@ -14,7 +14,7 @@ marked.setOptions({
 });
 
 
-const notice=async(ctx)=>{
+const notice = async (ctx) => {
     // console.log(ctx.state.userinfo.expires)
     // console.log(Date.now())
 
@@ -31,12 +31,12 @@ const notice=async(ctx)=>{
     let htmlExist = fs.existsSync(path.join(__dirname, '../index.html'))
     if (htmlExist) {
         let html = fs.readFileSync(path.join(__dirname, '../index.html'), 'utf8')
-        ctx.body={
-            readme:html,
+        ctx.body = {
+            readme: html,
 
         }
     }
 
 }
 
-module.exports=notice
+module.exports = notice

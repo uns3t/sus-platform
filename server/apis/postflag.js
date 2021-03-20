@@ -11,7 +11,7 @@ const reqformat = {
 }
 
 // 题目解出来时的一系列操作
-// 动态flag的格式，js居然没有format函数，吐了。。。用$占位replace替换
+// 动态flag的格式，js居然没有format函数，用$占位replace替换
 let flagFormat = "SUSCTF{$}"
 
 
@@ -37,10 +37,17 @@ const submitflag = async (ctx) => {
         }
         return
     }
-    for (let v of body) {
+    for (let v in body) {
         body[v] = body[v].replace(/\s*/g, "");        //过滤空格
     }
 
+    if(body.flag === '')
+    {
+        ctx.body = {
+            msg: "flag不可以为空"
+        }
+        return
+    }
 
     let chalog = await log.find({
         username: ctx.state.userinfo.username,
@@ -69,7 +76,7 @@ const submitflag = async (ctx) => {
             if (/(y+)/.test(fmt)) {
                 fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
             }
-            for (var k in o) {
+            for (let k in o) {
                 if (new RegExp("(" + k + ")").test(fmt)) {
                     fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(String(o[k]).length)));
                 }

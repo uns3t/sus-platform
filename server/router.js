@@ -20,6 +20,7 @@ const postemail = require('./apis/postemail')
 const getrefreshdocker = require("./apis/getrefreshdocker")
 const getstopdocker = require("./apis/getstopdocker")
 const postcreatedocker = require("./apis/postcreatedocker")
+const postquerydocker = require("./apis/postquerydocker")
 
 const router = new Router({
     prefix: '/api'
@@ -38,6 +39,7 @@ router.post("/postsusrc", postsusrc)
 router.post("/postemail", postemail)
 router.post("/postpasschange", postpasschange)
 router.post("/postcreatedocker", postcreatedocker)
+router.post("/postquerydocker", postquerydocker)
 router.post("/")
 
 router.get("/getalluser", getalluser)

@@ -25,11 +25,11 @@ const edituser=async(ctx)=>{
         }
         return
     }
-    for(let v of body.userform){
+    for(let v in body.userform){
         body.userform[v]=body.userform[v].replace(/\s*/g,"");
     }
     //注意验证信息
-    console.log(body)
+    // console.log(body)
     if(body.userform.pwd!==body.userform.pwdconfirm){
         ctx.body={msg:"两次密码不相同"}
         return

@@ -17,15 +17,15 @@ const passchange=async(ctx)=> {
         }
         return
     }
-    for (let v of body) {
-        if (body[v] == "") {
+    for (let v in body) {
+        if (body[v] === "") {
             ctx.body = {
                 msg: "您的输入数据不能为空"
             }
             return
         }
     }
-    if (body.newpass != body.confirmpass) {
+    if (body.newpass !== body.confirmpass) {
         ctx.body = {msg: "两次密码不相同"}
         return
     }
@@ -43,7 +43,7 @@ const passchange=async(ctx)=> {
     else
     {
         ctx.body={msg:"验证码错误或过期"}
-        return
+
     }
 }
 

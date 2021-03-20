@@ -17,7 +17,7 @@ const Axiosp={
                             message: msg
                         });
                     }
-                    console.log(data)
+                    
                     data = JSON.parse(data)
 
                     // 对 data 进行任意转换处理

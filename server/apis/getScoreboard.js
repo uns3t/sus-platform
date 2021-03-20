@@ -7,7 +7,7 @@ const scoreboard = async (ctx) => {
     //不需要登录验证，所有人都可以看得分板
 
     // 这样子就只查这几个字段出来了
-    let users = await user.find({}, {username: undefined, solved:[], ecard: 0})
+    let users = await user.find()
     let tots = await user.count()
     let chas = await challenge.find()
 
@@ -22,13 +22,12 @@ const scoreboard = async (ctx) => {
         // 应该用上面那种查询方法就能default了？
         //if (user.solved === undefined) user.solved = []
         for (let cha of chas) {
-            if ((user.solved).includes(cha.name)) {
+            if ((user.solved).includes(cha.challengename)) {
                 user.userscore += cha.score
                 user[cha.type] += cha.score
             }
         }
     }
-
     let compare = (obj1, obj2) => {
         var val1 = obj1.userscore;
         var val2 = obj2.userscore;
@@ -59,7 +58,7 @@ const scoreboard = async (ctx) => {
     let tot20A = 0
     let res20B = []
     let tot20B = 0
-
+    
     for (let from = 0; from < tots; ++from) {
         let tempuser = users[from]
         let result = {
@@ -92,7 +91,6 @@ const scoreboard = async (ctx) => {
             }
         }
     }
-
     ctx.body = {
         theTwentyA: res20A,
         theTwentyTotA: tot20A,
