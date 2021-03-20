@@ -295,3 +295,20 @@ logdb{   //查看个人信息时进行调用
     solvedscore: int32    //解决题目时的分数    
 }
 ```
+
+管理员文件结构
+
+```
+const susconfig={
+    admin:{
+        username:"admin",
+        pwd:"admin"
+    },
+    msg:{
+        msg_overdue:"",     //token过期
+        msg_datacheck:"",   //数据验证未通过
+
+    }
+}
+module.exports=susconfig
+```

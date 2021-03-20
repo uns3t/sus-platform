@@ -79,8 +79,14 @@
             this.timer = setInterval(() => {
                 if(this.dockerstatus === 1){
                     let NowTime = +moment();
-                    this.dockerRemainTime = (3600 - (NowTime-this.dockerTimeStamp)/1000);
-                    this.dockerCreatePercentage = (this.dockerRemainTime*100/3600)
+                    this.dockerRemainTime = (7200 - (NowTime-this.dockerTimeStamp)/1000);
+                    this.dockerCreatePercentage = (this.dockerRemainTime*100/7200)
+                    
+                    if(this.dockerRemainTime < 0 ){
+                        this.dockerRemainTime = 0
+                        this.dockerstatus = 0
+                        this.dockerCreatePercentage = 0
+                    }
                 }
             }, 1000)
         },
@@ -93,7 +99,7 @@
             this.dockerChallenge = this.$cookies.get('dockerChallenge');
             if(this.dockerChallenge !== undefined && this.dockerChallenge !== null){
                 let NowTime = +moment();
-                this.dockerRemainTime = (3600 - (NowTime-this.dockerTimeStamp)/1000);
+                this.dockerRemainTime = (7200 - (NowTime-this.dockerTimeStamp)/1000);
                 if(this.dockerRemainTime > 0) this.dockerstatus = 1
             }
         },
