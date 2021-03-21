@@ -1,11 +1,12 @@
 const Docker = require("dockerode")
 const md5 = require("md5-node")
 const challenge = require("../db/model/challengedb")
-const getPort = require("get-port")
 const verify = require("../tools/verify")
 const format = require("../tools/format")
 const user = require("../db/model/userdb")
 const moment = require('moment')
+const isPortReachable = require('is-port-reachable')
+
 const reqformat = {
     challengename: String,
 }
@@ -43,8 +44,13 @@ const createDocker = async (ctx) => {
             msg: "一个用户同一时间只能创建一个容器"
         }
     } else {
-        // 获取1-2w之间的一个端口
-        let port = await getPort({port: getPort.makeRange(10000, 20000)})
+        // 获取1-2w之间的一个端口，随机产生，之前是顺序的
+        let port = parseInt(Math.random() * 10000 + 10000, 10)
+        while (!await isPortReachable(port))
+        {
+            port = parseInt(Math.random() * 10000 + 10000, 10)
+        }
+
         // console.log(port)
         // 目前的想法应该是build通用的image，用image起container的时候要动态绑定端口，起来之后再execflag下发脚本修改flag
         let docker = new Docker()
@@ -103,9 +109,7 @@ const createDocker = async (ctx) => {
         ctx.body = {
             code: 0,
         }
-        // ctx.cookies.set('port', port.toString(), {overwrite: true, httpOnly: false})
-        // ctx.cookies.set('dockerTimeStamp', +moment(), {overwrite: true, httpOnly: false})
-        // ctx.cookies.set('dockerChallenge', body.challengename, {overwrite: true, httpOnly: false})
+
     }
 
 }

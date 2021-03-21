@@ -1,6 +1,7 @@
 const user = require("../db/model/userdb")
 const challenge = require("../db/model/challengedb")
 const log = require("../db/model/logdb")
+const py = require("../db/model/pydb")
 const verify = require("../tools/verify")
 const format = require("../tools/format")
 const md5 = require("md5-node")
@@ -114,6 +115,20 @@ const submitflag = async (ctx) => {
                 code: 0
             }
         } else {
+            if(cha.isDynamic)   // 动态flag判断
+            {
+                let pylog = log.find({flag: body.flag, issolved: true})
+                if(pylog.length > 0)   // 存在py
+                {
+                    let pyinfo = new py({
+                        pyer: ctx.state.userinfo.username,
+                        pyee: py.username,
+                        pychaname: body.challengename,
+                        pyflag: body.flag
+                    })
+                    await pyinfo.save()
+                }
+            }
             let templog = new log({
                 username: ctx.state.userinfo.username,
                 challengename: body.challengename,
