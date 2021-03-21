@@ -16,7 +16,6 @@ const reqformat = {
 }
 
 function is_email(str) {
-    // TODO 会不会吃ReDOS啊。。。有待考据
     const reg = /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/;
     return reg.test(str);
 }
@@ -112,7 +111,7 @@ const signup = async (ctx) => {
         return
     }
 
-    let tempuser = new user({
+    let tempuser = {
         username: body.signupform.username,
         pwd: md5(body.signupform.pwd),
         studentid: body.signupform.studentid,
@@ -123,10 +122,11 @@ const signup = async (ctx) => {
         email: body.signupform.email,
         time: new Date(),
         token: uuidv4()     // 生成flag token
-    })
+    }
 
     try {
-        await tempuser.save()
+        // upsert 查找到了就修改对应账户，没找到就插入，保证数据唯一无条件竞争
+        await user.updateOne({$or: [{username: body.signupform.username}, {email: body.signupform.email}, {ecard: body.signupform.ecard}]}, tempuser, {upsert: true})
         ctx.body = {
             code: 0
         }

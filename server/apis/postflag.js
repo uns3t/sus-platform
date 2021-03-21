@@ -49,6 +49,10 @@ const submitflag = async (ctx) => {
         return
     }
 
+    // 放到前面不怕条件竞争，增加一点点性能消耗
+    let cha = await challenge.findOne({challengename: body.challengename})
+    let tempuser = await user.findOne({username: ctx.state.userinfo.username})
+
     let chalog = await log.find({
         username: ctx.state.userinfo.username,
         challengename: body.challengename,
@@ -59,10 +63,8 @@ const submitflag = async (ctx) => {
             msg: "您已提交过此题"
         }
     } else {
-        let cha = await challenge.findOne({challengename: body.challengename})
         // 动态分数算法
         let present_score = parseInt(Math.round(cha.originscore / (1 + Math.max(0, cha.solved) / 11.92201 ** 1.206096)))
-        let tempuser = await user.findOne({username: ctx.state.userinfo.username})
 
         Date.prototype.Format = function (fmt) {
             var o = {
@@ -102,9 +104,9 @@ const submitflag = async (ctx) => {
 
             // 添加已经做出来的题进入数组
             tempuser.solved.push(cha.challengename)
-            await user.where({username: ctx.state.userinfo.username}).update({solved: tempuser.solved, time: new Date()}) //..... 这里也是
+            await user.findOneAndUpdate({username: ctx.state.userinfo.username},{solved: tempuser.solved, time: new Date()}) //..... 这里也是
             // 更新题目分数
-            await challenge.where({challengename:cha.challengename}).update({
+            await challenge.findOneAndUpdate({challengename:cha.challengename},{
                 solved: cha.solved + 1,
                 submit: cha.submit + 1,
                 score: present_score})
@@ -122,7 +124,7 @@ const submitflag = async (ctx) => {
                 flag: body.flag
             })
             await templog.save()
-            await challenge.where({challengename:cha.challengename}).update({submit: cha.submit + 1})
+            await challenge.findOneAndUpdate({challengename:cha.challengename},{submit: cha.submit + 1})
             ctx.body = {
                 msg: "flag错误"
             }

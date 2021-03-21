@@ -7,6 +7,7 @@ const reqformat = {
     description: String
 }
 
+// 前端貌似做了转义，无XSS
 const postsusrc = async (ctx) => {
 
     if (!verify.user_login(ctx)) {
@@ -16,6 +17,13 @@ const postsusrc = async (ctx) => {
     if (!format(reqformat, body.susrcform)) {
         ctx.body = {
             msg: "数据验证未通过"
+        }
+        return
+    }
+    if(body.type === ''|| body.description === '')
+    {
+        ctx.body = {
+            msg: "信息不能为空"
         }
         return
     }

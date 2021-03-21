@@ -68,7 +68,6 @@ const userscore = async (ctx) => {
     }
     users.sort(compare)
 
-    // TODO 有没有更好的方式？
     let index = 0
     for (let temp of users) {
         index++
@@ -83,7 +82,7 @@ const userscore = async (ctx) => {
 
     // 做出来该方向题的分数和该方向题总分，画五边形战士
     for (let cha of chas) {
-        if (solvedCha.includes(cha.name)) {
+        if (solvedCha.includes(cha.challengename)) {
             forechart[cha.type][0] += cha.score
         }
     }

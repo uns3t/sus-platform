@@ -5,7 +5,6 @@ const admingetusr = async (ctx) => {
     if (!verify.admin_login(ctx)) {
         return
     }
-    // TODO 这里userscore属性没了，前端要改
     ctx.body = await user.find()
 
 }

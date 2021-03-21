@@ -2,7 +2,6 @@ const challenge = require("../db/model/challengedb")
 const verify = require("../tools/verify")
 const format = require("../tools/format")
 
-// TODO 前端可能还得改一下那两个bool量提交的是不是bool值
 const reqformat = {
     challengename: String,
     description: String,
@@ -52,14 +51,13 @@ const addchallenge = async (ctx) => {
     //     }
     // }
 
-    // TODO 这里也有一个条件竞争
     let check = await challenge.find({challengename: body.challengename})
     if (check.length > 0) {
         ctx.body = {
             msg: "题目名重复请重新添加"
         }
     } else {
-        let tempchallenge = new challenge({
+        let tempchallenge = {
             challengename: body.challengename,
             flag: body.flag,
             score: body.score,
@@ -70,9 +68,10 @@ const addchallenge = async (ctx) => {
             hasDocker: body.hasDocker,
             imageName: body.imageName,
             port: body.port
-        })
+        }
         try {
-            await tempchallenge.save()
+            // upsert在没有时插入有时更新，防止条件竞争
+            await challenge.updateOne({challengename: body.challengename}, tempchallenge, {upsert: true})
             ctx.body = {
                 code: 0
             }
