@@ -9,6 +9,13 @@ const reqformat = {
     type: String,
     flag: String,
     score: String,
+    isDynamic: Boolean,
+    hasDocker: Boolean
+}
+
+const dockerFormat = {
+    imageName: String,
+    port: Number
 }
 
 const addchallenge = async (ctx) => {
@@ -19,15 +26,21 @@ const addchallenge = async (ctx) => {
 
     let body = ctx.request.body
 
-    // TODO 校验imageName和port
     // challenge系列不需要过滤空格，描述题目名什么的都允许空格
-    // if(!format(reqformat,body)){
-    //     ctx.body={
-    //         msg:"数据验证未通过"
-    //     }
-    //     return
-    // }
-
+    if(!format(reqformat,body)){
+        ctx.body={
+            msg:"数据验证未通过"
+        }
+        return
+    }
+    if(body.hasDocker) {    // 对存在docker的数据进行进一步校验
+        if (!format(dockerFormat, body)) {
+            ctx.body = {
+                msg: "数据验证未通过"
+            }
+            return
+        }
+    }
 
     // 相信管理员不要操作失误了。。。。
     // for(let v in body){
@@ -38,6 +51,8 @@ const addchallenge = async (ctx) => {
     //         return
     //     }
     // }
+
+    // TODO 这里也有一个条件竞争
     let check = await challenge.find({challengename: body.challengename})
     if (check.length > 0) {
         ctx.body = {

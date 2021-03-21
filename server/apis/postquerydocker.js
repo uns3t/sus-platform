@@ -24,14 +24,14 @@ const queryDocker = async (ctx) => {
     let tempcha = await challenge.findOne({challengename: body.challengename})
     if (tempcha.hasDocker) {
         if (tempuser.dockerTimeout !== null) {      // 开了容器，前端比较哪个题吧
-            return {
+            ctx.body = {
                 challengename: tempuser.challengename,
                 port: tempuser.port,
                 timestamp: tempuser.timestamp,
                 hasDocker: true
             }
         } else {     // 没开容器
-            return {
+            ctx.body = {
                 challengename: null,
                 port: null,
                 timestamp: null,
@@ -39,7 +39,7 @@ const queryDocker = async (ctx) => {
             }
         }
     } else {     // 该题不存在docker
-        return {hasDocker: false}
+        ctx.body = {hasDocker: false}
     }
 }
 

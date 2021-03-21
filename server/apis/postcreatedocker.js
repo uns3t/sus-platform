@@ -55,7 +55,6 @@ const createDocker = async (ctx) => {
             ExposedPorts: {},
             HostConfig: {PortBindings: {}},
         }
-        let timeoutID = 0;
         opt.ExposedPorts[cha.port.toString() + "/tcp"] = {}
         opt.HostConfig.PortBindings[cha.port.toString() + "/tcp"] = [{"HostPort": port.toString()}]
         await docker.createContainer(opt).then(function (container) {
@@ -78,23 +77,23 @@ const createDocker = async (ctx) => {
             }
 
             console.log("container " + tempuser.token + " started")
-            // 创建一个定时任务，并把定时任务id存进数据库
-            timeoutID = setTimeout(function () {
-                auxContainer.stop().then(function (data) {
-                    return auxContainer.remove()
-                }).catch(function (error) {
-                    if (error) {
-                        console.log("容器" + tempuser.token + "删除失败")
-                        console.log(error)
-                    }
-                })
-                user.findOneAndUpdate({username: tempuser.username}, {dockerTimeout: null})
-            }, 3600 * 1000)   // 1h
-            timeoutID = Number(timeoutID) //number化 timeout返回值是object，就这样也能用，但是如果服务器天天重启就不能用了
             return data     // 返回之前的成功
         }).catch(function (error) {
             console.log(error)
         })
+        // 创建一个定时任务，并把定时任务id存进数据库
+        let timeoutID = setTimeout(function () {
+            auxContainer.stop().then(function (data) {
+                return auxContainer.remove()
+            }).catch(function (error) {
+                if (error) {
+                    console.log("容器" + tempuser.token + "删除失败")
+                    console.log(error)
+                }
+            })
+            user.findOneAndUpdate({username: tempuser.username}, {dockerTimeout: null})
+        }, 3600 * 1000)   // 1h
+        timeoutID = Number(timeoutID) //number化 timeout返回值是object，就这样也能用
         await user.findOneAndUpdate({username: tempuser.username}, {
             dockerTimeout: timeoutID,
             port: port,
