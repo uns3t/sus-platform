@@ -29,7 +29,7 @@ const stopDocker = async (ctx) => {
         }
     }
 
-    let tempuser = await user.findOne({username: ctx.state.userinfo.username})
+    let tempuser = await user.findOne({username: body.username})
     let docker = new Docker()
     let container =  docker.getContainer(tempuser.token)
 

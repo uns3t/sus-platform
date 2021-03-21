@@ -5,7 +5,7 @@ const getDockers = async (ctx) => {
     if (!verify.admin_login(ctx)) {
         return
     }
-    let dockerUser = await user.find({dockerTimeout: {$not: null}}) // 查询非空
+    let dockerUser = await user.find({dockerTimeout: {$ne: null}}) // 查询非空
     let ret = []
     for(let user of dockerUser)
     {

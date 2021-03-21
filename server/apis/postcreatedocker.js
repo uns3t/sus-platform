@@ -46,9 +46,12 @@ const createDocker = async (ctx) => {
     } else {
         // 获取1-2w之间的一个端口，随机产生，之前是顺序的
         let port = parseInt(Math.random() * 10000 + 10000, 10)
-        while (!await isPortReachable(port))
+        let res = await isPortReachable(port)
+        while (res)     // reachabley意味着这里有服务以及被占用了
         {
             port = parseInt(Math.random() * 10000 + 10000, 10)
+            res = await isPortReachable(port, 'localhost')
+
         }
 
         // console.log(port)

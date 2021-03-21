@@ -112,6 +112,11 @@
                                         prop="username"
                                         label="用户名"
                                         width="180">
+                                    <template slot-scope="scope">
+                                        <div @click="callfordeldocker(scope.row.username)" class="teamname">
+                                            {{ scope.row.username }}
+                                        </div>
+                                    </template>
                                 </el-table-column>
                                 <el-table-column
                                         prop="dockerID"
@@ -224,6 +229,24 @@
                                 sortable
                                 property="userscore"
                                 label="战斗力"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                                sortable
+                                property="email"
+                                label="邮箱"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                                sortable
+                                property="ecard"
+                                label="一卡通号"
+                        >
+                        </el-table-column>
+                        <el-table-column
+                                sortable
+                                property="studentid"
+                                label="学号"
                         >
                         </el-table-column>
                     </el-table>
@@ -415,6 +438,10 @@
             //console.log(allsrc)
         },
         methods:{
+            callfordeldocker(val){
+                this.deletedockerform.username = val
+                this.showdeletedocker = true
+            },
             changeTheme(val) {
                 if(val=='1'){
                     this.listTwenty()		
@@ -437,6 +464,15 @@
             async listAll(){
                 let res=await $axios.get("/getscoreboard")
                 this.showTwenty = false
+                for(let i in this.userlog){
+                    for(let j in res.data.theRet){
+                        if(this.userlog[i].username === res.data.theRet[j].username){
+                            res.data.theRet[j].email = this.userlog[i].email
+                            res.data.theRet[j].ecard = this.userlog[i].ecard
+                            res.data.theRet[j].studentid = this.userlog[i].studentid
+                        }
+                    }
+                }
                 this.users=res.data.theRet
                 this.total1 = res.data.theTot
             },
