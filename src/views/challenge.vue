@@ -79,14 +79,8 @@
             this.timer = setInterval(() => {
                 if(this.dockerstatus === 1){
                     let NowTime = +moment();
-                    this.dockerRemainTime = (7200 - (NowTime-this.dockerTimeStamp)/1000);
-                    this.dockerCreatePercentage = (this.dockerRemainTime*100/7200)
-                    
-                    if(this.dockerRemainTime < 0 ){
-                        this.dockerRemainTime = 0
-                        this.dockerstatus = 0
-                        this.dockerCreatePercentage = 0
-                    }
+                    this.dockerRemainTime = (3600 - (NowTime-this.dockerTimeStamp)/1000);
+                    this.dockerCreatePercentage = (this.dockerRemainTime*100/3600)
                 }
             }, 1000)
         },
@@ -94,20 +88,32 @@
             
         },
         created() {
-            this.port  = this.$cookies.get('port');
-            this.dockerTimeStamp = this.$cookies.get('dockerTimeStamp');
-            this.dockerChallenge = this.$cookies.get('dockerChallenge');
-            if(this.dockerChallenge !== undefined && this.dockerChallenge !== null){
-                let NowTime = +moment();
-                this.dockerRemainTime = (7200 - (NowTime-this.dockerTimeStamp)/1000);
-                if(this.dockerRemainTime > 0) this.dockerstatus = 1
-            }
+
         },
         methods:{
             async DockerInfo(){
-                this.port  = this.$cookies.get('port');
-                this.dockerTimeStamp = this.$cookies.get('dockerTimeStamp');
-                this.dockerChallenge = this.$cookies.get('dockerChallenge');
+                let temp={
+                    challengename: this.submitcha.value.challengename,
+                }
+                let res=await $axios.post("/postquerydocker",temp);
+                if(res.data.hasDocker!==null){
+                    this.port  = res.data.port
+                    this.dockerTimeStamp = res.data.timestamp
+                    this.dockerChallenge = res.data.challengename
+                    let NowTime = +moment();
+                    this.dockerRemainTime = (3600 - (NowTime-this.dockerTimeStamp)/1000);
+                    if(this.dockerRemainTime<0 || this.dockerTimeStamp===null){
+                        this.dockerstatus = 0
+                    }else{
+                        this.dockerstatus = 1
+                    }
+                }else{
+                    this.port  = null
+                    this.dockerTimeStamp = 0
+                    this.dockerChallenge = null
+                    this.dockerstatus = 0
+                }
+                
             },
             async buildDocker(){
                 let temp={
@@ -133,10 +139,15 @@
                 }
             },
             async stopDocker(){
-                let res=await $axios.get("/getstopdocker")
-                this.openmsg("通知",res.data.msg)
+                let temp={
+                    username: this.$store.state.userInfo.username
+                }
+                let res=await $axios.post("/poststopdocker",temp)
                 if(res.data.code===0){
                     this.DockerInfo()
+                    this.openmsg("通知",res.data.msg)
+                }else{
+                    this.openmsg("通知",res.data.msg)
                 }
                 this.dockerstatus=0
                 this.dockerRemainTime=0
@@ -181,7 +192,7 @@
               this.submitcha=cha
               console.log(cha)
               this.showsubmitdialog=true
-
+              this.DockerInfo()
           }
         }
     }

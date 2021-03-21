@@ -82,6 +82,7 @@ const userscore = async (ctx) => {
 
     // 做出来该方向题的分数和该方向题总分，画五边形战士
     for (let cha of chas) {
+        console.log(cha)
         if (solvedCha.includes(cha.challengename)) {
             forechart[cha.type][0] += cha.score
         }
@@ -108,7 +109,7 @@ const userscore = async (ctx) => {
         }
     })
 
-    // console.log(forechart)
+    //console.log(ctx.state.userinfo)
     // console.log(ret)
     ctx.body = {
         rank: index,

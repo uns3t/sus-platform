@@ -11,6 +11,7 @@
                             <div style="font-size: 40px;color: darkmagenta;margin-top: 20px">
                                 <i class="el-icon-circle-plus" @click="openaddcha"></i>
                                 <i class="el-icon-remove" @click="opendeletecha"></i>
+                                <i class="el-icon-delete" @click="opendeletedocker"></i>
                                 <i class="el-icon-edit" @click="openeditcha"></i>
                             </div>
                         </div>
@@ -60,7 +61,7 @@
                             <el-table
                                     :data="userlog"
                                     style="width: 100%"
-                                    :default-sort = "{prop: 'userscore', order: 'descending'}"
+                                    :default-sort = "{prop: 'username', order: 'descending'}"
                             >
                                 <el-table-column
                                         prop="username"
@@ -97,15 +98,35 @@
                                         sortable
                                         width="180">
                                 </el-table-column>
+                            </el-table>
+                        </div>
+                    </el-tab-pane>
+                    <el-tab-pane label="容器列表" name="sixth">
+                        <div>
+                            <el-table
+                                    :data="dockerlogs"
+                                    style="width: 100%"
+                                    :default-sort = "{prop: 'username', order: 'descending'}"
+                            >
                                 <el-table-column
-                                        prop="userscore"
-                                        label="分数"
-                                        sortable>
+                                        prop="username"
+                                        label="用户名"
+                                        width="180">
+                                </el-table-column>
+                                <el-table-column
+                                        prop="dockerID"
+                                        label="dockerID"
+                                        width="360">
+                                </el-table-column>
+                                <el-table-column
+                                        prop="challengename"
+                                        label="题目名称"
+                                        sortable
+                                        width="180">
                                 </el-table-column>
                             </el-table>
                         </div>
                     </el-tab-pane>
-
 
                     <el-tab-pane label="SUSrc" name="fourth">
                         <div>
@@ -243,10 +264,10 @@
                     <el-input v-model="addchaform.score"></el-input>
                   </el-form-item>
                   <el-form-item label="虚拟机">
-                    <el-switch @change="changeDocVal" on-value="1" off-value="0" v-model="addchaform.hasDocker"></el-switch>
+                    <el-switch @change="changeDocVal" on-value=true off-value=false v-model="addchaform.hasDocker"></el-switch>
                   </el-form-item>
                   <el-form-item v-show="addchaform.hasDocker==1" label="动态flag">
-                    <el-switch  @change="changeDfVal" on-value="1" off-value="0" v-model="addchaform.isDynamic"></el-switch>
+                    <el-switch  @change="changeDfVal" on-value=true off-value=false v-model="addchaform.isDynamic"></el-switch>
                   </el-form-item>
                   <el-form-item v-show="addchaform.hasDocker==1" label="镜像名称">
                     <el-input v-model="addchaform.imageName"></el-input>
@@ -278,6 +299,21 @@
             </span>
         </el-dialog>
 
+        <el-dialog
+                title="删除容器"
+                :visible.sync="showdeletedocker"
+                width="50%">
+            <span>
+                <el-form ref="form" :model="deletedockerform" label-width="80px">
+                  <el-form-item label="用户名">
+                    <el-input v-model="deletedockerform.username"></el-input>
+                  </el-form-item>
+                </el-form>
+            </span>
+            <span slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="postdeletedocker">删 除</el-button>
+            </span>
+        </el-dialog>
 
         <el-dialog
                 title="修改题目"
@@ -330,19 +366,21 @@
                 flaglogs:[],
                 userlog:[],
                 users:[],
+                dockerlogs:[],
                 showaddcha:false,
                 showdeletecha:false,
                 showeditcha:false,
+                showdeletedocker:false,
                 addchaform:{
                     challengename:'',
                     description:'',
                     type:'',
                     flag:'',
                     score:'',
-                    isDynamic:0,
-                    hasDocker:0,
-                    imageName:'imageName',
-                    port:10000,
+                    isDynamic:false,
+                    hasDocker:false,
+                    imageName:'',
+                    port:'',
                 },
                 editchaform:{
                     challengename:'',
@@ -353,6 +391,10 @@
                 },
                 deletechaform:{
                     challengename:'',
+
+                },
+                deletedockerform:{
+                    username:'',
 
                 },
                 susrclog: [],
@@ -368,6 +410,8 @@
             this.userlog=alluser.data
             let allsrc=await $axios.get("/admingetsrc")
             this.susrclog=allsrc.data
+            let alldocker  = await $axios.get("/getdockers")
+            this.dockerlogs = alldocker.data
             //console.log(allsrc)
         },
         methods:{
@@ -432,6 +476,9 @@
             opendeletecha(){
                 this.showdeletecha=true
             },
+            opendeletedocker(){
+                this.showdeletedocker=true
+            },
             openeditcha(){
                 this.showeditcha=true
             },
@@ -455,6 +502,17 @@
                     this.showdeletecha=false
                     this.openmsg("通知","删除成功请进行检查")
                     this.deletechaform={}
+                }else {
+                    this.openmsg("通知",res.data.msg)
+
+                }
+            },
+            async postdeletedocker(){
+                let res=await $axios.post("/poststopdocker",this.deletedockerform)
+                if(res.data.code===0){
+                    this.showdeletedocker=false
+                    this.openmsg("通知","删除成功请进行检查")
+                    this.deletedockerform={}
                 }else {
                     this.openmsg("通知",res.data.msg)
 
