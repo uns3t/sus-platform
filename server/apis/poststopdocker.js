@@ -17,8 +17,8 @@ const stopDocker = async (ctx) => {
         }
         return
     }
-    let body = ctx.body
-    if(body.username !== ctx.state.userinfo.username)
+    let body = ctx.request.body
+    if(body.username !== body.username)
     {
         // 如果删的不是自己的容器
         if (ctx.state.tokencode !== 1) { // not admin
