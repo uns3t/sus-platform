@@ -39,6 +39,9 @@ const submitflag = async (ctx) => {
         return
     }
     for (let v in body) {
+        if(v === "challengename") { // 允许题目名有空格
+            continue
+        }
         body[v] = body[v].replace(/\s*/g, "");        //过滤空格
     }
 
